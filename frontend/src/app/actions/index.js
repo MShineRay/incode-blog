@@ -1,0 +1,382 @@
+import { CALL_API, Schemas } from '../middleware/api'
+
+export const USER_REQUEST = 'USER_REQUEST'
+export const USER_SUCCESS = 'USER_SUCCESS'
+export const USER_FAILURE = 'USER_FAILURE'
+
+//
+//
+//
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchUser(login) {
+  // I don't understand what kind of object we're returning
+  // an action definition object? it gets passed to the dispatch function by loadUser
+  console.log("Why was fetch user called")
+  return {
+    [CALL_API]: {
+      types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
+      endpoint: `users/${login}`,
+      schema: Schemas.USER
+    }
+  }
+}
+
+// Fetches a single user from Github API unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadUser(login, requiredFields = []) {
+
+  console.log("WHY ? actions:loadUser():", login) 
+  // returns a function 
+  return (dispatch, getState) => {
+    const user = getState().entities.users[login]
+    if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
+      return null
+    }
+    
+    return dispatch(fetchUser(login))
+  }
+}
+export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST'
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS'
+export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE'
+
+//
+//
+//
+
+// Fetches a single user from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchLoginUser() {
+  // I don't understand what kind of object we're returning
+  // an action definition object? it gets passed to the dispatch function by loadUser
+  return {
+    [CALL_API]: {
+      types: [ LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE ],
+      endpoint: `ckuser`,
+      schema: Schemas.USER
+    }
+  }
+}
+
+// Fetches a the logged in single user from the origin.
+// Relies on Redux Thunk middleware.
+export function loadLoginUser(login, requiredFields = []) {
+
+  // returns a function 
+  return (dispatch, getState) => {
+    const user = getState().entities.users[login]
+    if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
+      return null
+    }
+    
+    return dispatch(fetchLoginUser(login))
+  }
+}
+
+export const IMAGE_DETAILS_REQUEST = 'IMAGE_DETAILS_REQUEST'
+export const IMAGE_DETAILS_SUCCESS = 'IMAGE_DETAILS_SUCCESS'
+export const IMAGE_DETAILS_FAILURE = 'IMAGE_DETAILS_FAILURE'
+
+//
+//
+function fetchImageDetails(imageID, authToken) {
+  // I don't understand what kind of object we're returning
+  // an action definition object? it gets passed to the dispatch function by loadUser
+  return {
+    [CALL_API]: {
+      types: [ IMAGE_DETAILS_REQUEST, IMAGE_DETAILS_SUCCESS, IMAGE_DETAILS_FAILURE ],
+      endpoint: `api/image/${imageID}?auth_token=${authToken}`,
+      schema: Schemas.PHOTO_DETAILS
+    }
+  }
+}
+
+export function loadImageDetails(imageID, authToken, requiredFields = []) {
+  // returns a function that takes a couple functions as arguments.
+  return (dispatch, getState) => {
+    return dispatch(fetchImageDetails(imageID, authToken))
+  }
+}
+
+export function updateUser(user, requiredFields = []) {
+  
+  // returns a function
+  console.log("updateUser: constructing a function to dispatch: ", user);
+  return (dispatch, getState) => {
+    console.log("now dispatching the action");
+    return dispatch({ type: 'UPDATE_USER' ,
+		      response: {"user": user}});
+  }
+}
+
+export function postUser(user, requiredFields = []) {
+  
+  // returns a function
+  console.log("postUser: constructing a function to dispatch: ", user);
+  return (dispatch, getState) => {
+    console.log("now dispatching the POST_USER action");
+    return dispatch({ type: 'POST_USER' ,
+		      response: {"user": user}});
+  }
+}
+
+
+
+//
+//
+//
+
+export const REPO_REQUEST = 'REPO_REQUEST'
+export const REPO_SUCCESS = 'REPO_SUCCESS'
+export const REPO_FAILURE = 'REPO_FAILURE'
+
+// Fetches a single repository from Github API.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchRepo(fullName) {
+  return {
+    [CALL_API]: {
+      types: [ REPO_REQUEST, REPO_SUCCESS, REPO_FAILURE ],
+      endpoint: `repos/${fullName}`,
+      schema: Schemas.REPO
+    }
+  }
+}
+
+// Fetches a single repository
+// Relies on Redux Thunk middleware.
+export function loadRepo(fullName, requiredFields = []) {
+  return (dispatch, getState) => {
+    const repo = getState().entities.repos[fullName]
+    if (repo && requiredFields.every(key => repo.hasOwnProperty(key))) {
+      return null
+    }
+
+    return dispatch(fetchRepo(fullName))
+  }
+}
+
+//
+//
+//
+
+export const PHOTOS_REQUEST = 'PHOTOS_REQUEST'
+export const PHOTOS_SUCCESS = 'PHOTOS_SUCCESS'
+export const PHOTOS_FAILURE = 'PHOTOS_FAILURE'
+
+// Fetches a page of photos for a particular user's query.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+
+// not clear why Schemas are defined in 'middleware/api'
+function fetchPhotos(query, nextPageUrl) {
+  console.log("fetchPhotos building a CALL_API action for url: ", nextPageUrl)
+  return {
+    query,
+    [CALL_API]: {
+      types: [ PHOTOS_REQUEST, PHOTOS_SUCCESS, PHOTOS_FAILURE ],
+      endpoint: nextPageUrl,
+      schema: Schemas.PHOTO_ARRAY
+    }
+  }
+}
+
+export const COUNTS_REQUEST = 'COUNTS_REQUEST'
+export const COUNTS_SUCCESS = 'COUNTS_SUCCESS'
+export const COUNTS_FAILURE = 'COUNTS_FAILURE'
+
+// Fetches a page of photos for a particular user's query.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+
+// not clear why Schemas are defined in 'middleware/api'
+function fetchCounts(query, nextPageUrl) {
+  console.log("fetchCounts building a CALL_API action for url: ", nextPageUrl)
+  return {
+    query,
+    [CALL_API]: {
+      types: [ COUNTS_REQUEST, COUNTS_SUCCESS, COUNTS_FAILURE ],
+      endpoint: nextPageUrl,
+      schema: Schemas.COUNTS_ARRAY
+    }
+  }
+}
+
+function queryUrlParams(query) {
+  var url = "";
+  console.log ("QUERY IS:", query)
+  if (typeof query === 'undefined' || "*" === query || query.length == 0) {
+    console.log("wildcard query");
+    url = "q=*:*";
+  } else {
+    var qterms = []
+    for (var key in query) {
+      // FIXME: deal with strings vs array as value
+      if (query.hasOwnProperty(key)) {
+	
+	var val = query[key]
+	if (typeof val === 'string') {
+	  qterms.push(key.concat(":").concat(query[key]))
+	} else {
+	  val.map(function(x) { qterms.push(key.concat(":").concat(x)) } )
+	}
+      }
+    }
+    if (qterms.length > 0) {
+      
+      url = "q=".concat(qterms.join(" AND "))
+    } else {
+      url = "q=*:*";
+    }
+  }
+  console.log("built query: [", url, "]");
+  return url;
+}
+
+// a query term is an object that maps a solr facet name against a string value, e.g. { person: "MALE>65" }
+export function addQueryTerm(term) {
+  console.log("addQueryTerm")
+  return (dispatch, getState) => {
+    return dispatch(
+      { type: "ADD_QUERY_TERM",
+ 	response: { term }});
+  }
+}
+
+
+export function deleteQueryTerm(term) {
+  console.log("deleteQueryTerm")
+  return (dispatch, getState) => {
+    return dispatch(
+      { type: "DELETE_QUERY_TERM",
+	response:  term.split(':') } );
+  }
+}
+
+// Fetches a page of photos for a  particular user.
+// Bails out if page is cached and user didn’t specifically request next page.
+// Relies on Redux Thunk middleware.
+export function loadPhotos(query, authToken, nextPage) {
+  console.log("####### Load Photos entry for query: [", query, "] authToken", authToken)
+  var qurl = queryUrlParams(query);
+  return (dispatch, getState) => {
+    const {
+      nextPageUrl = `api/search?facet.field=topic&facet.field=taxon&facet.field=person&facet=on&indent=on&${qurl}&rows=100&start=0&wt=json&auth_token=${authToken}`,
+      pageCount = 0
+    } = {}
+    
+    if (pageCount > 0 && !nextPage) {
+      return null
+    }
+    // construct and dispatch the action that will fetch a URL, postprocess the results via a schema, then somebody
+    // in reducers will place the data in the store and notify some containers
+    return dispatch(fetchPhotos(query, nextPageUrl))
+  }
+}
+
+export function loadCounts(authToken, nextPage) {
+  console.log("# counts of image processing entry for authToken:", authToken)
+
+  return (dispatch, getState) => {
+    const {
+      nextPageUrl = `api/search?facet.field=status&facet=on&indent=on&q=*:*&rows=0&start=0&wt=json&auth_token=${authToken}`,
+      pageCount = 0
+    } = {}
+    
+    //if (pageCount > 0 && !nextPage) {
+    //  console.log("Bailing out on loadCounts")
+    //  return null
+    // }
+    // construct and dispatch the action that will fetch a URL, postprocess the results via a schema, then somebody
+    // in reducers will place the data in the store and notify some containers
+    console.log("dispatching fetch Counts")    
+    return dispatch(fetchCounts({}, nextPageUrl))
+  }
+}
+
+//
+//
+//
+
+export const STARRED_REQUEST = 'STARRED_REQUEST'
+export const STARRED_SUCCESS = 'STARRED_SUCCESS'
+export const STARRED_FAILURE = 'STARRED_FAILURE'
+
+// Fetches a page of starred repos by a particular user.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchStarred(login, nextPageUrl) {
+  return {
+    login,
+    [CALL_API]: {
+      types: [ STARRED_REQUEST, STARRED_SUCCESS, STARRED_FAILURE ],
+      endpoint: nextPageUrl,
+      schema: Schemas.REPO_ARRAY
+    }
+  }
+}
+
+// Fetches a page of starred repos by a particular user.
+// Bails out if page is cached and user didn’t specifically request next page.
+// Relies on Redux Thunk middleware.
+export function loadStarred(login, nextPage) {
+  return (dispatch, getState) => {
+    const {
+      nextPageUrl = `users/${login}/starred`,
+      pageCount = 0
+    } = getState().pagination.starredByUser[login] || {}
+
+    if (pageCount > 0 && !nextPage) {
+      return null
+    }
+
+    return dispatch(fetchStarred(login, nextPageUrl))
+  }
+}
+
+
+//
+//
+//
+
+export const STARGAZERS_REQUEST = 'STARGAZERS_REQUEST'
+export const STARGAZERS_SUCCESS = 'STARGAZERS_SUCCESS'
+export const STARGAZERS_FAILURE = 'STARGAZERS_FAILURE'
+
+// Fetches a page of stargazers for a particular repo.
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchStargazers(fullName, nextPageUrl) {
+  return {
+    fullName,
+    [CALL_API]: {
+      types: [ STARGAZERS_REQUEST, STARGAZERS_SUCCESS, STARGAZERS_FAILURE ],
+      endpoint: nextPageUrl,
+      schema: Schemas.USER_ARRAY
+    }
+  }
+}
+
+// Fetches a page of stargazers for a particular repo.
+// Bails out if page is cached and user didn’t specifically request next page.
+// Relies on Redux Thunk middleware.
+export function loadStargazers(fullName, nextPage) {
+  return (dispatch, getState) => {
+    const {
+      nextPageUrl = `repos/${fullName}/stargazers`,
+      pageCount = 0
+    } = getState().pagination.stargazersByRepo[fullName] || {}
+
+    if (pageCount > 0 && !nextPage) {
+      return null
+    }
+
+    return dispatch(fetchStargazers(fullName, nextPageUrl))
+  }
+}
+
+export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
+
+// Resets the currently visible error message.
+export function resetErrorMessage() {
+  return {
+    type: RESET_ERROR_MESSAGE
+  }
+}
