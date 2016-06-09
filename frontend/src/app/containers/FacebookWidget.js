@@ -48,7 +48,7 @@ class FacebookWidget extends React.Component {
     // componentDidMount is called by react when the component 
     // has been rendered on the page. We can set the interval here:
     
-    this.timer = setInterval(this.tick.bind(this), 5000);
+    this.timer = setInterval(this.tick.bind(this), 15000);
   }
   
   componentWillUnmount(){
@@ -60,13 +60,7 @@ class FacebookWidget extends React.Component {
   }
   
   tick(){
-    
-    // This function is called every 50 ms. It updates the 
-    // elapsed counter. Calling setState causes the component to be re-rendered
-    
-    console.log("TICK", this)
     this.props.loadCounts(loggedInUser['auth_token'] )
-    console.log("TOCK")
   }
   
   
@@ -103,14 +97,8 @@ class FacebookWidget extends React.Component {
 	onTouchTap={ e => {window.location.href='/auth/facebook'}}
           />
 	  </div>
-)	
+      )	
 
-//	  <a href="/auth/facebook">Login, Facebook</a>
-//      )
-    // } else if (!user.username ){
-    //   return (
-    // 	  <Register />
-    //   )
     } else {
       return (
 	  <div>
@@ -129,8 +117,6 @@ class FacebookWidget extends React.Component {
   }
 }
 
-
-
 FacebookWidget.propTypes = {
   user: PropTypes.object,
   query: PropTypes.object,
@@ -142,7 +128,7 @@ FacebookWidget.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  // pulls "user" from state.entities and "query" & queryChanged from state.photos
+  // pulls "user" from state.storeUser and "query" & queryChanged from state.photos
   const {
     storeUser: { user },
     photos: { query, queryChanged }

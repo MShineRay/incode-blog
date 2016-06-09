@@ -2,20 +2,8 @@ import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
 
-// Extracts the next page URL from Github API response.
 function getNextPageUrl(response) {
-    console.log("api.js:getNextPageURL()")
-    const link = response.headers.get('link')
-    if (!link) {
-	return null
-    }
-
-    const nextLink = link.split(',').find(s => s.indexOf('rel="next"') > -1)
-    if (!nextLink) {
-	return null
-    }
-
-    return nextLink.split(';')[0].slice(1, -1)
+  return null
 }
 
 const API_ROOT = 'http://localhost.blnz.com:3000/'    // FIXME

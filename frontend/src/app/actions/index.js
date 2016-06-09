@@ -1,19 +1,13 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
+// Relies on Redux Thunk middleware.
+
 export const USER_REQUEST = 'USER_REQUEST'
 export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_FAILURE = 'USER_FAILURE'
 
-//
-//
-//
-
-// Fetches a single user from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchUser(login) {
-  // I don't understand what kind of object we're returning
-  // an action definition object? it gets passed to the dispatch function by loadUser
-  // console.log("Why was fetch user called")
+
   return {
     [CALL_API]: {
       types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
@@ -23,12 +17,9 @@ function fetchUser(login) {
   }
 }
 
-// Fetches a single user from Github API unless it is cached.
-// Relies on Redux Thunk middleware.
+
 export function loadUser(login, requiredFields = []) {
 
-  // console.log("WHY ? actions:loadUser():", login) 
-  // returns a function 
   return (dispatch, getState) => {
     const user = getState().entities.users[login]
     if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
@@ -42,15 +33,9 @@ export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST'
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS'
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE'
 
-//
-//
-//
 
-// Fetches a single user from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchLoginUser() {
-  // I don't understand what kind of object we're returning
-  // an action definition object? it gets passed to the dispatch function by loadUser
+
   return {
     [CALL_API]: {
       types: [ LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE ],
@@ -60,11 +45,9 @@ function fetchLoginUser() {
   }
 }
 
-// Fetches a the logged in single user from the origin.
-// Relies on Redux Thunk middleware.
+
 export function loadLoginUser(login, requiredFields = []) {
 
-  // returns a function 
   return (dispatch, getState) => {
     const user = getState().entities.users[login]
     if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
@@ -79,11 +62,8 @@ export const IMAGE_DETAILS_REQUEST = 'IMAGE_DETAILS_REQUEST'
 export const IMAGE_DETAILS_SUCCESS = 'IMAGE_DETAILS_SUCCESS'
 export const IMAGE_DETAILS_FAILURE = 'IMAGE_DETAILS_FAILURE'
 
-//
-//
 function fetchImageDetails(imageID, authToken) {
-  // I don't understand what kind of object we're returning
-  // an action definition object? it gets passed to the dispatch function by loadUser
+
   return {
     [CALL_API]: {
       types: [ IMAGE_DETAILS_REQUEST, IMAGE_DETAILS_SUCCESS, IMAGE_DETAILS_FAILURE ],
@@ -100,12 +80,10 @@ export function loadImageDetails(imageID, authToken, requiredFields = []) {
   }
 }
 
+
 export function updateUser(user, requiredFields = []) {
-  
-  // returns a function
-  // console.log("updateUser: constructing a function to dispatch: ", user);
   return (dispatch, getState) => {
-    // console.log("now dispatching the action");
+
     return dispatch({ type: 'UPDATE_USER' ,
 		      response: {"user": user}});
   }
@@ -113,27 +91,17 @@ export function updateUser(user, requiredFields = []) {
 
 export function postUser(user, requiredFields = []) {
   
-  // returns a function
-  // console.log("postUser: constructing a function to dispatch: ", user);
   return (dispatch, getState) => {
-    // console.log("now dispatching the POST_USER action");
     return dispatch({ type: 'POST_USER' ,
 		      response: {"user": user}});
   }
 }
 
 
-
-//
-//
-//
-
 export const REPO_REQUEST = 'REPO_REQUEST'
 export const REPO_SUCCESS = 'REPO_SUCCESS'
 export const REPO_FAILURE = 'REPO_FAILURE'
 
-// Fetches a single repository from Github API.
-// Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchRepo(fullName) {
   return {
     [CALL_API]: {
@@ -144,7 +112,6 @@ function fetchRepo(fullName) {
   }
 }
 
-// Fetches a single repository
 // Relies on Redux Thunk middleware.
 export function loadRepo(fullName, requiredFields = []) {
   return (dispatch, getState) => {

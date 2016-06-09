@@ -27,7 +27,7 @@ var config = {
     database: localdb,
     userkey: 'lean56doctor',
     aws_credentials: aws_credentials,
-    port: 8000
+    port: 3000
   },
   staging: {
     mode: 'staging',
@@ -36,16 +36,16 @@ var config = {
     database: localdb,       
     userkey: 'lean56doctor',
     aws_credentials: aws_credentials,
-    port: 4000
+    port: 3000
   },
   production: {
     mode: 'production',
     facebook_credentials: facebook_credentials,
-    server_host: "localhost.blnz.com:3000",
+    server_host: "imgcat.blnz.com",
     database: localdb,
     userkey: 'lean56doctor',
     aws_credentials: aws_credentials,
-    port: 8000
+    port: 3000
   }
 }
 

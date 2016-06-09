@@ -13,8 +13,6 @@ import Subheader from 'material-ui/Subheader';
 const  topicTapHandler = function(index, props) {
   
   const { facet, facetVal, loader } = props;
-  //  console.log("I'm the TopicList HANDLER!! for ... ", facetVal.name);
-  // console.log("HANDLER!! props are ", props);
   var qterm = {}
   qterm[facet] = facetVal.name;
   loader( qterm )
@@ -42,12 +40,10 @@ class TaxonListItem extends Component {
   render() {
     const { facet, facetVal, loader} = this.props
 
-    //    console.log("facetVal.children"  )
-
     return (
 	<ListItem
       style={{ fontSize: '12px' }}
-
+      nestedItems={facetVal.children.map( (val) => <TaxonListItem facetVal={val} facet="taxon" loader={loader} /> ) }
       key={facetVal.name}
       onTouchTap={ topicTapHandler.bind(this, 1, this.props) }
       primaryText={ facetVal.name + " (" + facetVal.count + ")" }
@@ -77,7 +73,7 @@ class FacetsBar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //    console.log("FacetsBar: willReceiveProps: ", nextProps);
+
   }
 
   handleLoadMoreClick() {
@@ -116,15 +112,9 @@ class FacetsBar extends Component {
       for (var i = 1; i < taxons.length; i++) {
 	var currentItem = taxons[i];
 	currentItem['children'] = [];
-	// console.log("Current is:", currentItem)
-	//	console.log("comparing:", currentItem.name, " with prev " , prevItem[prevItem.length - 1].name.concat('/'))
 	if (currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/'))) {
-	  //	  console.log(currentItem.name, " starts with " , prevItem[prevItem.length - 1].name.concat('/'))
 	  prevItem[prevItem.length - 1].children.push(currentItem);
 	  prevItem.push(currentItem);
-	  
-	  //treeStack.push(prevItem)
-	  // prevItem = currentItem
 	} else {
 	  while (prevItem.length > 1 && !(currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/')))) {
 	    prevItem.pop()
@@ -133,7 +123,8 @@ class FacetsBar extends Component {
 	  prevItem.push(currentItem);
 	}
       }
-      console.log("tree is:",  prevItem[0].children)
+
+      taxonTree = prevItem[0].children
     }
     
     var persons = []
@@ -155,7 +146,7 @@ class FacetsBar extends Component {
 	nestedItems={ topics.map( (val) => <TopicListItem facetVal={val} facet="topic" loader={this.props.addQueryTerm} />) }
 	  />
 	  <ListItem primaryText="Taxonomy" 
-	nestedItems={ taxons.map( (val) => <TopicListItem facetVal={val} facet="taxon" loader={this.props.addQueryTerm} />) }
+	nestedItems={ taxonTree.map( (val) => <TaxonListItem facetVal={val} facet="taxon" loader={this.props.addQueryTerm} />) }
 	  />
 	  <ListItem primaryText="People" 
 	nestedItems={ persons.map( (val) => <TopicListItem facetVal={val} facet="person" loader={this.props.addQueryTerm} />) }

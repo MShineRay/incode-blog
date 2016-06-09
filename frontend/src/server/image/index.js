@@ -1,6 +1,6 @@
 var mysql = require ('mysql')
 
-var config = require('../../../config')('local')
+var config = require('../../../config')()
 
 console.log('config', config)
 
