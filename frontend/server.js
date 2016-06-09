@@ -57,7 +57,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   console.log("deserializing user: ", user);
   User.getOrCreateFBUser(user, null, function(err, ruser) {
-    if (err) { return done(err); }
+    if (err) { return done(null, "nobody"); }
     done(null, ruser);
   });
 });
@@ -96,7 +96,7 @@ function ensureAuthenticated(req, res, next) {
 function ensureAPIAuthenticated(req,res,next) {
 
   const authToken = req.query['auth_token'];
-  if (authToken) {
+  if (typeof authToken === 'string') {
     console.log("authToken is:", authToken);
     User.findByAuthToken(authToken, function(err, userObj) {
       if (err) {
@@ -199,7 +199,10 @@ app.delete('/api/users/:id',  ensureAPIAuthenticated, function(req, res) {
 	var solrURL = 'http://ec2-54-187-86-241.us-west-2.compute.amazonaws.com:8983/solr/imgcat/update?commit=true';
 	
 	console.log(solrURL);
-	request.post({ url: solrURL, headers: {"Content-Type": "text/xml"}, body: "<delete><query>*:*</query></delete>"}, function (err, data) {
+	var deleteStr = "<delete><query>owner:".concat(req.authenticatedUser['user_uuid']).concat("</query></delete>")
+	console.log(deleteStr)
+	//	oldbody: "<delete><query>*:*</query></delete>"
+	request.post({ url: solrURL, headers: {"Content-Type": "text/xml"}, body: deleteStr}, function (err, data) {
 	  if (err) {
 	    console.log(err);
 	    res.status(500).send("failed to delete in Solr");

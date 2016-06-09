@@ -39,7 +39,7 @@ def solrDoc(data):
         'image_name': data['image_name'],
         'thumbnail': data['thumb_path'],
     }
-    
+
     words = [ data['image_name'] ]
     taxonomy = []
     toparray = []
@@ -73,7 +73,7 @@ def solrDoc(data):
     persons = []
 
     try:
-        for tag in metadata['facebook']['data']:
+        for tag in metadata['facebook']['tags']['data']:
             persons.append(tag['name'])
             words.append(tag['name'])
     except KeyError, k:
@@ -92,7 +92,7 @@ def solrDoc(data):
             
     doc['topic'] = toparray
     doc['taxon'] = taxonomy
-    doc['text'] = ' '.join(words)
+    # doc['text'] = ' '.join(words)
     doc['person'] = persons
     
     return doc
@@ -108,9 +108,12 @@ def postSolr(imageData, host, core):
         { 'doc': solrDoc(imageData) },
         'commit': {}
     }
-                
-    print "Solr update message: " + json.dumps(message, indent=4)
-    requests.post(url, json=message)
+    try:            
+        print "Solr update message: " + json.dumps(message, indent=4)
+        requests.post(url, json=message)
+    except:
+        pass
+
     return None
 
                 

@@ -279,13 +279,13 @@ insert into image values (
 -- Table fingerprint words -- record image identification fingerprint
 --
 create table fingerprint_word (
+   owner_uuid bigint(20) NOT NULL,
    image_uuid bigint(20) NOT NULL,
-   fp_word_position int not null,
-   fp_word char(10) not null,
-     PRIMARY KEY (`image_uuid`, fp_word_position, fp_word)
+   fp_word varchar(32) not null,
+     PRIMARY KEY (`owner_uuid`, `image_uuid`, fp_word)
 )  ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-ALTER  TABLE fingerprint_word add index words (fp_word_position, fp_word);
+ALTER  TABLE fingerprint_word add index words (fp_word);
 
 create table image_action (
    image_uuid bigint(20) NOT NULL,

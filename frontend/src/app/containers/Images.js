@@ -12,9 +12,6 @@ import FlatButton from 'material-ui/FlatButton';
 
 
 function loadData(props) {
-  console.log("Images loadData: with props: " , props)
-  console.log("loggedInUser:", loggedInUser)
-  console.log("call args[1]" ,{}, " args[2]", loggedInUser['auth_token'])
   props.loadPhotos({}, loggedInUser['auth_token'])
 }
 
@@ -40,7 +37,6 @@ class Images extends Component {
 
     
     handleLoadMoreClick() {
-	//	this.props.loadStargazers(this.props.fullName, true)
     }
 
     componentWillMount() {
@@ -48,11 +44,6 @@ class Images extends Component {
     }
 
     componentDidMount() {
-	console.log("Images component did mount, context is:", this.context);
-	console.log("Images.props is : ", this.props)
-	//const { store } = this.context;
-	//this.unsubscribe = store.subscribe(() => this.forceUpdate());
-	// console.log("Images component did mount and we subscribed");	
     }
 
     componentWillUnmount() {
@@ -60,40 +51,13 @@ class Images extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-	console.log("III Image: willReceiveProps: ", nextProps);
+      //	console.log("III Image: willReceiveProps: ", nextProps);
     }
 
     renderImage(photo) {
-	// console.log("renderImage photo is:", photo)
-
-
 	return (
 		<ImageItem photo={photo} />
 	);
-/**
-	return (
-		<ListItem
-	    key={photo.id}
-            actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-            actionPosition="left"
-            titlePosition="top"
-            titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-		>
-		 <Card>
-		<CardHeader />
-		<CardMedia
-	    overlay={<CardTitle title={photo.imageName[0]} />}
-		>
-		<img src={photo.thumbnail} />
-		</CardMedia>
-		<CardActions style={{textAlign: 'right'}}>
-		<FlatButton label="Details" />
-		</CardActions>
-
-		</Card>
-		</ListItem>
-	);
-**/
     }
     render() {
 	console.log("RRRRRR  rendering in Images: with props ", this.props)
@@ -113,7 +77,7 @@ class Images extends Component {
 	} else {
 	    return (
 		    <div>
-		    <p>no images go here</p>
+		    
 		    </div>
 	    );
 	}
@@ -131,8 +95,6 @@ Images.propTypes = {
 
 // react-redux calls this when there's been some change of state we may be interested in
 function mapStateToProps(state, ownProps) {
-    //not sure  what to do, here
-    console.log("updating images container props")
     return Object.assign({}, ownProps, state.photos)
 }
 

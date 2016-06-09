@@ -13,8 +13,8 @@ import Subheader from 'material-ui/Subheader';
 const  topicTapHandler = function(index, props) {
   
   const { facet, facetVal, loader } = props;
-  console.log("I'm the TopicList HANDLER!! for ... ", facetVal.name);
-  console.log("HANDLER!! props are ", props);
+  //  console.log("I'm the TopicList HANDLER!! for ... ", facetVal.name);
+  // console.log("HANDLER!! props are ", props);
   var qterm = {}
   qterm[facet] = facetVal.name;
   loader( qterm )
@@ -24,7 +24,26 @@ class TopicListItem extends Component {
   
   render() {
     const { facet, facetVal, loader} = this.props
-    console.log
+
+    return (
+	<ListItem
+      style={{ fontSize: '12px' }}
+
+      key={facetVal.name}
+      onTouchTap={ topicTapHandler.bind(this, 1, this.props) }
+      primaryText={ facetVal.name + " (" + facetVal.count + ")" }
+	/>
+    )
+  }
+}
+
+class TaxonListItem extends Component {
+  
+  render() {
+    const { facet, facetVal, loader} = this.props
+
+    //    console.log("facetVal.children"  )
+
     return (
 	<ListItem
       style={{ fontSize: '12px' }}
@@ -55,21 +74,15 @@ const countsTicker = function(counts) {
 class FacetsBar extends Component {
 
   componentDidMount() {
-    console.log("FacetsBar component did mount, context is:", this.context);
-    console.log("FacetsBar.props is : ", this.props)
-    //const { store } = this.context;
-    //this.unsubscribe = store.subscribe(() => this.forceUpdate());
-    // console.log("FacetsBar component did mount and we subscribed");	
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("FacetsBar: willReceiveProps: ", nextProps);
+    //    console.log("FacetsBar: willReceiveProps: ", nextProps);
   }
 
   handleLoadMoreClick() {
     //	this.props.loadStargazers(this.props.fullName, true)
   }
-
 
   
   render() {
@@ -88,11 +101,41 @@ class FacetsBar extends Component {
     if (solr) {
       for (var i = 0; i < solr.facetFields.taxon.length; i+= 2) {
 	if (solr.facetFields.taxon[i + 1] > 0) {
-	  taxons.push({ "name": solr.facetFields.taxon[i],  "count": solr.facetFields.taxon[i + 1] })
+	  taxons.push({ "name": solr.facetFields.taxon[i],  "count": solr.facetFields.taxon[i + 1], children: [] })
 	}
       }
     }
     taxons = taxons.sort( (a, b) => { if (a.name < b.name) { return -1 } else { return 1 } } )
+
+    var taxonTree = []
+
+    if ( true && taxons.length > 0) {
+
+      //      var prevItem = [ { children: [], name: "" }, taxons[0] ]
+      var prevItem = [ { children: [], name: "" }, taxons[0] ]    
+      for (var i = 1; i < taxons.length; i++) {
+	var currentItem = taxons[i];
+	currentItem['children'] = [];
+	// console.log("Current is:", currentItem)
+	//	console.log("comparing:", currentItem.name, " with prev " , prevItem[prevItem.length - 1].name.concat('/'))
+	if (currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/'))) {
+	  //	  console.log(currentItem.name, " starts with " , prevItem[prevItem.length - 1].name.concat('/'))
+	  prevItem[prevItem.length - 1].children.push(currentItem);
+	  prevItem.push(currentItem);
+	  
+	  //treeStack.push(prevItem)
+	  // prevItem = currentItem
+	} else {
+	  while (prevItem.length > 1 && !(currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/')))) {
+	    prevItem.pop()
+	  }
+	  prevItem[prevItem.length - 1].children.push(currentItem);
+	  prevItem.push(currentItem);
+	}
+      }
+      console.log("tree is:",  prevItem[0].children)
+    }
+    
     var persons = []
     if (solr) {
       for (var i = 0; i < solr.facetFields.person.length; i+= 2) {
@@ -101,6 +144,7 @@ class FacetsBar extends Component {
 	}
       }
     }
+    
     
     if (solr) {
       return (
@@ -124,7 +168,7 @@ class FacetsBar extends Component {
     } else {
       return (
 	  <div>
-	  <p>no matches</p>
+	  
 	  </div>
       );
     }
@@ -139,8 +183,6 @@ FacetsBar.propTypes = {
 
 // react-redux calls this when there's been some change of state we may be interested in
 function mapStateToProps(state, ownProps) {
-  //not sure  what to do, here
-  console.log("updating images container props")
   return Object.assign({}, ownProps, state.photos)
 }
 

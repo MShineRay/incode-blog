@@ -23,7 +23,7 @@ testConnection();
 
 var findImageSQL = "SELECT * FROM image where image_uuid = ?";
 var deleteOwnerImagesSQL = "DELETE FROM image where owner_uuid = ?";
-
+var deleteOwnerFingerprintsSQL = "DELETE FROM fingerprint_word where owner_uuid = ?";
 
 function fetchImageRow(imageID, cb) {
 
@@ -48,18 +48,23 @@ function fetchImageRow(imageID, cb) {
 
 function deleteOwnerImageRows(ownerID, cb) {
 
-  var query = con.query(deleteOwnerImagesSQL, ownerID , function(err, results) {
+  var q1 = con.query(deleteOwnerFingerprintsSQL, ownerID , function(err, results) {
     if (err) {
       console.log(err);
-      cb(err, null);
-      return;
-    } else {
-      if (results.length == 0) {
-	cb(null, null);
-      } else {
-	cb(null, "deleted");
-      }
     }
+    var query = con.query(deleteOwnerImagesSQL, ownerID , function(err, results) {
+      if (err) {
+	console.log(err);
+	cb(err, null);
+	return;
+      } else {
+	if (results.length == 0) {
+	  cb(null, null);
+	} else {
+	  cb(null, "deleted");
+	}
+      }
+    })
   });
 }
 

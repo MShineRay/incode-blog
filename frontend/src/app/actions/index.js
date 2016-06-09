@@ -13,7 +13,7 @@ export const USER_FAILURE = 'USER_FAILURE'
 function fetchUser(login) {
   // I don't understand what kind of object we're returning
   // an action definition object? it gets passed to the dispatch function by loadUser
-  console.log("Why was fetch user called")
+  // console.log("Why was fetch user called")
   return {
     [CALL_API]: {
       types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
@@ -27,7 +27,7 @@ function fetchUser(login) {
 // Relies on Redux Thunk middleware.
 export function loadUser(login, requiredFields = []) {
 
-  console.log("WHY ? actions:loadUser():", login) 
+  // console.log("WHY ? actions:loadUser():", login) 
   // returns a function 
   return (dispatch, getState) => {
     const user = getState().entities.users[login]
@@ -103,9 +103,9 @@ export function loadImageDetails(imageID, authToken, requiredFields = []) {
 export function updateUser(user, requiredFields = []) {
   
   // returns a function
-  console.log("updateUser: constructing a function to dispatch: ", user);
+  // console.log("updateUser: constructing a function to dispatch: ", user);
   return (dispatch, getState) => {
-    console.log("now dispatching the action");
+    // console.log("now dispatching the action");
     return dispatch({ type: 'UPDATE_USER' ,
 		      response: {"user": user}});
   }
@@ -114,9 +114,9 @@ export function updateUser(user, requiredFields = []) {
 export function postUser(user, requiredFields = []) {
   
   // returns a function
-  console.log("postUser: constructing a function to dispatch: ", user);
+  // console.log("postUser: constructing a function to dispatch: ", user);
   return (dispatch, getState) => {
-    console.log("now dispatching the POST_USER action");
+    // console.log("now dispatching the POST_USER action");
     return dispatch({ type: 'POST_USER' ,
 		      response: {"user": user}});
   }
@@ -170,7 +170,7 @@ export const PHOTOS_FAILURE = 'PHOTOS_FAILURE'
 
 // not clear why Schemas are defined in 'middleware/api'
 function fetchPhotos(query, nextPageUrl) {
-  console.log("fetchPhotos building a CALL_API action for url: ", nextPageUrl)
+  // console.log("fetchPhotos building a CALL_API action for url: ", nextPageUrl)
   return {
     query,
     [CALL_API]: {
@@ -190,7 +190,7 @@ export const COUNTS_FAILURE = 'COUNTS_FAILURE'
 
 // not clear why Schemas are defined in 'middleware/api'
 function fetchCounts(query, nextPageUrl) {
-  console.log("fetchCounts building a CALL_API action for url: ", nextPageUrl)
+  // console.log("fetchCounts building a CALL_API action for url: ", nextPageUrl)
   return {
     query,
     [CALL_API]: {
@@ -203,9 +203,9 @@ function fetchCounts(query, nextPageUrl) {
 
 function queryUrlParams(query) {
   var url = "";
-  console.log ("QUERY IS:", query)
+  // console.log ("QUERY IS:", query)
   if (typeof query === 'undefined' || "*" === query || query.length == 0) {
-    console.log("wildcard query");
+    // console.log("wildcard query");
     url = "q=*:*";
   } else {
     var qterms = []
@@ -228,13 +228,13 @@ function queryUrlParams(query) {
       url = "q=*:*";
     }
   }
-  console.log("built query: [", url, "]");
+  // console.log("built query: [", url, "]");
   return url;
 }
 
 // a query term is an object that maps a solr facet name against a string value, e.g. { person: "MALE>65" }
 export function addQueryTerm(term) {
-  console.log("addQueryTerm")
+  // console.log("addQueryTerm")
   return (dispatch, getState) => {
     return dispatch(
       { type: "ADD_QUERY_TERM",
@@ -244,7 +244,7 @@ export function addQueryTerm(term) {
 
 
 export function deleteQueryTerm(term) {
-  console.log("deleteQueryTerm")
+  // console.log("deleteQueryTerm")
   return (dispatch, getState) => {
     return dispatch(
       { type: "DELETE_QUERY_TERM",
@@ -256,7 +256,7 @@ export function deleteQueryTerm(term) {
 // Bails out if page is cached and user didn’t specifically request next page.
 // Relies on Redux Thunk middleware.
 export function loadPhotos(query, authToken, nextPage) {
-  console.log("####### Load Photos entry for query: [", query, "] authToken", authToken)
+  // console.log("####### Load Photos entry for query: [", query, "] authToken", authToken)
   var qurl = queryUrlParams(query);
   return (dispatch, getState) => {
     const {
@@ -274,7 +274,7 @@ export function loadPhotos(query, authToken, nextPage) {
 }
 
 export function loadCounts(authToken, nextPage) {
-  console.log("# counts of image processing entry for authToken:", authToken)
+  // console.log("# counts of image processing entry for authToken:", authToken)
 
   return (dispatch, getState) => {
     const {
@@ -288,7 +288,7 @@ export function loadCounts(authToken, nextPage) {
     // }
     // construct and dispatch the action that will fetch a URL, postprocess the results via a schema, then somebody
     // in reducers will place the data in the store and notify some containers
-    console.log("dispatching fetch Counts")    
+    // console.log("dispatching fetch Counts")    
     return dispatch(fetchCounts({}, nextPageUrl))
   }
 }

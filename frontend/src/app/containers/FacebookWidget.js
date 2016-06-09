@@ -48,7 +48,7 @@ class FacebookWidget extends React.Component {
     // componentDidMount is called by react when the component 
     // has been rendered on the page. We can set the interval here:
     
-    this.timer = setInterval(this.tick.bind(this), 15000);
+    this.timer = setInterval(this.tick.bind(this), 5000);
   }
   
   componentWillUnmount(){

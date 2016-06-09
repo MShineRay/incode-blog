@@ -2,12 +2,10 @@
 <html class="no-js" lang="">
 
   <head>
-    <title>TESTING</title>
+    <title>ImgCat</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Material-UI Example</title>
-  <meta name="description" content="Google's material design UI components built with React.">
-
+  <title>Incode Image Categorizer</title>
   <!-- Use minimum-scale=1 to enable GPU rasterization -->
   <meta
     name="viewport"
@@ -15,13 +13,15 @@
   >
   <link rel="stylesheet" type="text/css" href="main.css">
   <script type="application/javascript" src="/ckuser.js" ></script>
+  <script src="https://cdn.apple-cloudkit.com/ck/1/cloudkit.js"></script>
 </head>
 
   <body>
 
   <div id="app"></div>
 
-  <!-- This script adds the Roboto font to our project. For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
+  <!-- This script adds the Roboto font to our project. 
+       For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
   <script>
     var WebFontConfig = {
       google: { families: [ 'Roboto:400,300,500:latin' ] }
@@ -36,6 +36,7 @@
       s.parentNode.insertBefore(wf, s);
     })();
   </script>
+  <!-- and now the React webapp -->
   <script src="app.js"></script>
 </body>
 

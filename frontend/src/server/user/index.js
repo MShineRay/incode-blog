@@ -6,6 +6,8 @@ const crypto = require('crypto');
 
 console.log('config', config)
 
+const FB = require('fb')
+
 var con = mysql.createConnection(config.database)
 
 function testConnection() {
@@ -95,15 +97,19 @@ function findOrMakeFBUserRow(FBUserID, FBDisplayName, cb) {
       if (result) {
 	cb(null, result);
       } else {
-	con.query(createFBSQL, [FBUserID, FBDisplayName], function(err, result) { 
-	  if (err) {
-	    console.log(err);
-	    cb(err, null)
-	  } else {
-	    console.log("We appear to have created a new user for FBUserID: " , FBUserID);
-	    fetchFBUserRow(FBUserID, cb);
-	  }			
-	});
+	if (FBDisplayName) {
+	  con.query(createFBSQL, [FBUserID, FBDisplayName], function(err, result) { 
+	    if (err) {
+	      console.log(err);
+	      cb(err, null)
+	    } else {
+	      console.log("We appear to have created a new user for FBUserID: " , FBUserID);
+	      fetchFBUserRow(FBUserID, cb);
+	    }			
+	  });
+	} else {
+	  cb("Won't create for unnamed user");
+	}
       }
     }
   });
@@ -159,12 +165,44 @@ function authTokenFromUserID(userID) {
   
 }
 
+
+function updateUserFromFacebook(userObj, cb) {
+  
+  console.log("have userObj");
+  if (typeof userObj['email'] === 'string' ) {
+    console.log('already have user email');
+    return;
+  }
+  console.log("check in from facebook with accesss token:", fbTokens[userObj['user_uuid']]);
+  FB.setAccessToken(fbTokens[userObj['user_uuid']]);
+
+  FB.api(userObj.facebook_id, { fields: ['name', 'id', 'email']} , function (res) {
+    if(!res || res.error) {
+      console.log(!res ? 'error occurred' : res.error);
+      return;
+    }
+    console.log(res.id);
+    console.log(res.name);
+    console.log(res.email);
+    userObj.email = res.email;
+    userObj.display_name = res.name;
+    
+    console.log("ready to update");
+    updateFBUserRow(userObj, cb);
+  });
+  
+}
+
+
+// a map of userID's to their facebook access token.
+
 fbTokens = {}
 
 var User = {
 
   
   getOrCreateFBUser:  function(FBUserID, FBDisplayName, cb) {
+   
     console.log("gonna getOrCreate: ", FBDisplayName);
     findOrMakeFBUserRow(FBUserID, FBDisplayName, function(err, data){
       if (err) {
@@ -203,6 +241,13 @@ var User = {
   setUserFBAccessToken: function(userObj, accessToken) {
     fbTokens[userObj['user_uuid']] = accessToken;
     console.log(" set access token: ", userObj['user_uuid'], " : ", fbTokens[userObj['user_uuid']] );
+    updateUserFromFacebook(userObj, function(err, data) {
+      if (err) {
+	console.log("failed update from facebook", err);
+      } else {
+	console.log('looks good');
+      }
+    });
   }
 }
 module.exports.User = User

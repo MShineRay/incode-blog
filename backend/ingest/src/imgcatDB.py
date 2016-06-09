@@ -145,6 +145,10 @@ class Image:
         print "FINGERPRINT is [" + output + ']'
         self.data['fingerprint'] = output
         self.persist
+        possibleMatch = dataLayer.findPossibleDuplicate(self.data)
+        print "our best match is: "
+        print possibleMatch
+        dataLayer.recordFingerprintTokens(self.data)
         return None
         
     def getEXIF(self):
