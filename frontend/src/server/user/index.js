@@ -231,7 +231,16 @@ var User = {
   },
 
   deleteUser: function(userObj, cb) {
-    return deleteUserRow(userObj['user_uuid'], cb);
+    deleteUserRow(userObj['user_uuid'], function (err, data) {
+      if (err) {
+	cb (err)
+      } else {
+	FB.api('/'.concat(userObj.facebook_id).concat('/permissions'), 'delete', function(response) {
+	  console.log(response); // true
+	  cb(null, data);
+	});
+      }
+    });
   },
   
   userFBAccessToken: function(userObj) {

@@ -1,17 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadPhotos, addQueryTerm } from '../actions'
-//import { List } from  '../components/List'
 import {List, ListItem} from 'material-ui/List';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import Subheader from 'material-ui/Subheader';
-
 
 const  topicTapHandler = function(index, props) {
-  
   const { facet, facetVal, loader } = props;
   var qterm = {}
   qterm[facet] = facetVal.name;
@@ -46,7 +38,7 @@ class TaxonListItem extends Component {
       nestedItems={facetVal.children.map( (val) => <TaxonListItem facetVal={val} facet="taxon" loader={loader} /> ) }
       key={facetVal.name}
       onTouchTap={ topicTapHandler.bind(this, 1, this.props) }
-      primaryText={ facetVal.name + " (" + facetVal.count + ")" }
+      primaryText={ facetVal.name.split('/').pop() + " (" + facetVal.count + ")" }
 	/>
     )
   }
@@ -68,21 +60,7 @@ const countsTicker = function(counts) {
 
 
 class FacetsBar extends Component {
-
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps(nextProps) {
-
-  }
-
-  handleLoadMoreClick() {
-    //	this.props.loadStargazers(this.props.fullName, true)
-  }
-
-  
   render() {
-
     const { store, history, solr, counts } = this.props
     
     var topics = []
@@ -175,10 +153,6 @@ FacetsBar.propTypes = {
 // react-redux calls this when there's been some change of state we may be interested in
 function mapStateToProps(state, ownProps) {
   return Object.assign({}, ownProps, state.photos)
-}
-
-function mapDispatchToProps() {
-
 }
 
 export default connect(mapStateToProps, {

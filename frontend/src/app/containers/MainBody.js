@@ -1,7 +1,3 @@
-/**
- * In this file, we create a React component
- * which incorporates components providedby material-ui.
- */
 import React, { Component, PropTypes } from 'react'
 import Provider from 'react-redux';
 
@@ -36,7 +32,7 @@ const muiTheme = getMuiTheme({
 
 
 function purgeUser () {
-  var userURL = `http://localhost.blnz.com:3000/api/users/${loggedInUser.user_uuid}?auth_token=${loggedInUser.auth_token}`
+  var userURL = `${window.location.protocol}://${window.location.host}/api/users/${loggedInUser.user_uuid}?auth_token=${loggedInUser.auth_token}`
   console.log(userURL)
   fetch(userURL, {
       method: 'DELETE'
@@ -44,7 +40,7 @@ function purgeUser () {
 }
 
 function refreshUserFeed () {
-  var userURL = `http://localhost.blnz.com:3000/api/users/${loggedInUser.user_uuid}/refresh?auth_token=${loggedInUser.auth_token}`
+  var userURL = `${window.location.protocol}://${window.location.host}/api/users/${loggedInUser.user_uuid}/refresh?auth_token=${loggedInUser.auth_token}`
   console.log(userURL)
   fetch(userURL, {
       method: 'POST'

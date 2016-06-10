@@ -4,16 +4,16 @@ var webpackHotMiddleware = require('webpack-hot-middleware')
 var wpConfig = require('./webpack-dev-server.config')
 var express = require('express')
 var session = require('express-session')
-var fbConfig = require('./config')('local')
+var fbConfig = require('./config')()
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var User = require('./src/server/user').User
 var Image = require('./src/server/image').Image
-
+var path = require('path')
 var request = require('request')
 
 var app = express()
-var port = 3000
+var port = fbConfig.port
 
 var AWS = require('aws-sdk')
 AWS.config.update({accessKeyId: fbConfig.aws_credentials.access_keyID, secretAccessKey: fbConfig.aws_credentials.secret_access_key});
@@ -21,15 +21,11 @@ var sqs = new AWS.SQS({region:'us-west-2'});
 
 
 // give the app the simplest controller
-
 router = express.Router()
 router.get('/',  function(req, res) {
   res.sendFile(__dirname + '/src/www/index.html')
 })
 
-router.get('/api/first.js',  function(req, res) {
-  res.sendFile(__dirname + '/api/first.js')
-})
 app.use(router);
 
 app.use(cookieParser());
@@ -38,11 +34,14 @@ app.use(session({ secret: 'keyboard cat' }));
 
 console.log("fbConfig:", fbConfig);
 
-// app.use(express.logger('dev'))
-
-var compiler = webpack(wpConfig)
-app.use(webpackDevMiddleware(compiler, { noInfo: false, publicPath: wpConfig.output.publicPath }))
-app.use(webpackHotMiddleware(compiler))
+if (fbConfig.mode === 'local') {
+  var compiler = webpack(wpConfig)
+  app.use(webpackDevMiddleware(compiler, { noInfo: false, publicPath: wpConfig.output.publicPath }))
+  app.use(webpackHotMiddleware(compiler))
+} else {
+  //
+  app.use(express.static(path.resolve(__dirname, 'build')));
+}
 
 var passport = require('passport')
 , FacebookStrategy = require('passport-facebook').Strategy;
@@ -52,7 +51,6 @@ passport.serializeUser(function(user, done) {
   console.log(" server.js serializing user facebook_id: ", user.facebook_id);
   done(null, user.facebook_id)
 });
-
 
 passport.deserializeUser(function(user, done) {
   console.log("deserializing user: ", user);
@@ -65,8 +63,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new FacebookStrategy({
   clientID: fbConfig.facebook_credentials.clientID,
   clientSecret: fbConfig.facebook_credentials.clientSecret,
-  callbackURL: "http://localhost.blnz.com:3000/auth/facebook/callback"
-},
+  callbackURL: "http://".concat(fbConfig.server_host).concat("/auth/facebook/callback")},
                                   function(accessToken, refreshToken, profile, done) {
                                     console.log("verify callback",
                                                 { "accessToken": accessToken,
@@ -88,7 +85,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 function ensureAuthenticated(req, res, next) {
-  console.log("session: ", req.session);
+  // console.log("session: ", req.session);
   if (req.isAuthenticated()) { return next(); }
   res.status(403).send('not authorized');
 }
@@ -97,7 +94,7 @@ function ensureAPIAuthenticated(req,res,next) {
 
   const authToken = req.query['auth_token'];
   if (typeof authToken === 'string') {
-    console.log("authToken is:", authToken);
+    // console.log("authToken is:", authToken);
     User.findByAuthToken(authToken, function(err, userObj) {
       if (err) {
 	res.status(403).send('not authorized');
@@ -107,12 +104,12 @@ function ensureAPIAuthenticated(req,res,next) {
 	req['authenticatedUser'] = userObj;
 	next();
       } else {
-	console.log("authToken not validated");
+	// console.log("authToken not validated");
 	res.status(403).send('not authorized');
       }
     });
   } else {
-    console.log("NO authToken");
+    // console.log("NO authToken");
     res.status(403).send('not authorized');
   }
 }
@@ -120,7 +117,9 @@ function ensureAPIAuthenticated(req,res,next) {
 // Redirect the user to Facebook for authentication.  When complete,
 // Facebook will redirect the user back to the application at
 //     /auth/facebook/callback
-app.get('/auth/facebook', passport.authenticate('facebook', { session: true, scope: ['user_friends', 'email', 'user_photos',
+app.get('/auth/facebook', passport.authenticate('facebook', { session: true,
+							      display: 'popup',
+							      scope: ['user_friends', 'email', 'user_photos',
 										     'user_tagged_places' ] }));
 
 // Facebook will redirect the user to this URL after approval.  Finish the
@@ -137,8 +136,7 @@ console.info("running at " , __dirname);
 
 
 app.get('/ckuser',  ensureAuthenticated, function(req, res) {
-  
-  console.log('ckuser:: user is: ', req.user);
+  // console.log('ckuser:: user is: ', req.user);
   res.setHeader("Content-Type", "application/json");
   res.send(JSON.stringify(req.user, null, 4));
 });
@@ -157,16 +155,13 @@ app.get('/ckuser.js',   function(req, res) {
 
 app.get('/api/search', ensureAPIAuthenticated, function(req, res) {
 
-  console.log(req.url)
   var solrURL = 'http://ec2-54-187-86-241.us-west-2.compute.amazonaws.com:8983/solr/imgcat/select'.concat('?').concat(req.url.split('?')[1]);
-  console.log(solrURL);
   req.pipe(request(solrURL)).pipe(res)
 
 });
 
 app.get('/api/image/:id', ensureAPIAuthenticated, function(req, res) {
 
-  console.log("image ID:", req.param('id'));
   Image.findByID(req.param('id'), function(err, data) {
     if (err) {
       res.status(500).send("failed to get" + req.param('id'));
@@ -175,20 +170,17 @@ app.get('/api/image/:id', ensureAPIAuthenticated, function(req, res) {
       res.send(JSON.stringify(data, null, 4));
     }
   });
-
 });
 
 app.delete('/api/users/:id',  ensureAPIAuthenticated, function(req, res) {
 
   if (req.authenticatedUser['user_uuid'] === parseInt(req.params.id), 10) {
-    console.log("authenticated user will purge content ...");
     Image.deleteOwnerImages(req.authenticatedUser['user_uuid'], function(err,data) {
       if (err) {
 	console.log(err);
 	res.status(500).send("failed to delete user's images");
 	return;
       }
-      console.log("images deleted, now on to user");
       User.deleteUser(req.authenticatedUser, function(err, data) {
 	if (err) {
 	  console.log(err);
@@ -201,13 +193,12 @@ app.delete('/api/users/:id',  ensureAPIAuthenticated, function(req, res) {
 	console.log(solrURL);
 	var deleteStr = "<delete><query>owner:".concat(req.authenticatedUser['user_uuid']).concat("</query></delete>")
 	console.log(deleteStr)
-	//	oldbody: "<delete><query>*:*</query></delete>"
+
 	request.post({ url: solrURL, headers: {"Content-Type": "text/xml"}, body: deleteStr}, function (err, data) {
 	  if (err) {
 	    console.log(err);
 	    res.status(500).send("failed to delete in Solr");
 	  } else {
-	    // console.log(data);
 	    res.send(data.body);
 	    return;
 	  }
@@ -228,8 +219,6 @@ app.delete('/api/users/:id',  ensureAPIAuthenticated, function(req, res) {
 app.post('/api/users/:id/refresh',  ensureAPIAuthenticated, function(req, res) {
 
   if (req.authenticatedUser['user_uuid'] === parseInt(req.params.id), 10) {
-    console.log("authenticated user will check content for: ", req.params.id);
-    
     token = User.userFBAccessToken(req.authenticatedUser);
     var msg = { token: token };
     console.log("message:", msg);
@@ -251,8 +240,6 @@ app.post('/api/users/:id/refresh',  ensureAPIAuthenticated, function(req, res) {
 	    res.status(500).send("failed");
 	    return;
 	  }
-      
-	  console.log(data);
 	  res.send('initiated refresh');
 	});
       }
@@ -266,8 +253,6 @@ app.post('/api/users/:id/refresh',  ensureAPIAuthenticated, function(req, res) {
   
 });
 
-
-
 app.get('/logout',  function(req, res) {
   req.logout();
   res.redirect('/');
@@ -275,7 +260,6 @@ app.get('/logout',  function(req, res) {
 
 app.post('/userUpdate',  ensureAuthenticated, function(req, res) {
 
-  console.log("userUpdate params:",  req.params);
   userObj = {
     facebook_id: req.param('facebook_id'),
     username: req.param('username'),
@@ -290,14 +274,12 @@ app.post('/userUpdate',  ensureAuthenticated, function(req, res) {
     } else {
       res.redirect('/');
     }
-    
   });
-  
 });
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/src/www/index.html')
-})
+// app.get('/', function(req, res) {
+//   res.sendFile(__dirname + '/src/www/index.html')
+// })
 
 app.listen(port, function(error) {
   if (error) {

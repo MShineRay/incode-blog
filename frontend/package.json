@@ -1,14 +1,10 @@
 {
-  "name": "material-ui-example-webpack",
+  "name": "imgcat",
   "version": "0.15.0",
-  "description": "Sample project that uses material-ui",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/callemall/material-ui.git"
-  },
+  "description": "Sample project that uses React, Redux and material-ui to provide a search facility for your images",
   "scripts": {
-    "start": "echo YO && node ./server.js --progress --inline --colors",
-    "build": "echo HELLO && webpack --config webpack-production.config.js --progress --colors",
+    "start": "echo starting dev server && node ./server.js --progress --inline --colors",
+    "build": "echo building production webpack && webpack --config webpack-production.config.js --progress --colors",
     "lint": "eslint src && echo \"eslint: no lint errors\""
   },
   "private": true,
