@@ -151,7 +151,12 @@ def monitorFeed(feed=SQS_QUEUE, solr_host=SOLR_HOST,  solr_core=SOLR_CORE, aws_r
             image_id = long(msgDict['id'])
             
             logger.info("processing image_id: " + msgDict['id'])
-            postSolr(dataLayer.getImageRow(image_id), solr_host, solr_core)
+            try:
+                postSolr(dataLayer.getImageRow(image_id), solr_host, solr_core)
+            except:
+                logger.warn("failed to post image_id: " + msgDict['id'])
+                pass
+            
             logger.info("index complete image_id: " + msgDict['id'])            
             sys.stdout.flush()
             q.delete_message(message)
