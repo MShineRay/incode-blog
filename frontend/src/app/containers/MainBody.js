@@ -32,7 +32,7 @@ const muiTheme = getMuiTheme({
 
 
 function purgeUser () {
-  var userURL = `${window.location.protocol}://${window.location.host}/api/users/${loggedInUser.user_uuid}?auth_token=${loggedInUser.auth_token}`
+  var userURL = `${window.location.protocol}//${window.location.host}/api/users/${loggedInUser.user_uuid}?auth_token=${loggedInUser.auth_token}`
   console.log(userURL)
   fetch(userURL, {
       method: 'DELETE'
@@ -40,7 +40,7 @@ function purgeUser () {
 }
 
 function refreshUserFeed () {
-  var userURL = `${window.location.protocol}://${window.location.host}/api/users/${loggedInUser.user_uuid}/refresh?auth_token=${loggedInUser.auth_token}`
+  var userURL = `${window.location.protocol}//${window.location.host}/api/users/${loggedInUser.user_uuid}/refresh?auth_token=${loggedInUser.auth_token}`
   console.log(userURL)
   fetch(userURL, {
       method: 'POST'
