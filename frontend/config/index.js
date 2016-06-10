@@ -45,7 +45,7 @@ var config = {
     database: localdb,
     userkey: 'lean56doctor',
     aws_credentials: aws_credentials,
-    port: 3000
+    port: 8000
   }
 }
 
