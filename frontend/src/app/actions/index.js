@@ -173,7 +173,7 @@ function queryUrlParams(query) {
   // console.log ("QUERY IS:", query)
   if (typeof query === 'undefined' || "*" === query || query.length == 0) {
     // console.log("wildcard query");
-    url = "q=*:*";
+    url = `q=owner:${loggedInUser.facebook_id}`;
   } else {
     var qterms = []
     for (var key in query) {
@@ -190,12 +190,12 @@ function queryUrlParams(query) {
     }
     if (qterms.length > 0) {
       
-      url = "q=".concat(qterms.join(" AND "))
+      url = "q=".concat(qterms.join(" AND ")).concat(" AND owner:").concat(loggedInUser.facebook_id)
     } else {
-      url = "q=*:*";
+      url = `q=owner:${loggedInUser.facebook_id}`;
     }
   }
-  // console.log("built query: [", url, "]");
+  console.log("built query: [", url, "]");
   return url;
 }
 
@@ -245,7 +245,7 @@ export function loadCounts(authToken, nextPage) {
 
   return (dispatch, getState) => {
     const {
-      nextPageUrl = `api/search?facet.field=status&facet=on&indent=on&q=*:*&rows=0&start=0&wt=json&auth_token=${authToken}`,
+      nextPageUrl = `api/search?facet.field=status&facet=on&indent=on&q=owner:${loggedInUser.facebook_id}&rows=0&start=0&wt=json&auth_token=${authToken}`,
       pageCount = 0
     } = {}
     
