@@ -103,8 +103,8 @@ class FacebookWidget extends React.Component {
       return (
 	  <div>
 	  <TagsBar query={this.props['query']} deleteQueryTerm={this.props.deleteQueryTerm} addQueryTerm={this.props.addQueryTerm}/>
-	  <div style={{width:'200px',
-		       float: 'left',
+	  <div style={{width:'350px',
+		      float: 'left',
 		       textAlign: 'left'
 		      }}>
 	  <FacetsBar/>

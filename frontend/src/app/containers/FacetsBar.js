@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadPhotos, addQueryTerm } from '../actions'
+import { addQueryTerm } from '../actions'
 import {List, ListItem} from 'material-ui/List';
 
 const  topicTapHandler = function(index, props) {
@@ -10,38 +10,23 @@ const  topicTapHandler = function(index, props) {
   loader( qterm )
 }
 
-class TopicListItem extends Component {
-  
-  render() {
-    const { facet, facetVal, loader} = this.props
 
-    return (
-	<ListItem
-      style={{ fontSize: '12px' }}
-
-      key={facetVal.name}
-      onTouchTap={ topicTapHandler.bind(this, 1, this.props) }
-      primaryText={ facetVal.name + " (" + facetVal.count + ")" }
-	/>
-    )
-  }
+const taxonHandler = function( facetName, facetVal, loader ) {
+  return ( (e) => {   var qterm = {}
+		      qterm[facetName] = facetVal.name;
+		      loader( qterm ) } )
 }
 
-class TaxonListItem extends Component {
-  
-  render() {
-    const { facet, facetVal, loader} = this.props
+function facetListItem(facet, facetVal, loader) {
 
-    return (
-	<ListItem
-      style={{ fontSize: '12px' }}
-      nestedItems={facetVal.children.map( (val) => <TaxonListItem facetVal={val} facet="taxon" loader={loader} /> ) }
-      key={facetVal.name}
-      onTouchTap={ topicTapHandler.bind(this, 1, this.props) }
-      primaryText={ facetVal.name.split('/').pop() + " (" + facetVal.count + ")" }
-	/>
-    )
-  }
+  const kids = facetVal.children ? facetVal.children.map( (val) => facetListItem(facet, val, loader) ) : []
+
+  return (<ListItem
+	  nestedItems={ kids  }
+	  key={facetVal.name}
+	  onTouchTap={ taxonHandler(facet, facetVal, loader) }
+	  primaryText={ facetVal.name.split('/').pop() + " (" + facetVal.count + ")" }
+	  />);
 }
 
 const countsTicker = function(counts) {
@@ -63,91 +48,92 @@ class FacetsBar extends Component {
   render() {
     const { store, history, solr, counts } = this.props
     
-    var topics = []
     if (solr) {
+      var topics = []
+
       for (var i = 0; i < solr.facetFields.topic.length; i+= 2) {
 	if (solr.facetFields.topic[i + 1] > 0) {
 	  topics.push({ "name": solr.facetFields.topic[i],  "count": solr.facetFields.topic[i + 1] })
 	}
       }
-    }
-    var taxons = []
-    if (solr) {
+
+      var taxons = []
+
       for (var i = 0; i < solr.facetFields.taxon.length; i+= 2) {
 	if (solr.facetFields.taxon[i + 1] > 0) {
 	  taxons.push({ "name": solr.facetFields.taxon[i],  "count": solr.facetFields.taxon[i + 1], children: [] })
 	}
       }
-    }
-    taxons = taxons.sort( (a, b) => { if (a.name < b.name) { return -1 } else { return 1 } } )
 
-    var taxonTree = []
+      taxons = taxons.sort( (a, b) => { if (a.name < b.name) { return -1 } else { return 1 } } )
 
-    if ( true && taxons.length > 0) {
+      var taxonTree = []
 
-      //      var prevItem = [ { children: [], name: "" }, taxons[0] ]
-      var prevItem = [ { children: [], name: "" }, taxons[0] ]    
-      for (var i = 1; i < taxons.length; i++) {
-	var currentItem = taxons[i];
-	currentItem['children'] = [];
-	if (currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/'))) {
-	  prevItem[prevItem.length - 1].children.push(currentItem);
-	  prevItem.push(currentItem);
-	} else {
-	  while (prevItem.length > 1 && !(currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/')))) {
-	    prevItem.pop()
+      if ( taxons.length > 0) {
+	//      var prevItem = [ { children: [], name: "" }, taxons[0] ]
+	var prevItem = [ { children: [], name: "" }, taxons[0] ]    
+	for (var i = 1; i < taxons.length; i++) {
+	  var currentItem = taxons[i];
+	  currentItem['children'] = [];
+	  if (currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/'))) {
+	    prevItem[prevItem.length - 1].children.push(currentItem);
+	    prevItem.push(currentItem);
+	  } else {
+	    while (prevItem.length > 1 && !(currentItem.name.startsWith(prevItem[prevItem.length - 1].name.concat('/')))) {
+	      prevItem.pop()
+	    }
+	    prevItem[prevItem.length - 1].children.push(currentItem);
+	    prevItem.push(currentItem);
 	  }
-	  prevItem[prevItem.length - 1].children.push(currentItem);
-	  prevItem.push(currentItem);
 	}
-      }
 
-      taxonTree = prevItem[0].children
-    }
-    
-    var persons = []
-    if (solr) {
+	taxonTree = prevItem[0].children
+      }
+      
+      var persons = []
+
       for (var i = 0; i < solr.facetFields.person.length; i+= 2) {
 	if (solr.facetFields.person[i + 1] > 0) {
 	  persons.push({ "name": solr.facetFields.person[i],  "count": solr.facetFields.person[i + 1] })
 	}
       }
-    }
-    
-    
-    if (solr) {
+      
+      var faces = []
+
+
       return (
 	  <div>
 	  {countsTicker(counts)}
 	  <List>
 	  <ListItem primaryText="Topics"
-	nestedItems={ topics.map( (val) => <TopicListItem facetVal={val} facet="topic" loader={this.props.addQueryTerm} />) }
+	key={1}
+	nestedItems={ topics.map( (val) =>  facetListItem("topic", val, this.props.addQueryTerm)  ) }
 	  />
-	  <ListItem primaryText="Taxonomy" 
-	nestedItems={ taxonTree.map( (val) => <TaxonListItem facetVal={val} facet="taxon" loader={this.props.addQueryTerm} />) }
+	  <ListItem primaryText="Taxonomy"
+	key={2}
+	nestedItems={ taxonTree.map( (val) => facetListItem("taxon", val, this.props.addQueryTerm) )}
 	  />
-	  <ListItem primaryText="People" 
-	nestedItems={ persons.map( (val) => <TopicListItem facetVal={val} facet="person" loader={this.props.addQueryTerm} />) }
+	  <ListItem primaryText="People"
+	key={3}
+	nestedItems={ persons.map( (val) => facetListItem("person", val, this.props.addQueryTerm) )}
 	  />
-
-	</List>
-	  
-	</div>
+	  <ListItem primaryText="Faces"
+	key={4}
+	nestedItems={ faces.map( (val) => facetListItem("face", val, this.props.addQueryTerm) )}
+	  />
+	  </List>
+	  </div>
       );
     } else {
       return (
-	  <div>
-	  
-	  </div>
+	  <div />
       );
     }
   }
 }
 
 FacetsBar.propTypes = {
-  loadPhotos: PropTypes.func.isRequired,
-  addQueryTerm: PropTypes.func.isRequired // ,
-  // photos: PropTypes.object.isRequired
+  addQueryTerm: PropTypes.func.isRequired
 }
 
 // react-redux calls this when there's been some change of state we may be interested in
@@ -156,6 +142,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  loadPhotos,
   addQueryTerm
 })(FacetsBar)
