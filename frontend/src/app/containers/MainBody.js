@@ -96,6 +96,7 @@ class MainBody extends React.Component {
         <div style={styles.container}>
 	<AppBar
       title="Image Categorizer"
+      iconElementLeft={ <span /> }
       iconElementRight={mainMenu}
         ></AppBar>
       
