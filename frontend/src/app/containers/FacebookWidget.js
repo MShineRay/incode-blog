@@ -10,7 +10,7 @@ import FacetsBar from './FacetsBar'
 import TagsBar from './TagsBar'
 
 import { connect } from 'react-redux'
-import { loadLoginUser, updateUser, loadPhotos, loadCounts, deleteQueryTerm, addQueryTerm } from '../actions'
+import { loadLoginUser, updateUser, loadPhotos, loadCounts, deleteQueryTerm, addQueryTerm, refreshQuery } from '../actions'
 import User from '../components/User'
 
 
@@ -32,9 +32,10 @@ function loadData(props) {
   }
 }
 
-const CountsTicker = ( { counts } ) =>  {
+const CountsTicker = ( { counts, refresh } ) =>  {
   if (counts) {
     if (counts.classified < counts.total ) {
+   //   setTimeout(refresh(), 1000)
       return (
 	  <div>
 	  <span>{counts.total - counts.classified} remaining to be classified</span>
@@ -73,7 +74,7 @@ class FacebookWidget extends React.Component {
     // componentDidMount is called by react when the component 
     // has been rendered on the page. We can set the interval here:
     
-    this.timer = setInterval(this.tick.bind(this), 15000);
+    this.timer = setInterval(this.tick.bind(this), 5000);
   }
   
   componentWillUnmount(){
@@ -133,7 +134,7 @@ class FacebookWidget extends React.Component {
 		      float: 'left',
 		       textAlign: 'left'
 		      }}>
-	  <CountsTicker counts={this.props.counts} />
+	  <CountsTicker counts={this.props.counts} refresh={() => { this.props.refreshQuery(this.props.query) } }  />
 	  <FacetsBar/>
 	  </div>
 	  <Images style={{float: 'right'}}/>
@@ -178,5 +179,6 @@ export default connect(mapStateToProps, {
   addQueryTerm,
   updateUser,
   loadPhotos,
+  refreshQuery,
   loadCounts,
 })(FacebookWidget)

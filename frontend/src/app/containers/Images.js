@@ -32,11 +32,6 @@ const styles = {
   },
 };
 
-function createDiv(page) {
-  return (
-      <div className='samplePage' >{'Hello page ' + page + ' !' }</div>
-  );
-}
 
 function foo() {
 
@@ -58,10 +53,16 @@ function foo() {
   }
 }
 
-function createDiv(num) {
-  return (
-      <div>{ "page " + num }</div>
-  )
+function createDiv(haveMore) {
+  if (haveMore) {
+    return (
+	<div>{ " more ..." }</div>
+    )
+  } else {
+    return (
+      <div/>
+    )
+  }
 }
 
   
@@ -150,7 +151,7 @@ class Images extends Component {
 	pageStart={0}
 	loadMore={this.loadMore.bind(this)}
 	hasMore={this.props.docs.length < this.props.numFound}
-	children={this.state.items}
+	children={createDiv(this.props.docs.length < this.props.numFound)}
 	loader={ <div className="loader">{" - "}</div> }
 	  />
 	  

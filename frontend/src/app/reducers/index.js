@@ -86,6 +86,7 @@ function photos(state = { query: {}, docs: [] } , action) {
     
   } else if (type === "REFRESH_QUERY" ) {
     nextState = Object.assign({}, state, { queryChanged: true, docs: [], numFound: 0, start: 0 })
+    return nextState
   }  else if (type === "DELETE_QUERY_TERM" ) {
     // console.log("reducer got DELETE query term action")
     var nextState = Object.assign({}, state)

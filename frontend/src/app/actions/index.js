@@ -219,6 +219,16 @@ export function deleteQueryTerm(term) {
   }
 }
 
+
+export function refreshQuery() {
+  // console.log("deleteQueryTerm")
+  return (dispatch, getState) => {
+    return dispatch(
+      { type: "REFRESH_QUERY",
+	response:  {  }  } );
+  }
+}
+
 // Fetches a page of photos for a  particular user.
 // Bails out if page is cached and user didn’t specifically request next page.
 // Relies on Redux Thunk middleware.

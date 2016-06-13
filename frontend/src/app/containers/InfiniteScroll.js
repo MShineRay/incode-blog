@@ -15,7 +15,7 @@ class  InfiniteScroll extends Component {
 
   componentDidMount() {
     console.log("IS got didUpdate")
-        this.pageLoaded = this.props.pageStart;
+    this.pageLoaded = this.props.pageStart;
     this.attachScrollListener();
   }
   componentDidUpdate() {
@@ -30,7 +30,7 @@ class  InfiniteScroll extends Component {
       loader={ props.hasMore && (props.loader || InfiniteScroll._defaultLoader)}
       ref={ (c) =>   {
 	console.log("Maybe ADDING REF of ", c)
-	if (c) {this._DOMNode = c }
+	if (c) {this._DOMNode = c } 
       }
 	  }
 	/>
@@ -57,7 +57,7 @@ class  InfiniteScroll extends Component {
 	this.props.loadMore(this.pageLoaded += 1);
       }
     } else {
-      console.log("no _DOMNode")
+      //      console.log("no _DOMNode")
     }
   }
 
