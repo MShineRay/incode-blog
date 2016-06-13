@@ -135,8 +135,11 @@ def monitorFeed(feed='imgcat-user', aws_region="us-west-2"):
             print 'msgDict: ' , msgDict
             
             accessToken = msgDict['token']
-            pullFacebook(accessToken)
-            
+            try:
+                pullFacebook(accessToken)
+            except:
+                logger.warn("unable to load from the token")
+                
             userQ.delete_message(message)
         else:
             logger.info('waiting on message queue: ' + feed)
