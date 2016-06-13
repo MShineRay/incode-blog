@@ -99,6 +99,12 @@ class FacetsBar extends Component {
       }
       
       var faces = []
+      for (var i = 0; i < facetFields.face.length; i+= 2) {
+	if (facetFields.face[i + 1] > 0) {
+	  faces.push({ "name": facetFields.face[i],  "count": facetFields.face[i + 1] })
+	}
+      }
+      
 
 
       return (

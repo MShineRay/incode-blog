@@ -237,7 +237,7 @@ export function loadPhotos(query, authToken, start=0) {
   var qurl = queryUrlParams(query);
   return (dispatch, getState) => {
     const {
-      nextPageUrl = `api/search?facet.field=topic&facet.field=taxon&facet.field=person&facet=on&indent=on&${qurl}&rows=10&start=${start}&wt=json&sort=_docid_ desc&auth_token=${authToken}`,
+      nextPageUrl = `api/search?facet.field=topic&facet.field=taxon&facet.field=person&facet.field=face&facet=on&indent=on&${qurl}&rows=10&start=${start}&wt=json&sort=_docid_ desc&auth_token=${authToken}`,
       pageCount = 0
     } = {}
     
