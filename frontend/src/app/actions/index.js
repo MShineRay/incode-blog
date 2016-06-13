@@ -222,12 +222,12 @@ export function deleteQueryTerm(term) {
 // Fetches a page of photos for a  particular user.
 // Bails out if page is cached and user didn’t specifically request next page.
 // Relies on Redux Thunk middleware.
-export function loadPhotos(query, authToken, nextPage) {
+export function loadPhotos(query, authToken, start=0) {
   // console.log("####### Load Photos entry for query: [", query, "] authToken", authToken)
   var qurl = queryUrlParams(query);
   return (dispatch, getState) => {
     const {
-      nextPageUrl = `api/search?facet.field=topic&facet.field=taxon&facet.field=person&facet=on&indent=on&${qurl}&rows=100&start=0&wt=json&auth_token=${authToken}`,
+      nextPageUrl = `api/search?facet.field=topic&facet.field=taxon&facet.field=person&facet=on&indent=on&${qurl}&rows=10&start=${start}&wt=json&sort=_docid_ desc&auth_token=${authToken}`,
       pageCount = 0
     } = {}
     

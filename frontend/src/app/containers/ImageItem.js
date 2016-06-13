@@ -54,7 +54,7 @@ class ImageItem extends Component {
   }
 
   render () {
-    // console.log("ImageItem:: render with props", this.props)
+    console.log("ImageItem:: render with props", this.props)
     
     const { photo } = this.props
 

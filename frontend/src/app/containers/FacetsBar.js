@@ -3,13 +3,10 @@ import { connect } from 'react-redux'
 import { addQueryTerm } from '../actions'
 import {List, ListItem} from 'material-ui/List';
 
-const  topicTapHandler = function(index, props) {
-  const { facet, facetVal, loader } = props;
-  var qterm = {}
-  qterm[facet] = facetVal.name;
-  loader( qterm )
-}
-
+// construct a function that
+// handles a selection event of a particular facet member
+// sends the new query term for the facet value to the action dispatcher
+// by means of the given loader
 
 const taxonHandler = function( facetName, facetVal, loader ) {
   return ( (e) => {   var qterm = {}
@@ -17,10 +14,11 @@ const taxonHandler = function( facetName, facetVal, loader ) {
 		      loader( qterm ) } )
 }
 
+
 function facetListItem(facet, facetVal, loader) {
 
   const kids = facetVal.children ? facetVal.children.map( (val) => facetListItem(facet, val, loader) ) : []
-
+  // console.log("ListItem:", facet, facetVal)
   return (<ListItem
 	  nestedItems={ kids  }
 	  key={facetVal.name}
@@ -29,6 +27,7 @@ function facetListItem(facet, facetVal, loader) {
 	  />);
 }
 
+// displays current counts
 const countsTicker = function(counts) {
   if (counts && counts.classified < counts.total ) {
     return (
@@ -46,22 +45,23 @@ const countsTicker = function(counts) {
 
 class FacetsBar extends Component {
   render() {
-    const { store, history, solr, counts } = this.props
+    console.log("FFF rendering with", this.props)
+    const { facetFields, counts } = this.props
     
-    if (solr) {
+    if (facetFields) {
       var topics = []
 
-      for (var i = 0; i < solr.facetFields.topic.length; i+= 2) {
-	if (solr.facetFields.topic[i + 1] > 0) {
-	  topics.push({ "name": solr.facetFields.topic[i],  "count": solr.facetFields.topic[i + 1] })
+      for (var i = 0; i < facetFields.topic.length; i+= 2) {
+	if (facetFields.topic[i + 1] > 0) {
+	  topics.push({ "name": facetFields.topic[i],  "count": facetFields.topic[i + 1] })
 	}
       }
 
       var taxons = []
 
-      for (var i = 0; i < solr.facetFields.taxon.length; i+= 2) {
-	if (solr.facetFields.taxon[i + 1] > 0) {
-	  taxons.push({ "name": solr.facetFields.taxon[i],  "count": solr.facetFields.taxon[i + 1], children: [] })
+      for (var i = 0; i < facetFields.taxon.length; i+= 2) {
+	if (facetFields.taxon[i + 1] > 0) {
+	  taxons.push({ "name": facetFields.taxon[i],  "count": facetFields.taxon[i + 1], children: [] })
 	}
       }
 
@@ -92,9 +92,9 @@ class FacetsBar extends Component {
       
       var persons = []
 
-      for (var i = 0; i < solr.facetFields.person.length; i+= 2) {
-	if (solr.facetFields.person[i + 1] > 0) {
-	  persons.push({ "name": solr.facetFields.person[i],  "count": solr.facetFields.person[i + 1] })
+      for (var i = 0; i < facetFields.person.length; i+= 2) {
+	if (facetFields.person[i + 1] > 0) {
+	  persons.push({ "name": facetFields.person[i],  "count": facetFields.person[i + 1] })
 	}
       }
       
@@ -138,7 +138,11 @@ FacetsBar.propTypes = {
 
 // react-redux calls this when there's been some change of state we may be interested in
 function mapStateToProps(state, ownProps) {
-  return Object.assign({}, ownProps, state.photos)
+  console.log("FFFF mapStateToProps")
+  const { facetFields } = state.photos.solr || {} 
+  const nextProps = Object.assign({}, ownProps, { facetFields })
+  console.log("FFF nextProps:", nextProps)
+  return nextProps
 }
 
 export default connect(mapStateToProps, {

@@ -16,6 +16,9 @@ import User from '../components/User'
 
 function loadData(props) {
 
+  console.log('loadData props is: ', user)
+  console.log('loggedInUser is: ', loggedInUser)
+
   const { user } = props
   console.log('user from props is: ', user)
   
@@ -25,9 +28,30 @@ function loadData(props) {
   }
   // if someone has added or removed a query term, run a new search & reset the flag
   if (props.queryChanged) {
-    props.loadPhotos(props.query,loggedInUser['auth_token'] )
+    props.loadPhotos(props.query,loggedInUser['auth_token'], 0)
   }
 }
+
+const CountsTicker = ( { counts } ) =>  {
+  if (counts) {
+    if (counts.classified < counts.total ) {
+      return (
+	  <div>
+	  <span>{counts.total - counts.classified} remaining to be classified</span>
+	  </div>
+      );
+    } else {
+      return (
+	  <div>{counts.total} total items</div>
+      );
+    }
+  } else {
+    return(
+	<div></div>
+    )
+  }
+}
+
 
 class FacebookWidget extends React.Component {
   constructor(props, context) {
@@ -39,6 +63,7 @@ class FacebookWidget extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
+    console.log("FFF recieving nexpProps", nextProps)
     loadData(nextProps)
   }
 
@@ -69,8 +94,9 @@ class FacebookWidget extends React.Component {
     const user = loggedInUser;
     
     // props.updateUser(loggedInUser)
-    console.log("loggedInUser:", loggedInUser);
-    
+    console.log("FACEBOOK loggedInUser:", loggedInUser);
+
+
     window.fbAsyncInit = function() {
       FB.init({
 	appId      : '588463747978133',
@@ -79,7 +105,7 @@ class FacebookWidget extends React.Component {
       });
     };
 
-    // embed facebook login code
+    // inject facebook login code directly in the DOM
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
@@ -107,6 +133,7 @@ class FacebookWidget extends React.Component {
 		      float: 'left',
 		       textAlign: 'left'
 		      }}>
+	  <CountsTicker counts={this.props.counts} />
 	  <FacetsBar/>
 	  </div>
 	  <Images style={{float: 'right'}}/>
@@ -128,16 +155,20 @@ FacebookWidget.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  // pulls "user" from state.storeUser and "query" & queryChanged from state.photos
+  // pulls "user" from state.storeUser and query, queryChanged & counts from state.photos
+
   const {
     storeUser: { user },
-    photos: { query, queryChanged }
+    photos: { query, queryChanged, counts }
   } = state
 
+  console.log("mapping from", state)
+  
   return {
     user,
     query,
-    queryChanged
+    queryChanged,
+    counts
   }
 }
 

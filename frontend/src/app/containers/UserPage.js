@@ -73,7 +73,7 @@ UserPage.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-  // We need to lower case the login due to the way GitHub's API behaves.
+
   // Have a look at ../middleware/api.js for more details.
   const login = ownProps.params.login.toLowerCase()
 

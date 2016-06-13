@@ -12,15 +12,21 @@ const API_ROOT = `${window.location.protocol}//${window.location.host}/`    // F
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 function callApi(endpoint, schema) {
-  console.log("*************************  api.js", API_ROOT)
-  console.log("endpoint is", endpoint)
   
-  const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
+  const fullUrl = ((endpoint.indexOf("http://" ) != 0) && (endpoint.indexOf("https://" ) != 0) ) ? API_ROOT + endpoint : endpoint
 
+/***
+we fetch a url, when we recieve a response, we have a function
+then1: which takes a response, grabs the json and passes the json to a unction
+then2: which accepts the json as a param passes the json and respinse to a function
+then3: which check for a bad HTTP status code 
+
+**/
+  
   return fetch(fullUrl)
-    .then(response =>
-	  response.json().then(json => ({ json, response }))
-	 ).then(({ json, response }) => {
+    .then(response =>        // then1
+	  response.json().then(json => ({ json, response })) // then2
+	 ).then( ({ json, response }) => {                    // then3
 	   if (!response.ok) {
 	     console.log("*** response not ok", response)
 	     return Promise.reject(json)
@@ -30,6 +36,13 @@ function callApi(endpoint, schema) {
 	   const camelizedJson = camelizeKeys(json)
 	   const nextPageUrl = getNextPageUrl(response)
 
+	   console.log ("callApi has constructed and will return this object:",
+			Object.assign({},
+				normalize(camelizedJson, schema),
+				{ nextPageUrl }
+			       )
+		       )
+	   
 	   return Object.assign({},
 				normalize(camelizedJson, schema),
 				{ nextPageUrl }

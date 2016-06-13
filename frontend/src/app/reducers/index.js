@@ -15,7 +15,7 @@ function entities(state = { user: {}, users: {}, repos: {}, photos: {}}, action)
   return state
 }
 
-function photos(state = { query: {} } , action) {
+function photos(state = { query: {}, docs: [] } , action) {
   const { type } = action
 
   if (type === ActionTypes.COUNTS_SUCCESS) {
@@ -39,9 +39,15 @@ function photos(state = { query: {} } , action) {
     //    console.log(action.response.entities)
     const { photos } = action.response.entities
     //    console.log("Photos is :", photos)
+
+    const {  start } = photos.solr.params
+    const {  docs, numFound } = photos.solr
     
-    var nextState = Object.assign({}, state, photos, { queryChanged: false })
+    const ndocs = state.queryChanged ? docs :  state.docs.concat(docs)
+    
+    var nextState = Object.assign({}, state, photos, { queryChanged: false, start: start, docs: ndocs, numFound: numFound })
     return nextState
+    
   } else if (type === "ADD_QUERY_TERM" ) {
     var nextState = Object.assign({}, state)
     var  { query } = nextState
@@ -78,6 +84,8 @@ function photos(state = { query: {} } , action) {
     
     return nextState
     
+  } else if (type === "REFRESH_QUERY" ) {
+    nextState = Object.assign({}, state, { queryChanged: true, docs: [], numFound: 0, start: 0 })
   }  else if (type === "DELETE_QUERY_TERM" ) {
     // console.log("reducer got DELETE query term action")
     var nextState = Object.assign({}, state)

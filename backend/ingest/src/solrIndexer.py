@@ -78,15 +78,17 @@ def solrDoc(data):
             words.append(tag['name'])
     except KeyError, k:
         pass
+
+    faces = []
     
     if 'alchemyFaces' in metadata and 'imageFaces' in metadata['alchemyFaces']:
         for person in metadata['alchemyFaces']['imageFaces']:
             try:
-                persons.append(person['gender']['gender'])
+                faces.append(person['gender']['gender'])
             except KeyError, k:
                 pass
             try:
-                persons.append(person['gender']['gender'] + person['age']['ageRange'])
+                faces.append(person['gender']['gender'] + person['age']['ageRange'])
             except KeyError, k:
                 pass
             
@@ -94,6 +96,7 @@ def solrDoc(data):
     doc['taxon'] = taxonomy
     # doc['text'] = ' '.join(words)
     doc['person'] = persons
+    doc['face'] = faces
     
     return doc
 
