@@ -38,7 +38,13 @@ const CountsTicker = ( { counts, refresh } ) =>  {
    //   setTimeout(refresh(), 1000)
       return (
 	  <div>
-	  <span>{counts.total - counts.classified} remaining to be classified</span>
+	  <span>{counts.total - counts.classified} remaining to be classified </span>
+	  <FlatButton
+	label="Refresh"
+	secondary={true}
+	onTouchTap={ (e) => refresh() }
+	/>
+
 	  </div>
       );
     } else {
@@ -73,20 +79,34 @@ class FacebookWidget extends React.Component {
     
     // componentDidMount is called by react when the component 
     // has been rendered on the page. We can set the interval here:
-    
+    //if (loggedInUser && ('facebook_id' in user)) {
+    console.log("didMount");
     this.timer = setInterval(this.tick.bind(this), 5000);
+    //}
   }
   
   componentWillUnmount(){
     
     // This method is called immediately before the component is removed
     // from the page and destroyed. We can clear the interval here:
-    
+    console.log("willUnmount")
     clearInterval(this.timer);
+  }
+
+
+  componentDidUpdate() {
+    console.log("didUpdate")
+    //    if (this.props.counts.classified < this.props.counts.total ) { this.props.refreshQuery() } 
   }
   
   tick(){
-    this.props.loadCounts(loggedInUser['auth_token'] )
+        
+    if (!loggedInUser || 'nobody' === loggedInUser || !('facebook_id' in loggedInUser)) {
+      return
+    } else {
+      //      if (this.props.counts && this.props.counts.classified < this.props.counts.total ) { this.props.refreshQuery() }
+      this.props.loadCounts(loggedInUser['auth_token'] )
+    }
   }
   
   
@@ -115,7 +135,7 @@ class FacebookWidget extends React.Component {
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     
-    if (!user || !('facebook_id' in user)) {
+    if (!user || 'nobody' === user || !('facebook_id' in user)) {
       return (
 	  <div style={{margin: '40px'}}>
 	  <RaisedButton
@@ -127,6 +147,8 @@ class FacebookWidget extends React.Component {
       )	
 
     } else {
+      // { if (this.props.counts.classified < this.props.counts.total ) { this.props.refreshQuery() } }
+
       return (
 	  <div>
 	  <TagsBar query={this.props['query']} deleteQueryTerm={this.props.deleteQueryTerm} addQueryTerm={this.props.addQueryTerm}/>
@@ -138,8 +160,7 @@ class FacebookWidget extends React.Component {
 	  <FacetsBar/>
 	  </div>
 	  <Images style={{float: 'right'}}/>
-
-	  </div>
+	</div>
       )
     }
   }
