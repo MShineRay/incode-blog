@@ -1,15 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadLoginUser, updateUser, loadPhotos, loadImageDetails } from '../actions'
+import { loadLoginUser, updateUser, loadPhotos, loadImageDetails, loadSimilarImages } from '../actions'
 // import { List } from  '../components/List'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-// import {GridList, GridTile} from 'material-ui/GridList';
-import {List, ListItem} from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+// import {GridList, GridTile} from 'material-ui/GridList'
+import {List, ListItem} from 'material-ui/List'
+import IconButton from 'material-ui/IconButton'
+import StarBorder from 'material-ui/svg-icons/toggle/star-border'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import JSONTree from 'react-json-tree'
 
 const styles = {
   root: {
@@ -23,7 +23,7 @@ const styles = {
     overflowY: 'auto',
     marginBottom: 24,
   },
-};
+}
 
 
 class ImageItem extends Component {
@@ -42,6 +42,7 @@ class ImageItem extends Component {
   handleLoadDetailsClick() {
     console.log("HANDLING LoadDetailsClick", this.props)
     this.props.loadImageDetails(this.props.photo.id, loggedInUser['auth_token'])
+    this.props.loadSimilarImages(this.props.photo.id, loggedInUser['auth_token'])
     this.setState({
       open: true,
     });
@@ -60,11 +61,19 @@ class ImageItem extends Component {
 
     const formattedDetails = (
 	<div style={{height: '800px', overflow: "scroll" }}>
+	<JSONTree data={this.props.imageDetails} />
+	<h3> Similar </h3>
+	<JSONTree data={this.props.imageSimilars} />
+	</div>
+    );
+    
+    const wasformattedDetails = (
+	<div style={{height: '800px', overflow: "scroll" }}>
 	<pre>
 	{ JSON.stringify(this.props.imageDetails, null, 4) }
       </pre>
 	</div>
-    )
+    );
     
     const detailsDiv = (
 
@@ -120,7 +129,8 @@ function mapStateToProps(state, ownProps) {
   } else {
     if (state.entities['photo_details'] && state.entities['photo_details'][ownProps.photo.id]) {
       const  details = state.entities['photo_details'][ownProps.photo.id]
-      var nextProps = Object.assign({}, ownProps, { imageDetails: details } )
+      const  similars = state.entities['photo_similars'][ownProps.photo.id]
+      var nextProps = Object.assign({}, ownProps, { imageDetails: details ,  imageSimilars: similars } )
       return nextProps
     }
   }
@@ -128,5 +138,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  loadImageDetails
+  loadImageDetails,
+  loadSimilarImages
 })(ImageItem)

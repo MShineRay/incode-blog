@@ -172,6 +172,18 @@ app.get('/api/image/:id', ensureAPIAuthenticated, function(req, res) {
   });
 });
 
+app.get('/api/image/:id/similar', ensureAPIAuthenticated, function(req, res) {
+
+  Image.findSimilar(req.param('id'), function(err, data) {
+    if (err) {
+      res.status(500).send("failed to get similar " + req.param('id'));
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({image_uuid: req.param('id'), similar: data }, null, 4));
+    }
+  });
+});
+
 app.delete('/api/users/:id',  ensureAPIAuthenticated, function(req, res) {
 
   if (req.authenticatedUser['user_uuid'] === parseInt(req.params.id), 10) {

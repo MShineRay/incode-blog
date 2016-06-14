@@ -75,6 +75,9 @@ const countsSchema = new Schema('counts', {
 const photoDetailsSchema = new Schema('photo_details', {
   idAttribute: 'imageUuid'
 })
+const photoSimilarsSchema = new Schema('photo_similars', {
+  idAttribute: 'imageUuid'
+})
 
 repoSchema.define({
   owner: userSchema
@@ -92,7 +95,9 @@ export const Schemas = {
   COUNTS: countsSchema,
   COUNTS_ARRAY: arrayOf(countsSchema),
   PHOTO_DETAILS: photoDetailsSchema,
-  PHOTO_DETAILS_ARRAY: arrayOf(photoDetailsSchema)
+  PHOTO_DETAILS_ARRAY: arrayOf(photoDetailsSchema),
+  PHOTO_SIMILARS: photoSimilarsSchema,
+  PHOTO_SIMILARS_ARRAY: arrayOf(photoSimilarsSchema)
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.

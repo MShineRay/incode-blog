@@ -81,6 +81,29 @@ export function loadImageDetails(imageID, authToken, requiredFields = []) {
 }
 
 
+export const IMAGE_SIMILARS_REQUEST = 'IMAGE_SIMILARS_REQUEST'
+export const IMAGE_SIMILARS_SUCCESS = 'IMAGE_SIMILARS_SUCCESS'
+export const IMAGE_SIMILARS_FAILURE = 'IMAGE_SIMILARS_FAILURE'
+
+function fetchSimilarImages(imageID, authToken) {
+
+  return {
+    [CALL_API]: {
+      types: [ IMAGE_SIMILARS_REQUEST, IMAGE_SIMILARS_SUCCESS, IMAGE_SIMILARS_FAILURE ],
+      endpoint: `api/image/${imageID}/similar?auth_token=${authToken}`,
+      schema: Schemas.PHOTO_SIMILARS
+    }
+  }
+}
+
+export function loadSimilarImages(imageID, authToken, requiredFields = []) {
+  // returns a function that takes a couple functions as arguments.
+  return (dispatch, getState) => {
+    return dispatch(fetchSimilarImages(imageID, authToken))
+  }
+}
+
+
 export function updateUser(user, requiredFields = []) {
   return (dispatch, getState) => {
 
