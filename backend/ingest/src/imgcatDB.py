@@ -139,12 +139,12 @@ class Image:
         return None
 
     def getFingerprint(self):
-        command = "puzzle-print -l 7 " + self.localThumbFilename()
-        output = subprocess.Popen(["puzzle-print", "-l", "7", self.localThumbFilename()], stdout=subprocess.PIPE).communicate()[0]
+        command = "puzzle-print -l 5 " + self.localThumbFilename()
+        output = subprocess.Popen(["puzzle-print", "-l", "5", self.localThumbFilename()], stdout=subprocess.PIPE).communicate()[0]
         output = output.strip()[1:-1]
         print "FINGERPRINT is [" + output + ']'
         self.data['fingerprint'] = output
-        self.persist
+        self.persist()
         possibleMatch = dataLayer.findPossibleDuplicate(self.data)
         print "our best match is: "
         print possibleMatch

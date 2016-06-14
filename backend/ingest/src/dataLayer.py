@@ -58,14 +58,14 @@ class ImageData:
 
     insert_fingerprint_SQL = "insert into fingerprint_word values (%s, %s, %s)"
 
-    find_similar_SQL = "select image_uuid, count(*) as count from fingerprint_word where owner_uuid = %s and fp_word in ( %s ) GROUP BY image_uuid order by count limit 5"
+    find_similar_SQL = "select image_uuid, count(*) as count from fingerprint_word where owner_uuid = %s and fp_word in ( %s ) GROUP BY image_uuid order by count desc limit 5"
     
     def __init__ (self, rowdict) :
         self.data = rowdict
 
     def recordFingerprint(self) :
         fingerprint = self.data['fingerprint']
-        fingerprintTokens = [ [ self.data['owner_uuid'], self.data['image_uuid'], str(i).zfill(3) + "_" + fingerprint[i:i+10] ] for i in range(0, (len(fingerprint) - 10)) ]
+        fingerprintTokens = [ [ self.data['owner_uuid'], self.data['image_uuid'], str(i).zfill(3) + "_" + fingerprint[i:i+6] ] for i in range(0, (len(fingerprint) - 6)) ]
         conn = db()
         cursor = conn.cursor()
         cursor.executemany(self.insert_fingerprint_SQL, fingerprintTokens)
@@ -73,7 +73,7 @@ class ImageData:
 
     def bestFingerprintMatch(self) :
         fingerprint = self.data['fingerprint']
-        fingerprintTokens = [  str(i).zfill(3) + "_" + fingerprint[i:i+10] for i in range(0, (len(fingerprint) - 10)) ]
+        fingerprintTokens = [  str(i).zfill(3) + "_" + fingerprint[i:i+6] for i in range(0, (len(fingerprint) - 6)) ]
         
         format_strings = ','.join(['%s'] * len(fingerprintTokens))
         
@@ -87,8 +87,9 @@ class ImageData:
     def persist(self):
         conn = db()
         cursor = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
-        # print self.data
+        print self.data
         cursor.execute(self.update_SQL, [ self.data['owner_uuid'], self.data['image_name'], self.data['mimetype'], self.data['upload_source_id'], self.data['source_locater'], self.data['load_status'], self.data['failure_reason'], self.data['original_path'], self.data['original_width'], self.data['original_height'], self.data['thumb_path'], self.data['thumb_width'], self.data['thumb_height'], self.data['fingerprint'], self.data['metadata'], self.data['image_uuid'] ])
+        logger.info("persisted") #  with fingerprint" + self.data['fingerprint'])
         sys.stdout.flush()
         conn.commit()
         
@@ -156,5 +157,9 @@ def recordFingerprintTokens(data) :
     ImageData(data).recordFingerprint()
 
 def findPossibleDuplicate(data) :
-    ImageData(data).bestFingerprintMatch()
+    return ImageData(data).bestFingerprintMatch()
 
+
+if __name__ == "__main__":
+    # execute only if run as a script
+    main()

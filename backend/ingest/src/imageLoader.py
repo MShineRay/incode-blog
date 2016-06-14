@@ -78,22 +78,26 @@ def monitorFeed(feed=LOADER_SQS_QUEUE, aws_region=AWS_REGION, apihost=APIHOST,  
             
             image_id = long(msgDict['id'])
             logger.info("loading image_id: " + msgDict['id'])
-            image = imgcatDB.getImage(image_id)
-            path = image.downloadToTmp()
-            logger.debug("got the image at: %s", path)
-            image.getEXIF()
-            
-            conn.send_message(alchemyQ, message.get_body());
-            conn.send_message(solrQ, message.get_body());
-                    
-            image.getFingerprint()
+            try:
+                image = imgcatDB.getImage(image_id)
+                path = image.downloadToTmp()
+                logger.debug("got the image at: %s", path)
+                image.getEXIF()
+                
+                conn.send_message(alchemyQ, message.get_body());
+                conn.send_message(solrQ, message.get_body());
+                
+                image.getFingerprint()
+                
+                postWatson(image, apihost, apiuser, apikey)
+                conn.send_message(solrQ, message.get_body());
 
-            postWatson(image, apihost, apiuser, apikey)
-            conn.send_message(solrQ, message.get_body());
-
-            image.cleanFiles()
+                image.cleanFiles()
             
-            logger.info("loading complete image_id: " + msgDict['id'])            
+                logger.info("loading complete image_id: " + msgDict['id'])
+            except:
+                logger.warn("unable to load ")
+                
             sys.stdout.flush()
             q.delete_message(message)
         else:
