@@ -36,10 +36,8 @@ function photos(state = { query: {}, docs: [] } , action) {
     var nextState = Object.assign({}, state, {counts: nums})
     return nextState
   } else if (type === ActionTypes.PHOTOS_SUCCESS) {
-    //    console.log(action.response.entities)
-    const { photos } = action.response.entities
-    //    console.log("Photos is :", photos)
 
+    const { photos } = action.response.entities
     const {  start } = photos.solr.params
     const {  docs, numFound } = photos.solr
     
@@ -51,19 +49,14 @@ function photos(state = { query: {}, docs: [] } , action) {
   } else if (type === "ADD_QUERY_TERM" ) {
     var nextState = Object.assign({}, state)
     var  { query } = nextState
-    //    console.log("reducer got add query term action, State is:", state)
-    // console.log ("query from nextState is", query)
-    // console.log("!!! action response", action.response)
     const { term }  = action.response
 
-    // console.log("TERM is:", term)
-
     for (const key in term) {
-      console.log("TERM HAS key", key)
+
       if (query.hasOwnProperty(key)) {
 	const val = term[key]
 	var words = query[key]
-	//	console.log("words is: " , words)
+
 	if (typeof words === 'string') {
 	  if (!words.equals(val)) {
 	    query[key] = [ words, val]
@@ -71,16 +64,14 @@ function photos(state = { query: {}, docs: [] } , action) {
 	} else if (typeof words === 'object' && Array.isArray(words) && words.indexOf(val) == -1) {
 	  query[key] = [...words, val] 
 	}
-	// query[key] = words.push(value)
+
       } else {
 	query[key] = [ term[key] ]
       }
     }
     
-    // console.log("Now query is", query)
     const queryChanged = true;
     nextState = Object.assign(nextState, { query, queryChanged })
-    // console.log("reducer finishe add query term action, nextState is:", nextState)
     
     return nextState
     
@@ -88,14 +79,12 @@ function photos(state = { query: {}, docs: [] } , action) {
     nextState = Object.assign({}, state, { queryChanged: true, docs: [], numFound: 0, start: 0 })
     return nextState
   }  else if (type === "DELETE_QUERY_TERM" ) {
-    // console.log("reducer got DELETE query term action")
     var nextState = Object.assign({}, state)
     var  { query } = nextState
     const termType = action.response[0]
     const termVal = action.response[1]
     if (query.hasOwnProperty(termType)) {
       var words = query[termType]
-      // console.log("words is: " , words)
       if (typeof words === 'string') {
 	if (words.equals(termVal)) {
 	  query[termType] = []
@@ -103,14 +92,11 @@ function photos(state = { query: {}, docs: [] } , action) {
       } else if (typeof words === 'object' && Array.isArray(words) && words.indexOf(termVal) > -1) {
 	var ix = words.indexOf(termVal)
 	var newArr = words.slice(0, ix).concat(words.slice(ix+1))
-	// console.log("DELETE_QUERY_TERM: newArr is:", newArr);
 	query[termType] =  newArr  // [...words, val] 
       }
-      // query[key] = words.push(value)
     }
     const queryChanged = true;
     nextState = Object.assign(nextState, { query, queryChanged })
-    // console.log("reducer finished DELETE_QUERY_TERM action, nextState is:", nextState)
     return nextState
   }
   return state
@@ -122,9 +108,6 @@ function queryTerms(state = { "query": { } }, action) {
 
   if (type === "ADD_QUERY_TERM" ) {
     var nextState = Object.assign({}, state)
-    
-    console.log("reducer got add query term action, State is:", state)
-    console.log("reducer got add query term action, nextState is:", nextState)
     if (nextState.hasOwnProperty('photos')) {
       console.log("have photos in state");
     } else {
