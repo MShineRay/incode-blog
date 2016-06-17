@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Register from './Register'
 import Images from './Images'
 import FacetsBar from './FacetsBar'
@@ -11,18 +9,11 @@ import TagsBar from './TagsBar'
 
 import { connect } from 'react-redux'
 import { loadLoginUser, updateUser, loadPhotos, loadCounts, deleteQueryTerm, addQueryTerm, refreshQuery } from '../actions'
-import User from '../components/User'
-
 
 function loadData(props) {
 
-  console.log('loadData props is: ', user)
-  console.log('loggedInUser is: ', loggedInUser)
-
   const { user } = props
-  console.log('user from props is: ', user)
-  
-  // FIXME; we don't want to run this if there's nothing new
+
   if ((loggedInUser['user_uuid']) && !(loggedInUser['user_uuid'] === user['user_uuid'])) {
     props.updateUser(loggedInUser)
   }
@@ -70,7 +61,6 @@ class FacebookWidget extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
-    console.log("FFF recieving nexpProps", nextProps)
     loadData(nextProps)
   }
 
@@ -79,25 +69,19 @@ class FacebookWidget extends React.Component {
     
     // componentDidMount is called by react when the component 
     // has been rendered on the page. We can set the interval here:
-    //if (loggedInUser && ('facebook_id' in user)) {
-    console.log("didMount");
+
     this.timer = setInterval(this.tick.bind(this), 5000);
-    //}
+
   }
   
   componentWillUnmount(){
     
     // This method is called immediately before the component is removed
     // from the page and destroyed. We can clear the interval here:
-    console.log("willUnmount")
+
     clearInterval(this.timer);
   }
 
-
-  componentDidUpdate() {
-    console.log("didUpdate")
-    //    if (this.props.counts.classified < this.props.counts.total ) { this.props.refreshQuery() } 
-  }
   
   tick(){
         
@@ -114,10 +98,6 @@ class FacebookWidget extends React.Component {
     // const { user } = this.props
     const user = loggedInUser;
     
-    // props.updateUser(loggedInUser)
-    console.log("FACEBOOK loggedInUser:", loggedInUser);
-
-
     window.fbAsyncInit = function() {
       FB.init({
 	appId      : '588463747978133',
@@ -184,8 +164,6 @@ function mapStateToProps(state, ownProps) {
     photos: { query, queryChanged, counts }
   } = state
 
-  console.log("mapping from", state)
-  
   return {
     user,
     query,
