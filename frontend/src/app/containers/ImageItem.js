@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadLoginUser, updateUser, loadPhotos, loadImageDetails, loadSimilarImages } from '../actions'
-// import { List } from  '../components/List'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-// import {GridList, GridTile} from 'material-ui/GridList'
-import {List, ListItem} from 'material-ui/List'
+import { loadImageDetails, loadSimilarImages } from '../actions'
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { ListItem } from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
 import StarBorder from 'material-ui/svg-icons/toggle/star-border'
 import Dialog from 'material-ui/Dialog'
@@ -19,7 +17,6 @@ const styles = {
   },
   gridList: {
     width: 700,
-    /* height: 1450, */
     overflowY: 'auto',
     marginBottom: 24,
   },
@@ -32,15 +29,16 @@ class ImageItem extends Component {
     super(props)
     this.handleLoadDetailsClick = this.handleLoadDetailsClick.bind(this)
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    
+
+    // if open, we're displaying details
     this.state = {
       open: false,
     };
 
   }
 
+  // fetch details & put 'em in a popover
   handleLoadDetailsClick() {
-    console.log("HANDLING LoadDetailsClick", this.props)
     this.props.loadImageDetails(this.props.photo.id, loggedInUser['auth_token'])
     this.props.loadSimilarImages(this.props.photo.id, loggedInUser['auth_token'])
     this.setState({
@@ -54,40 +52,56 @@ class ImageItem extends Component {
     });
   }
 
+  photoCard(photo) {
+    console.log("photocard for", photo.details)
+    if (photo.score > 4 && photo.score < 138) {
+      return (
+          <Card>
+	  <CardHeader>{"similarity: " + (photo.score / 138).toFixed(3) }</CardHeader>
+	  <CardMedia
+        overlay={<CardTitle title={photo.details.imageName} />}
+	  >
+	  <img src={photo.details.thumbPath} />
+	  </CardMedia>
+	  </Card>
+      );
+    } 
+
+  }
+
   render () {
     console.log("ImageItem:: render with props", this.props)
     
-    const { photo } = this.props
+    const { photo, imageSimilars } = this.props
 
-    const formattedDetails = (
-	<div style={{height: '800px', overflow: "scroll" }}>
-	<JSONTree data={this.props.imageDetails} />
-	<h3> Similar </h3>
-	<JSONTree data={this.props.imageSimilars} />
-	</div>
-    );
-    
-    const wasformattedDetails = (
-	<div style={{height: '800px', overflow: "scroll" }}>
-	<pre>
-	{ JSON.stringify(this.props.imageDetails, null, 4) }
-      </pre>
-	</div>
-    );
+    const formattedDetails = (() => {
+      if (imageSimilars) {
+        return (
+	    <div style={{height: '800px', overflow: "scroll" }}>
+	    <JSONTree data={this.props.imageDetails} />
+	    <h3> Similar </h3>
+            <div>{  imageSimilars.similar.map(this.photoCard) }</div>
+            </div>
+        )
+      } else {
+        return (
+            <div style={{height: '800px', overflow: "scroll" }}>
+	    <JSONTree data={this.props.imageDetails} />
+            </div>
+        )
+      }
+    })
     
     const detailsDiv = (
-
-	<div style={styles.container}>
+     	<div style={styles.container}>
 	<Dialog
       open={this.state.open}
       title="Details"
-      children={formattedDetails}
+      children={formattedDetails()}
       onRequestClose={this.handleRequestClose}
 	></Dialog>
         </div>
-
-
-    );
+    )
     
     return (
 	<ListItem
@@ -110,7 +124,7 @@ class ImageItem extends Component {
 	<CardText children={detailsDiv} />
 	</Card>
 	</ListItem>
-    );
+    )
   }
 }
 
@@ -122,20 +136,21 @@ ImageItem.propTypes = {
 
 // react-redux calls this when there's been some change of state we may be interested in
 function mapStateToProps(state, ownProps) {
-
+  console.log("New State", state)
   if (ownProps.imageDetails) {
-    //	console.log("have details already")
     return ownProps
   } else {
     if (state.entities['photo_details'] && state.entities['photo_details'][ownProps.photo.id]) {
       const  details = state.entities['photo_details'][ownProps.photo.id]
-      const  similars = state.entities['photo_similars'][ownProps.photo.id]
+      const  similars =  (state.entities['photo_similars'] || {})[ownProps.photo.id] || { similar:[] }
       var nextProps = Object.assign({}, ownProps, { imageDetails: details ,  imageSimilars: similars } )
+      console.log("nextProps is:", nextProps)
       return nextProps
     }
   }
   return ownProps // Object.assign({}, ownProps, state.photos)
 }
+
 
 export default connect(mapStateToProps, {
   loadImageDetails,
