@@ -30,7 +30,7 @@ const Home: React.FC<{ posts: Post[] }> = props => {
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <h1>Blog</h1>
       <ul>
