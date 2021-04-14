@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Layout from '../components/Layout/Layout'
 import styles from './../styles/Home.module.scss'
 
 const { BLOG_URL, CONTENT_API_KEY } = process.env
@@ -17,7 +17,7 @@ async function getPosts() {
 }
 
 export const getStaticProps = async ({ params }) => {
-  const posts = await getPosts()
+  const posts = (await getPosts()) || []
   return {
     props: { posts },
     revalidate: 10000,
@@ -27,23 +27,21 @@ export const getStaticProps = async ({ params }) => {
 const Home: React.FC<{ posts: Post[] }> = props => {
   const { posts } = props
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.png" />
-      </Head>
-      <h1>Blog</h1>
-      <ul>
-        {posts.map(post => {
-          return (
-            <li key={post.slug}>
-              <h3>{post.title}</h3>
-              <p>{post.custom_excerpt}</p>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+    <Layout pageTitle="Incode Blog" description="this is an Incode blog landing page">
+      <div className={styles.container}>
+        <h1>Blog</h1>
+        <ul>
+          {posts.map(post => {
+            return (
+              <li key={post.slug}>
+                <h3>{post.title}</h3>
+                <p>{post.custom_excerpt}</p>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </Layout>
   )
 }
 
