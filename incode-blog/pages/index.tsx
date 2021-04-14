@@ -1,8 +1,7 @@
-import {GetStaticProps} from 'next'
+import { GetStaticProps } from 'next'
+import { getPosts } from '~/api/api'
 import Layout from '~/components/Layout/Layout'
 import styles from '~/styles/Home.module.scss'
-
-const { BLOG_URL, CONTENT_API_KEY } = process.env
 
 type Post = {
   title: string
@@ -10,25 +9,13 @@ type Post = {
   custom_excerpt: string
 }
 
-async function getPosts() {
-  const res = await fetch(
-    `${BLOG_URL}/ghost/api/v3/content/posts/?key=${CONTENT_API_KEY}&fields=title,slug,custom_excerpt`,
-  ).then(res => res.json())
-  return res.posts
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = (await getPosts()) || []
-  return {
-    props: { posts },
-    revalidate: 10000,
-  }
-}
-
 const Home: React.FC<{ posts: Post[] }> = props => {
   const { posts } = props
   return (
-    <Layout pageTitle="Incode Blog" description="this is an Incode blog landing page">
+    <Layout
+      pageTitle="Incode Blog"
+      description="this is an Incode blog landing page"
+    >
       <div className={styles.container}>
         <h1>Blog</h1>
         <ul>
@@ -47,3 +34,11 @@ const Home: React.FC<{ posts: Post[] }> = props => {
 }
 
 export default Home
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = (await getPosts()) || []
+  return {
+    props: { posts },
+    revalidate: 10000,
+  }
+}
