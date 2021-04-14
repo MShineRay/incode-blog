@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import Meta from './../Meta/Meta'
+import Meta from '~/components/Meta/Meta'
 
 type LayoutProps = {
   children: React.ReactNode

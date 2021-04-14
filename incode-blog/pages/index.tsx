@@ -1,5 +1,6 @@
-import Layout from '../components/Layout/Layout'
-import styles from './../styles/Home.module.scss'
+import {GetStaticProps} from 'next'
+import Layout from '~/components/Layout/Layout'
+import styles from '~/styles/Home.module.scss'
 
 const { BLOG_URL, CONTENT_API_KEY } = process.env
 
@@ -16,7 +17,7 @@ async function getPosts() {
   return res.posts
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async () => {
   const posts = (await getPosts()) || []
   return {
     props: { posts },
