@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
 import { getPosts } from '~/api/api'
 import Layout from '~/components/Layout/Layout'
 import styles from '~/styles/Home.module.scss'
@@ -22,8 +23,12 @@ const Home: React.FC<{ posts: Post[] }> = props => {
           {posts.map(post => {
             return (
               <li key={post.slug}>
-                <h3>{post.title}</h3>
-                <p>{post.custom_excerpt}</p>
+                <Link href="post/[slug]" as={`/post/${post.slug}`}>
+                  <a>
+                    <h3>{post.title}</h3>
+                    <p>{post.custom_excerpt}</p>
+                  </a>
+                </Link>
               </li>
             )
           })}

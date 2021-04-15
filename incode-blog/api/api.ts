@@ -19,3 +19,11 @@ export async function getPosts() {
       console.error(err)
     })
 }
+
+export async function getSinglePost(postSlug: String) {
+  return await api.posts
+    .read({ slug: postSlug }, { include: ['tags'] })
+    .catch(err => {
+      console.error(err)
+    })
+}
