@@ -20,7 +20,7 @@ export async function getPosts() {
     })
 }
 
-export async function getSinglePost(postSlug: String) {
+export async function getSinglePost(postSlug: string) {
   return await api.posts
     .read({ slug: postSlug }, { include: ['tags'] })
     .catch(err => {

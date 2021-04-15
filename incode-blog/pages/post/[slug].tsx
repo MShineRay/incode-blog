@@ -1,18 +1,22 @@
 import Link from 'next/link'
 import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
-import { GetStaticPaths } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost } from '~/api/api'
 import Layout from '~/components/Layout/Layout'
+import PostDate from '~/components/PostDate/PostDate'
 import styles from '~/styles/Home.module.scss'
 
 type Post = {
   title: string
+  meta_title: string
+  meta_description: string
+  published_at: string
   html: string
   slug: string
   excerpt: string
   og_image: string
-  custom_excerpt: string
+  tags: any
 }
 
 const Post: React.FC<{ post: Post }> = props => {
@@ -23,9 +27,10 @@ const Post: React.FC<{ post: Post }> = props => {
   }
   return (
     <Layout
-      pageTitle={post.title}
-      description={post.custom_excerpt || post.excerpt}
+      pageTitle={post.meta_title || post.title}
+      description={post.meta_description || post.excerpt}
       ogImage={post.og_image}
+      currentURL={`/post/${encodeURIComponent(post.slug)}`}
     >
       <div className={styles.container}>
         {router.isFallback ? (
@@ -38,7 +43,11 @@ const Post: React.FC<{ post: Post }> = props => {
               </Link>
             </p>
             <h1>{post.title}</h1>
-            <div dangerouslySetInnerHTML={{ __html: post.html }} />
+            <PostDate dateString={post.published_at}/>
+            {post?.tags.map(tag => (
+              <span key={tag.id}>{tag.name}</span>
+            ))}
+            <div dangerouslySetInnerHTML={{ __html: post.html }} ></div>
           </>
         )}
       </div>
@@ -48,8 +57,8 @@ const Post: React.FC<{ post: Post }> = props => {
 
 export default Post
 
-export const getStaticProps = async ({ params }) => {
-  const post = await getSinglePost(params.slug)
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const post = await getSinglePost(params.slug as string)
   return {
     props: { post },
     revalidate: 10000,
