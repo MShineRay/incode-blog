@@ -1,17 +1,15 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { getPosts } from '~/api/api'
+import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
 import styles from '~/styles/Home.module.scss'
 
-type Post = {
-  title: string
-  slug: string
-  custom_excerpt: string
+type HomeProps = {
+  posts: PostType[]
 }
 
-const Home: React.FC<{ posts: Post[] }> = props => {
-  const { posts } = props
+const Home: React.FC<HomeProps> = ({ posts }) => {
   return (
     <Layout
       pageTitle="Incode Blog"

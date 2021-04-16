@@ -3,24 +3,15 @@ import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost } from '~/api/api'
+import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
 import PostDate from '~/components/PostDate/PostDate'
 import styles from '~/styles/Home.module.scss'
 
-type Post = {
-  title: string
-  meta_title: string
-  meta_description: string
-  published_at: string
-  html: string
-  slug: string
-  excerpt: string
-  og_image: string
-  tags: any
+type PostProps = {
+  post: PostType
 }
-
-const Post: React.FC<{ post: Post }> = props => {
-  const { post } = props
+const Post: React.FC<PostProps> = ({ post }) => {
   const router = useRouter()
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />
@@ -43,11 +34,11 @@ const Post: React.FC<{ post: Post }> = props => {
               </Link>
             </p>
             <h1>{post.title}</h1>
-            <PostDate dateString={post.published_at}/>
+            <PostDate dateString={post.published_at} />
             {post?.tags.map(tag => (
               <span key={tag.id}>{tag.name}</span>
             ))}
-            <div dangerouslySetInnerHTML={{ __html: post.html }} ></div>
+            <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
           </>
         )}
       </div>
