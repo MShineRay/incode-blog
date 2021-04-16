@@ -12,7 +12,7 @@ const Meta: React.FC<MetaProps> = ({
   description = 'Test Description',
   currentURL,
   ogImage,
-}) => (
+}: MetaProps) => (
   <Head>
     <meta
       name="viewport"
