@@ -4,7 +4,7 @@ import '~/styles/globals.scss'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence exitBeforeEnter initial={false}>
       <Component {...pageProps} />
     </AnimatePresence>
   )
