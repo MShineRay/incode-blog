@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({
   description,
   currentURL,
   ogImage,
-}) => (
+}: LayoutProps) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}

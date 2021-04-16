@@ -4,7 +4,7 @@ type PostDateProps = {
   dateString: string
 }
 
-const PostDate: React.FC<PostDateProps> = ({ dateString }) => {
+const PostDate: React.FC<PostDateProps> = ({ dateString }: PostDateProps) => {
   const date = parseISO(dateString)
   return <time dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>
 }

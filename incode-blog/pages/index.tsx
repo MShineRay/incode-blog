@@ -9,7 +9,7 @@ type HomeProps = {
   posts: PostType[]
 }
 
-const Home: React.FC<HomeProps> = ({ posts }) => {
+const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
   return (
     <Layout
       pageTitle="Incode Blog"

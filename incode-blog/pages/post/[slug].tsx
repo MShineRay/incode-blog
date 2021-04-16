@@ -11,7 +11,7 @@ import styles from '~/styles/Home.module.scss'
 type PostProps = {
   post: PostType
 }
-const Post: React.FC<PostProps> = ({ post }) => {
+const Post: React.FC<PostProps> = ({ post }: PostProps) => {
   const router = useRouter()
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />
