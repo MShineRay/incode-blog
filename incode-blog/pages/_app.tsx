@@ -1,9 +1,10 @@
+import { AppProps } from 'next/app'
 import { AnimatePresence } from 'framer-motion'
 import '~/styles/globals.scss'
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence exitBeforeEnter initial={false}>
       <Component {...pageProps} />
     </AnimatePresence>
   )
