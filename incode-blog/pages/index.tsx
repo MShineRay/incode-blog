@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { getPosts } from '~/api/api'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
+import PostImage from '~/components/PostImage/PostImage'
+import PostDate from '~/components/PostDate/PostDate'
 import styles from '~/styles/Home.module.scss'
 
 type HomeProps = {
@@ -21,10 +23,25 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
           {posts.map(post => {
             return (
               <li key={post.slug}>
-                <Link href="post/[slug]" as={`/post/${post.slug}`}>
+                <Link
+                  href="post/[slug]"
+                  as={`/post/${encodeURIComponent(post.slug)}`}
+                >
                   <a>
-                    <h3>{post.title}</h3>
+                    {post.feature_image && (
+                      <PostImage
+                        imageSrc={post.feature_image}
+                        title={post.title}
+                      />
+                    )}
+                    <h3>{post?.primary_tag?.name || 'Incode News'}</h3>
+                    <h2>{post.title}</h2>
                     <p>{post.custom_excerpt}</p>
+                    <p>
+                      {post?.primary_author?.name}
+                      <PostDate dateString={post.published_at} />
+                    </p>
+                    <hr />
                   </a>
                 </Link>
               </li>

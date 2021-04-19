@@ -11,3 +11,16 @@ $indigo: #2f2d51;
 $darkIndigo: #20263d;
 $gray: #636670;
 $black: #000;
+
+// Convert color to RGBA
+//
+// @param {color} $color - color to convert
+// @param {number} $alpha - opacity: 0 to 1
+@function to-rgba($color, $alpha: null) {
+    $red: round(red($color));
+    $green: round(green($color));
+    $blue: round(blue($color));
+    $alpha: if($alpha, $alpha, alpha($color));
+  
+    @return unquote('rgba(#{$red}, #{$green}, #{$blue}, #{$alpha})');
+  }
