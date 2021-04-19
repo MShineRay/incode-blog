@@ -10,7 +10,7 @@ type PostImageProps = {
 }
 
 // https://github.com/vercel/next.js/issues/21079
-// const PostImage: React.FC<PostImageProps> = ({ imageSrc }: PostImageProps) => (
+// const PostImage: React.FC<PostImageProps> = ({ imageSrc, title }: PostImageProps) => (
 //   <Image loader={myLoader} src={imageSrc} alt={`featured image for ${title}`} height={200} width={320} />
 // )
 
