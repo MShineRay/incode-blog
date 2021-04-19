@@ -5,6 +5,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost } from '~/api/api'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
+import PostImage from '~/components/PostImage/PostImage'
 import PostDate from '~/components/PostDate/PostDate'
 import styles from '~/styles/Home.module.scss'
 
@@ -34,7 +35,13 @@ const Post: React.FC<PostProps> = ({ post }: PostProps) => {
               </Link>
             </p>
             <h1>{post.title}</h1>
-            <PostDate dateString={post.published_at} />
+            {post.feature_image && (
+              <PostImage imageSrc={post.feature_image} title={post.title} />
+            )}
+            <p>
+              By {post.primary_author.name} on{' '}
+              <PostDate dateString={post.published_at} />
+            </p>
             {post?.tags.map(tag => (
               <span key={tag.id}>{tag.name}</span>
             ))}
