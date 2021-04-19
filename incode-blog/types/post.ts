@@ -6,6 +6,10 @@ interface PostType {
   meta_title: string
   meta_description: string
   published_at: string
+  featured: boolean
+  feature_image: string
+  primary_tag: TagType
+  primary_author: AuthorType
   html: string
   slug: string
   excerpt: string

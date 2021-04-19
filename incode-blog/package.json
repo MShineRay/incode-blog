@@ -7,7 +7,7 @@
     "build": "next build",
     "lint": "eslint ./components/** ./pages/** ./types/** ./api/** -c .eslintrc.json --fix --ext ts,tsx && prettier --check \"pages\" \"components/**/*.tsx\"",
     "start": "next start",
-    "export": "yarn build && next export",
+    "export": "next build && next export",
     "serve": "serve out"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "date-fns": "^2.21.1",
     "framer-motion": "^4.1.3",
     "next": "10.1.3",
+    "next-compose-plugins": "^2.2.1",
     "next-images": "^1.7.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -25,6 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^10.1.0",
+    "classnames": "^2.3.1",
     "eslint": "^7.24.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-prettier": "^3.4.0",
