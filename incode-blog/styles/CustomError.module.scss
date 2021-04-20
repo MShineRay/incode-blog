@@ -1,0 +1,60 @@
+@import 'config';
+
+.incd_custom_404 {
+  min-height: 100vh;
+  background-color: $indigo;
+  display: grid;
+  place-items: center;
+  &_content {
+    text-align: center;
+    @include font-smoothing;
+    h1 {
+      color: $off-white;
+    }
+    p {
+      color: $yellow;
+      font: 900 12.5rem $CircularStd-Black;
+      font-size: 12.5rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    button {
+      @include remove-button-style;
+      font-family: $CircularStd-Medium;
+      text-align: center;
+      color: $white;
+      background-color: $blue;
+      @include font-smoothing;
+      @include transition(all, 0.2s, ease-out);
+      @include rounded(40px);
+      font-size: 17px;
+      padding: 14px 25px;
+      min-width: 150px;
+      &:hover {
+        transform: scale(1.05, 1.05);
+      }
+    }
+    img {
+      display: inherit;
+      margin: 5vh auto;
+      max-width: 80vw;
+    }
+  }
+}
+
+@include responsive('mobile') {
+  .incd_custom_404 {
+    &_content {
+      h1 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 8rem;
+      }
+      button {
+        font-size: 1.3rem;
+        padding: 12px 22px;
+      }
+    }
+  }
+}

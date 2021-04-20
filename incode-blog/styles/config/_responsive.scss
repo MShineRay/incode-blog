@@ -1,0 +1,92 @@
+// Responsive breakpoints
+$breakpoints: (
+  'phone': (
+    max-width: 767px,
+  ),
+  'tablet': (
+    min-width: 768px,
+    max-width: 1199px,
+  ),
+  'mobile': (
+    max-width: 1199px,
+  ),
+  'desktop': (
+    min-width: 1200px,
+  ),
+) !default;
+
+// Mixin to manage responsive breakpoints
+//
+// @param {string} $breakpoint - Breakpoint name
+
+@mixin responsive($screen-sizes...) {
+  $breakpoints: if(
+    $breakpoints,
+    $breakpoints,
+    (
+      'phone': (
+        min-width: 320px,
+        max-width: 767px,
+      ),
+      'tablet': (
+        min-width: 768px,
+        max-width: 1279px,
+      ),
+      'mobile': (
+        min-width: 320px,
+        max-width: 1279px,
+      ),
+      'desktop': (
+        min-width: 1280px,
+      ),
+    )
+  );
+
+  $keys: map-keys($breakpoints);
+
+  @if $screen-sizes == null or length($screen-sizes) == 0 {
+    // @debug "Please provide at least one of the available breakpoints: #{$keys}";
+    @error 'Please provide at least one of the available breakpoints: #{$keys}';
+  }
+
+  @each $size in $screen-sizes {
+    $bounds: map-get($breakpoints, $size);
+
+    // if the key doesn't exist in the map
+    @if not $bounds {
+      @error 'Unfortunately, no value could be retrieved for `#{$size}`. '
+      + 'Available breakpoints are: `#{$keys}`.';
+    }
+
+    $condition: null;
+    $min: null;
+    $max: null;
+
+    @if map-has-key($bounds, min-width) {
+      $min: (
+        min-width: map-get($bounds, min-width),
+      );
+    }
+
+    @if map-has-key($bounds, max-width) {
+      $max: (
+        max-width: map-get($bounds, max-width),
+      );
+    }
+
+    @if $min and not $max {
+      $condition: #{inspect($min)};
+    } @else if not $min and $max {
+      $condition: #{inspect($max)};
+    } @else if $min and $max {
+      $condition: #{inspect($min)} unquote('and') #{inspect($max)};
+    } @else {
+      @warn 'No min-width or max-width defined.';
+    }
+
+    // Prints a media query based on the value
+    @media #{inspect($condition)} {
+      @content;
+    }
+  }
+}

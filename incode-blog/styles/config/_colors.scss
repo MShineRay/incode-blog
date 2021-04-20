@@ -17,10 +17,10 @@ $black: #000;
 // @param {color} $color - color to convert
 // @param {number} $alpha - opacity: 0 to 1
 @function to-rgba($color, $alpha: null) {
-    $red: round(red($color));
-    $green: round(green($color));
-    $blue: round(blue($color));
-    $alpha: if($alpha, $alpha, alpha($color));
-  
-    @return unquote('rgba(#{$red}, #{$green}, #{$blue}, #{$alpha})');
-  }
+  $red: round(red($color));
+  $green: round(green($color));
+  $blue: round(blue($color));
+  $alpha: if($alpha, $alpha, alpha($color));
+
+  @return unquote('rgba(#{$red}, #{$green}, #{$blue}, #{$alpha})');
+}
