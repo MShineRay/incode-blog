@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'mixins';
 @import 'typography';
+@import 'responsive';
 
 .incd_custom_404 {
   min-height: 100vh;
@@ -38,8 +39,25 @@
     }
     img {
       display: inherit;
-      margin-top: 5vh;
+      margin: 5vh auto;
       max-width: 80vw;
+    }
+  }
+}
+
+@include responsive('mobile') {
+  .incd_custom_404 {
+    &_content {
+      h1 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 8rem;
+      }
+      button {
+        font-size: 1.3rem;
+        padding: 12px 22px;
+      }
     }
   }
 }
