@@ -5,6 +5,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost } from '~/api/api'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
+import Loading from '~/components/Loading/Loading'
 import PostImage from '~/components/PostImage/PostImage'
 import PostDate from '~/components/PostDate/PostDate'
 import styles from '~/styles/Home.module.scss'
@@ -26,7 +27,7 @@ const Post: React.FC<PostProps> = ({ post }: PostProps) => {
     >
       <div className={styles.container}>
         {router.isFallback ? (
-          <h1>Loading...</h1>
+          <Loading />
         ) : (
           <>
             <p className={styles.goback}>
