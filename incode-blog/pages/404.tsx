@@ -6,7 +6,7 @@ const Custom404 = () => {
     <Layout pageTitle="Incode - 404">
       <div className={styles.incd_custom_404}>
         <div className={styles.incd_custom_404_content}>
-          <h1 className={styles.title}>Oops, page not found</h1>
+          <h1>Oops, page not found</h1>
           <p>404</p>
           <Link href="/" passHref>
             <a>
