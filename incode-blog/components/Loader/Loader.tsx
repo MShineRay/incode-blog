@@ -43,7 +43,7 @@ const loadingCircleTransition = {
   ease: 'easeInOut',
 }
 
-const Loading: React.FC = () => {
+const Loader = () => {
   return (
     <motion.div
       style={loadingContainer}
@@ -70,4 +70,4 @@ const Loading: React.FC = () => {
   )
 }
 
-export default Loading
+export default Loader
