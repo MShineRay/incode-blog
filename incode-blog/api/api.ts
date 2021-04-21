@@ -4,7 +4,6 @@ import PostType from '~/types/post'
 const url = process.env['BLOG_URL'] || ''
 const key = process.env['CONTENT_API_KEY'] || ''
 
-
 const api = new GhostContentAPI({
   url,
   key,
@@ -25,4 +24,13 @@ export async function getSinglePost(postSlug: string): Promise<PostType> {
     { include: ['tags', 'authors'] },
   )
   return post
+}
+
+export async function getPostsByTag(tagSlug: string): Promise<PostType[]> {
+  const posts = await api.posts.browse({
+    include: ['tags', 'authors'],
+    limit: 'all',
+    filter: `tags.slug:${tagSlug}`,
+  })
+  return posts
 }
