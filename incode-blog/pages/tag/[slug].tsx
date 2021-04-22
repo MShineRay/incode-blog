@@ -2,29 +2,28 @@ import Link from 'next/link'
 import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getPosts, getSinglePost, getPostsByTag } from '~/api/api'
+import { getTags, getSingleTag, getPostsByTag } from '~/api/api'
+import TagType from '~/types/tag'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
 import Loader from '~/components/Loader/Loader'
 import PostImage from '~/components/PostImage/PostImage'
-import PostDate from '~/components/PostDate/PostDate'
 import styles from '~/styles/Home.module.scss'
 
-type PostProps = {
-  post: PostType
+type TagProps = {
+  tag: TagType
   relatedPosts: PostType[]
 }
-const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
+const Tag: React.FC<TagProps> = ({ tag, relatedPosts }: TagProps) => {
   const router = useRouter()
-  if (!router.isFallback && !post?.slug) {
+  if (!router.isFallback && !tag?.slug) {
     return <ErrorPage statusCode={404} />
   }
   return (
     <Layout
-      pageTitle={post.meta_title || post.title}
-      description={post.meta_description || post.excerpt}
-      ogImage={post.og_image}
-      currentURL={`/post/${encodeURIComponent(post.slug)}`}
+      pageTitle={tag.meta_title || tag.name}
+      description={tag.meta_description || tag.description}
+      currentURL={`/tag/${encodeURIComponent(tag.slug)}`}
     >
       <div className={styles.container}>
         {router.isFallback ? (
@@ -32,36 +31,17 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
         ) : (
           <>
             <p className={styles.goback}>
-              <Link href="/">
-                <a href="/">Go Back</a>
+              <Link href="/" passHref>
+                <a>Go Back</a>
               </Link>
             </p>
-            <h1>{post.title}</h1>
-            {post.feature_image && (
-              <PostImage imageSrc={post.feature_image} title={post.title} />
-            )}
-            <p>
-              By {post.primary_author.name} on{' '}
-              <PostDate dateString={post.published_at} />
-            </p>
-            {post?.tags.map(tag => (
-              <Link
-                key={tag.id}
-                href="../tag/[slug]"
-                as={`../tag/${encodeURIComponent(tag.slug)}`}
-                passHref
-              >
-                <a>
-                  <span>{tag.name}</span>
-                </a>
-              </Link>
-            ))}
-            <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+            <h1>{tag.name}</h1>
+            <p>Posts under this category: {tag.count.posts}</p>
           </>
         )}
         {relatedPosts.length !== 0 && (
           <>
-            <h2>Related posts</h2>
+            <h2>Posts under {tag.name.toLowerCase()} category</h2>
             <div className={styles.related_posts_container}>
               <div className={styles.post_row}>
                 {relatedPosts.map(relatedPost => (
@@ -75,7 +55,8 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                           imageSrc={relatedPost.feature_image}
                           title={relatedPost.title}
                         />
-                        <p>{relatedPost.title}</p>
+                        <h3>{relatedPost.title}</h3>
+                        <p>{relatedPost.excerpt}</p>
                       </a>
                     </Link>
                   </div>
@@ -89,26 +70,25 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
   )
 }
 
-export default Post
+export default Tag
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const post = await getSinglePost(params.slug as string)
-  const tagSlug = post?.primary_tag?.slug
-  const allRelatedPosts = (tagSlug && (await getPostsByTag(tagSlug))) || []
-  const relatedPosts = allRelatedPosts.filter(item => item.slug !== post.slug)
+  const tag = await getSingleTag(params.slug as string)
+  const tagSlug = tag.slug
+  const relatedPosts = (tagSlug && (await getPostsByTag(tagSlug))) || []
   return {
-    props: { post, relatedPosts },
+    props: { tag, relatedPosts },
     revalidate: 10000,
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = (await getPosts()) || []
+  const tags = (await getTags()) || []
   return {
-    paths: posts.map(post => {
+    paths: tags.map(tag => {
       return {
         params: {
-          slug: post.slug,
+          slug: tag.slug,
         },
       }
     }),
