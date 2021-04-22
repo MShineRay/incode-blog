@@ -6,6 +6,9 @@ interface TagType {
   feature_image: string
   meta_title: string
   meta_description: string
+  count: {
+    posts: number
+  }
 }
 
 export default TagType
