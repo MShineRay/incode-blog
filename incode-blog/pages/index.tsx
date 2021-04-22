@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { getPosts } from '~/api/api'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout/Layout'
+import Container from '~/components/Container/Container'
 import PostImage from '~/components/PostImage/PostImage'
 import PostDate from '~/components/PostDate/PostDate'
-import styles from '~/styles/Home.module.scss'
 
 type HomeProps = {
   posts: PostType[]
@@ -17,7 +17,7 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
       pageTitle="Incode Blog"
       description="this is an Incode blog landing page"
     >
-      <div className={styles.container}>
+      <Container>
         <h1>Blog</h1>
         <ul>
           {posts.map(post => {
@@ -48,7 +48,7 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
             )
           })}
         </ul>
-      </div>
+      </Container>
     </Layout>
   )
 }

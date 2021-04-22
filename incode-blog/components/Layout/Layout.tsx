@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import Meta from '~/components/Meta/Meta'
+import Header from '~/components/Header/Header'
+import CTASection from '~/components/CTASection/CTASection'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -33,9 +35,9 @@ const Layout: React.FC<LayoutProps> = ({
       currentURL={currentURL}
       ogImage={ogImage}
     />
-    <div className="incd-site-container">
-      <div className="content">{children}</div>
-    </div>
+    <Header />
+    <div className="content">{children}</div>
+    <CTASection />
   </motion.div>
 )
 

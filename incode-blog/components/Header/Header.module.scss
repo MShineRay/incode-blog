@@ -1,0 +1,21 @@
+@import '~/styles/config';
+
+.header {
+  flex: 1;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $off-white;
+  position: sticky;
+  top: 0;
+  width: 100vw;
+  padding: 0.7rem 10vw;
+  z-index: 100;
+  box-shadow: 0 2px 4px 0 to-rgba($black, 0.04);
+  .logo {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

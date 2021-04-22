@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost, getPostsByTag } from '~/api/api'
 import PostType from '~/types/post'
+import Custom404 from '~/pages/404'
 import Layout from '~/components/Layout/Layout'
+import Container from '~/components/Container/Container'
 import Loader from '~/components/Loader/Loader'
 import PostImage from '~/components/PostImage/PostImage'
 import PostDate from '~/components/PostDate/PostDate'
@@ -17,7 +18,7 @@ type PostProps = {
 const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
   const router = useRouter()
   if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />
+    return <Custom404 />
   }
   return (
     <Layout
@@ -26,7 +27,7 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
       ogImage={post.og_image}
       currentURL={`/post/${encodeURIComponent(post.slug)}`}
     >
-      <div className={styles.container}>
+      <Container>
         {router.isFallback ? (
           <Loader />
         ) : (
@@ -36,27 +37,29 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                 <a href="/">Go Back</a>
               </Link>
             </p>
-            <h1>{post.title}</h1>
-            {post.feature_image && (
-              <PostImage imageSrc={post.feature_image} title={post.title} />
-            )}
-            <p>
-              By {post.primary_author.name} on{' '}
-              <PostDate dateString={post.published_at} />
-            </p>
-            {post?.tags.map(tag => (
-              <Link
-                key={tag.id}
-                href="../tag/[slug]"
-                as={`../tag/${encodeURIComponent(tag.slug)}`}
-                passHref
-              >
-                <a>
-                  <span>{tag.name}</span>
-                </a>
-              </Link>
-            ))}
-            <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+            <article>
+              <h1>{post.title}</h1>
+              {post.feature_image && (
+                <PostImage imageSrc={post.feature_image} title={post.title} />
+              )}
+              <p>
+                By {post.primary_author.name} on{' '}
+                <PostDate dateString={post.published_at} />
+              </p>
+              {post?.tags.map(tag => (
+                <Link
+                  key={tag.id}
+                  href="../tag/[slug]"
+                  as={`../tag/${encodeURIComponent(tag.slug)}`}
+                  passHref
+                >
+                  <a>
+                    <span>{tag.name} </span>
+                  </a>
+                </Link>
+              ))}
+              <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+            </article>
           </>
         )}
         {relatedPosts.length !== 0 && (
@@ -84,7 +87,7 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
             </div>
           </>
         )}
-      </div>
+      </Container>
     </Layout>
   )
 }
