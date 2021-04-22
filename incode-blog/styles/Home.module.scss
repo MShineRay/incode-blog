@@ -1,13 +1,5 @@
-.container {
-  min-height: 100vh;
-  padding: 0 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 1140px;
-  margin: 0 auto;
-}
+@import 'config';
+
 .goback {
   text-align: left;
   align-self: self-start;

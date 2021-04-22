@@ -1,5 +1,6 @@
 import GhostContentAPI from '@tryghost/content-api'
 import PostType from '~/types/post'
+import TagType from '~/types/tag'
 
 const url = process.env['BLOG_URL'] || ''
 const key = process.env['CONTENT_API_KEY'] || ''
@@ -33,4 +34,19 @@ export async function getPostsByTag(tagSlug: string): Promise<PostType[]> {
     filter: `tags.slug:${tagSlug}`,
   })
   return posts
+}
+
+export async function getTags(): Promise<TagType[]> {
+  const tags = await api.tags.browse({
+    limit: 'all',
+  })
+  return tags
+}
+
+export async function getSingleTag(tagSlug: string): Promise<TagType> {
+  const tag = await api.tags.read(
+    { slug: tagSlug },
+    { include: 'count.posts' },
+  )
+  return tag
 }
