@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import Meta from '~/components/Meta'
 import Header from '~/components/Header'
 import CTASection from '~/components/CTASection/CTASection'
+import CookieBanner from '~/components/CookieBanner'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -38,6 +39,7 @@ const Layout: React.FC<LayoutProps> = ({
     <Header />
     <main className="content">{children}</main>
     <CTASection />
+    <CookieBanner />
   </motion.div>
 )
 
