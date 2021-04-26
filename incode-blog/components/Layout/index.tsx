@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
-import Meta from '~/components/Meta/Meta'
-import Header from '~/components/Header/Header'
+import Meta from '~/components/Meta'
+import Header from '~/components/Header'
 import CTASection from '~/components/CTASection/CTASection'
 
 type LayoutProps = {
@@ -36,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({
       ogImage={ogImage}
     />
     <Header />
-    <div className="content">{children}</div>
+    <main className="content">{children}</main>
     <CTASection />
   </motion.div>
 )
