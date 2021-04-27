@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
-import Meta from '~/components/Meta/Meta'
-import Header from '~/components/Header/Header'
+import Meta from '~/components/Meta'
+import Header from '~/components/Header'
 import CTASection from '~/components/CTASection/CTASection'
+import CookieBanner from '~/components/CookieBanner'
+import Footer from '~/components/Footer'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -36,8 +38,10 @@ const Layout: React.FC<LayoutProps> = ({
       ogImage={ogImage}
     />
     <Header />
-    <div className="content">{children}</div>
+    <main className="content">{children}</main>
     <CTASection />
+    <CookieBanner />
+    <Footer />
   </motion.div>
 )
 

@@ -1,0 +1,81 @@
+@import '~/styles/config';
+
+.cookie_banner_container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: to-rgba($indigo, 1);
+  color: $white;
+  padding: 1rem 10vw;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  animation: slide-up-fix 700ms 0s linear forwards;
+  z-index: 1000;
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    flex-wrap: wrap;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    p {
+      font-size: 1rem;
+      color: $white;
+      width: 100%;
+      float: none;
+      display: block;
+      flex: 1 1 0;
+      padding: 0 1rem;
+      @include font-smoothing;
+      a {
+        color: $white;
+        font-weight: bold;
+      }
+    }
+    button {
+      @include remove-button-style;
+      font-family: $CircularStd-Medium;
+      text-align: center;
+      color: $white;
+      background-color: $blue;
+      font-size: 1rem;
+      padding: 13px 17px;
+      @include font-smoothing;
+      @include rounded(23.5px);
+      @include transition(all, 0.2s, ease-out);
+      margin-right: 1rem;
+      &:hover {
+        transform: scale(1.05, 1.05);
+      }
+      &:active {
+        opacity: 0.2;
+      }
+    }
+  }
+}
+
+@keyframes slide-up-fix {
+  0% {
+    transform: translate3d(0, 350%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@include responsive('phone') {
+  .cookie_banner_container {
+    padding: 1rem;
+    &-info {
+      display: block;
+      text-align: center;
+      &-text {
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+    }
+  }
+}

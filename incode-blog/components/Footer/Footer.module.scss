@@ -1,0 +1,108 @@
+@import '~/styles/config';
+
+.footer {
+  background-color: white;
+  padding: 60px 80px;
+  .footer_content {
+    max-width: 1280px;
+    margin: auto;
+    .footer_top {
+      padding: 0 80px 40px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .logo {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+    .footer_bottom {
+      margin-top: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .bottom_menu {
+        display: flex;
+        align-items: center;
+        li {
+          display: inline-block;
+          padding-right: 1.3rem;
+          font: 0.9rem/1.5 $CircularStd-Medium;
+        }
+      }
+      .bottom_info {
+        display: flex;
+        align-items: center;
+        .small {
+          font: 0.6rem/1.5 $CircularStd-Book;
+          color: $gray;
+          max-width: 160px;
+          margin-right: 10px;
+          margin-left: 10px;
+        }
+        .copy {
+          max-width: 320px;
+        }
+      }
+    }
+  }
+}
+
+@include responsive('tablet') {
+  .incd-footer-content-top {
+    display: block;
+    padding: 0;
+    .incd-footer-logo {
+      margin-bottom: 2rem;
+    }
+    .incd-footer-top-menu {
+      .incd-footer-top-menu-item {
+        padding-right: 2rem;
+      }
+    }
+  }
+  .incd-footer-content-bottom {
+    display: block;
+  }
+}
+
+@include responsive('phone') {
+  .incd-footer {
+    padding: 3rem 2rem;
+    .incd-footer-content-top {
+      display: block;
+      padding: 0;
+      .incd-footer-logo {
+        margin-bottom: 3rem;
+      }
+      .incd-footer-top-menu {
+        margin-bottom: 3rem;
+        margin-top: 3rem;
+        display: block;
+        .incd-footer-top-menu-item {
+          margin-top: 2rem;
+          display: block;
+        }
+      }
+    }
+    .incd-footer-content-bottom {
+      display: block;
+      .incd-footer-content-bottom-menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        li {
+          margin-bottom: 0.5rem;
+          padding-right: 0;
+        }
+      }
+      .incd-footer-content-bottom-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        .small {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
