@@ -40,7 +40,10 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
                     <h2>{post.title}</h2>
                     <p>{post.custom_excerpt}</p>
                     <div className={styles.post_author_date}>
-                      <PostAuthor name={post?.primary_author?.name} showAvatar/>
+                      <PostAuthor
+                        name={post?.primary_author?.name}
+                        showAvatar
+                      />
                       <PostDate dateString={post.published_at} />
                     </div>
                     <hr />
