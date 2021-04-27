@@ -2,10 +2,12 @@ import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { getPosts } from '~/api/api'
 import PostType from '~/types/post'
-import Layout from '~/components/Layout/Layout'
-import Container from '~/components/Container/Container'
-import PostImage from '~/components/PostImage/PostImage'
-import PostDate from '~/components/PostDate/PostDate'
+import Layout from '~/components/Layout'
+import Container from '~/components/Container'
+import PostImage from '~/components/PostImage'
+import PostAuthor from '~/components/PostAuthor'
+import PostDate from '~/components/PostDate'
+import styles from '~/styles/Home.module.scss'
 
 type HomeProps = {
   posts: PostType[]
@@ -37,10 +39,13 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
                     <h3>{post?.primary_tag?.name || 'Incode News'}</h3>
                     <h2>{post.title}</h2>
                     <p>{post.custom_excerpt}</p>
-                    <p>
-                      {post?.primary_author?.name}
+                    <div className={styles.post_author_date}>
+                      <PostAuthor
+                        name={post?.primary_author?.name}
+                        showAvatar
+                      />
                       <PostDate dateString={post.published_at} />
-                    </p>
+                    </div>
                     <hr />
                   </a>
                 </Link>

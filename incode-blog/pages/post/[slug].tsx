@@ -4,12 +4,13 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost, getPostsByTag } from '~/api/api'
 import PostType from '~/types/post'
 import Custom404 from '~/pages/404'
-import Layout from '~/components/Layout/Layout'
-import Container from '~/components/Container/Container'
-import Loader from '~/components/Loader/Loader'
-import PostImage from '~/components/PostImage/PostImage'
-import PostDate from '~/components/PostDate/PostDate'
 import Slider from '~/components/Slider'
+import Layout from '~/components/Layout'
+import Container from '~/components/Container'
+import Loader from '~/components/Loader'
+import PostImage from '~/components/PostImage'
+import PostDate from '~/components/PostDate'
+import PostAuthor from '~/components/PostAuthor'
 import styles from '~/styles/Home.module.scss'
 
 type PostProps = {
@@ -44,8 +45,8 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                 <PostImage imageSrc={post.feature_image} title={post.title} />
               )}
               <p>
-                By {post.primary_author.name} on{' '}
-                <PostDate dateString={post.published_at} />
+                By <PostAuthor name={post.primary_author.name} />
+                on <PostDate dateString={post.published_at} />
               </p>
               {post?.tags.map(tag => (
                 <Link

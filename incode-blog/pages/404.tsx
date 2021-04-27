@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Layout from '~/components/Layout/Layout'
+import Layout from '~/components/Layout'
 import styles from '~/styles/CustomError.module.scss'
 const Custom404 = () => {
   return (

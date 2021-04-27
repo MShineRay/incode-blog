@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tryghost/content-api": "^1.5.2",
+    "cookie-cutter": "^0.2.0",
     "date-fns": "^2.21.1",
     "disqus-react": "^1.0.11",
     "framer-motion": "^4.1.3",
