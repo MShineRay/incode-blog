@@ -9,6 +9,7 @@ import Container from '~/components/Container/Container'
 import Loader from '~/components/Loader/Loader'
 import PostImage from '~/components/PostImage/PostImage'
 import PostDate from '~/components/PostDate/PostDate'
+import Slider from '~/components/Slider'
 import styles from '~/styles/Home.module.scss'
 
 type PostProps = {
@@ -64,27 +65,31 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
         )}
         {relatedPosts.length !== 0 && (
           <>
-            <h2>Related posts</h2>
-            <div className={styles.related_posts_container}>
-              <div className={styles.post_row}>
-                {relatedPosts.map(relatedPost => (
-                  <div key={relatedPost.slug} className={styles.post_item}>
-                    <Link
-                      href="../post/[slug]"
-                      as={`../post/${encodeURIComponent(relatedPost.slug)}`}
-                    >
-                      <a>
-                        <PostImage
-                          imageSrc={relatedPost.feature_image}
-                          title={relatedPost.title}
-                        />
-                        <p>{relatedPost.title}</p>
-                      </a>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <h2>Related Posts</h2>
+            <Slider
+              numberOfSlides={3}
+              slidesSpacing={10}
+              isCentered
+              isLooped
+              slidesMode="free-snap"
+            >
+              {relatedPosts.map(relatedPost => (
+                <div key={relatedPost.slug}>
+                  <Link
+                    href="../post/[slug]"
+                    as={`../post/${encodeURIComponent(relatedPost.slug)}`}
+                  >
+                    <a>
+                      <PostImage
+                        imageSrc={relatedPost.feature_image}
+                        title={relatedPost.title}
+                      />
+                      <p>{relatedPost.title}</p>
+                    </a>
+                  </Link>
+                </div>
+              ))}
+            </Slider>
           </>
         )}
       </Container>
