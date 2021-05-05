@@ -1,0 +1,50 @@
+@import '~/styles/config';
+
+.post_card_wrapper {
+  @include rounded(28px);
+  box-shadow: 0 2px 14px 0 to-rgba($indigo, 0.11);
+  background-color: $white;
+  img {
+    @include rounded(28px 28px 0 0);
+  }
+  .post_card_content {
+    padding: 1.5rem;
+    .post_card_header,
+    .post_card_footer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .post_card_header {
+      h3 {
+        margin: 0;
+        max-width: 200px;
+      }
+      time {
+        margin-top: 5px;
+        font-size: 14px;
+        color: to-rgba($indigo, 0.3);
+      }
+    }
+    .post_card_excerpt {
+      font: $incd-p-font;
+      font-size: 14px;
+      @include font-smoothing;
+    }
+    .separator {
+      border-top: 1px solid to-rgba($indigo, 0.3);
+      margin: 1.2rem auto;
+    }
+    .post_card_footer {
+      p {
+        padding: 5px 15px;
+        margin: 0;
+        @include rounded(8px);
+        font-size: 0.8125rem;
+        background-color: $blue;
+        color: $white;
+      }
+    }
+  }
+}
