@@ -11,6 +11,9 @@ import Loader from '~/components/Loader'
 import PostImage from '~/components/PostImage'
 import styles from '~/styles/Home.module.scss'
 
+const IMAGE_WIDTH = 368
+const IMAGE_HEIGHT = 223
+
 type TagProps = {
   tag: TagType
   relatedPosts: PostType[]
@@ -52,12 +55,12 @@ const Tag: React.FC<TagProps> = ({ tag, relatedPosts }: TagProps) => {
                       as={`../post/${encodeURIComponent(relatedPost.slug)}`}
                     >
                       <a>
-                        {relatedPost.feature_image && (
-                          <PostImage
-                            imageSrc={relatedPost.feature_image}
-                            title={relatedPost.title}
-                          />
-                        )}
+                        <PostImage
+                          imageSrc={relatedPost.feature_image}
+                          title={relatedPost.title}
+                          width={IMAGE_WIDTH}
+                          height={IMAGE_HEIGHT}
+                        />
                         <h3>{relatedPost.title}</h3>
                         <p>{relatedPost.excerpt}</p>
                       </a>
