@@ -8,7 +8,7 @@ import Custom404 from '~/pages/404'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
 import Loader from '~/components/Loader'
-import PostImage from '~/components/PostImage'
+import PostCard from '~/components/PostCard'
 import styles from '~/styles/Home.module.scss'
 
 type TagProps = {
@@ -52,14 +52,7 @@ const Tag: React.FC<TagProps> = ({ tag, relatedPosts }: TagProps) => {
                       as={`../post/${encodeURIComponent(relatedPost.slug)}`}
                     >
                       <a>
-                        <PostImage
-                          imageSrc={relatedPost.feature_image}
-                          title={relatedPost.title}
-                          width={368}
-                          height={223}
-                        />
-                        <h3>{relatedPost.title}</h3>
-                        <p>{relatedPost.excerpt}</p>
+                        <PostCard post={relatedPost} isFeatured={false} />
                       </a>
                     </Link>
                   </div>

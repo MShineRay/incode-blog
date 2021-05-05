@@ -11,6 +11,7 @@ import Loader from '~/components/Loader'
 import PostImage from '~/components/PostImage'
 import PostDate from '~/components/PostDate'
 import PostAuthor from '~/components/PostAuthor'
+import PostCard from '~/components/PostCard'
 import styles from '~/styles/Home.module.scss'
 
 type PostProps = {
@@ -81,11 +82,9 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                     as={`../post/${encodeURIComponent(relatedPost.slug)}`}
                   >
                     <a>
-                      <PostImage
-                        imageSrc={relatedPost.feature_image}
-                        title={relatedPost.title}
-                      />
-                      <p>{relatedPost.title}</p>
+                      <div className={styles.slide_wrapper}>
+                        <PostCard post={relatedPost} isFeatured={false} />
+                      </div>
                     </a>
                   </Link>
                 </div>

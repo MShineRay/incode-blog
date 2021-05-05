@@ -1,5 +1,8 @@
 @import 'config';
 
+.subtitle {
+  text-align: center;
+}
 .goback {
   text-align: left;
   align-self: self-start;
@@ -37,4 +40,8 @@
     flex: 1 1 28%;
     margin: 25px;
   }
+}
+
+.slide_wrapper{
+  margin: 1rem;
 }
