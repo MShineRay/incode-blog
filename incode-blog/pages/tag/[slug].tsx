@@ -52,12 +52,12 @@ const Tag: React.FC<TagProps> = ({ tag, relatedPosts }: TagProps) => {
                       as={`../post/${encodeURIComponent(relatedPost.slug)}`}
                     >
                       <a>
-                        {relatedPost.feature_image && (
-                          <PostImage
-                            imageSrc={relatedPost.feature_image}
-                            title={relatedPost.title}
-                          />
-                        )}
+                        <PostImage
+                          imageSrc={relatedPost.feature_image}
+                          title={relatedPost.title}
+                          width={368}
+                          height={223}
+                        />
                         <h3>{relatedPost.title}</h3>
                         <p>{relatedPost.excerpt}</p>
                       </a>
