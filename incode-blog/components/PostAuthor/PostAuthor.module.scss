@@ -1,7 +1,11 @@
+@import '~/styles/config';
+
 .post_author_container {
   display: inline-flex;
   align-items: center;
   margin-right: 0.5rem;
+  font: $incd-small-font;
+  color: to-rgba($indigo, 0.5);
   img {
     margin-right: 0.5rem;
   }

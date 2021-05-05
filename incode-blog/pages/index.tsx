@@ -4,9 +4,7 @@ import { getPosts } from '~/api/api'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
-import PostImage from '~/components/PostImage'
-import PostAuthor from '~/components/PostAuthor'
-import PostDate from '~/components/PostDate'
+import PostCard from '~/components/PostCard'
 import styles from '~/styles/Home.module.scss'
 
 type HomeProps = {
@@ -21,7 +19,8 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
     >
       <Container>
         <h1>Blog</h1>
-        <ul>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <ul className={styles.posts_container}>
           {posts.map(post => {
             return (
               <li key={post.slug}>
@@ -30,23 +29,7 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
                   as={`/post/${encodeURIComponent(post.slug)}`}
                 >
                   <a>
-                    {post.feature_image && (
-                      <PostImage
-                        imageSrc={post.feature_image}
-                        title={post.title}
-                      />
-                    )}
-                    <h3>{post?.primary_tag?.name || 'Incode News'}</h3>
-                    <h2>{post.title}</h2>
-                    <p>{post.custom_excerpt}</p>
-                    <div className={styles.post_author_date}>
-                      <PostAuthor
-                        name={post?.primary_author?.name}
-                        showAvatar
-                      />
-                      <PostDate dateString={post.published_at} />
-                    </div>
-                    <hr />
+                    <PostCard post={post} isFeatured={post.featured}/>
                   </a>
                 </Link>
               </li>
