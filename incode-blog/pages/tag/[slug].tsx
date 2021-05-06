@@ -8,6 +8,7 @@ import Custom404 from '~/pages/404'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
 import Loader from '~/components/Loader'
+import GoHome from '~/components/GoHome'
 import PostCard from '~/components/PostCard'
 import styles from '~/styles/Home.module.scss'
 
@@ -31,11 +32,7 @@ const Tag: React.FC<TagProps> = ({ tag, relatedPosts }: TagProps) => {
           <Loader />
         ) : (
           <>
-            <p className={styles.goback}>
-              <Link href="/" passHref>
-                <a>Go Back</a>
-              </Link>
-            </p>
+            <GoHome />
             <h1>Category: {tag.name}</h1>
             <p>Posts under this category: {tag.count.posts}</p>
           </>

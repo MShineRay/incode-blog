@@ -12,12 +12,19 @@ import PostImage from '~/components/PostImage'
 import PostDate from '~/components/PostDate'
 import PostAuthor from '~/components/PostAuthor'
 import PostCard from '~/components/PostCard'
-import styles from '~/styles/Home.module.scss'
+import GoHome from '~/components/GoHome'
+import styles from '~/styles/Post.module.scss'
 
 type PostProps = {
   post: PostType
   relatedPosts: PostType[]
 }
+
+const IMAGE_WIDTH = 1100
+const IMAGE_HEIGHT = 512
+const SLIDES_NUMBER = 3
+const SLIDES_SPACING = 10
+
 const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
   const router = useRouter()
   if (!router.isFallback && !post?.slug) {
@@ -35,42 +42,40 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
           <Loader />
         ) : (
           <>
-            <p className={styles.goback}>
-              <Link href="/">
-                <a href="/">Go Back</a>
-              </Link>
-            </p>
-            <article>
-              <h1>{post.title}</h1>
-              {post.feature_image && (
-                <PostImage imageSrc={post.feature_image} title={post.title} />
-              )}
-              <p>
-                By <PostAuthor name={post.primary_author.name} />
-                on <PostDate dateString={post.published_at} />
-              </p>
-              {post?.tags.map(tag => (
-                <Link
-                  key={tag.id}
-                  href="../tag/[slug]"
-                  as={`../tag/${encodeURIComponent(tag.slug)}`}
-                  passHref
-                >
-                  <a>
-                    <span>{tag.name} </span>
-                  </a>
-                </Link>
-              ))}
-              <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+            <GoHome />
+            <article className={styles.article}>
+              <figure>
+                <div className={styles.overlay}>
+                  <PostImage
+                    imageSrc={post.feature_image}
+                    title={post.title}
+                    height={IMAGE_HEIGHT}
+                    width={IMAGE_WIDTH}
+                    objectFit="cover"
+                    layout="responsive"
+                  />
+                </div>
+                <figcaption>{post.title}</figcaption>
+              </figure>
+              <div className={styles.post_header}>
+                <p>
+                  By <PostAuthor name={post.primary_author.name} /> on{' '}
+                  <PostDate dateString={post.published_at} />
+                </p>
+              </div>
+              <hr className={styles.separator} />
+              <div className={styles.post_body}>
+                <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+              </div>
             </article>
           </>
         )}
         {relatedPosts.length !== 0 && (
           <>
-            <h2>Related Posts</h2>
+            <h3>Related Posts</h3>
             <Slider
-              numberOfSlides={3}
-              slidesSpacing={10}
+              numberOfSlides={SLIDES_NUMBER}
+              slidesSpacing={SLIDES_SPACING}
               isCentered
               isLooped
               slidesMode="free-snap"

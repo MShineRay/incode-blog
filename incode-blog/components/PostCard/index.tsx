@@ -1,15 +1,19 @@
+import cx from 'classnames'
 import { excerpt } from '~/utils/helpers'
 import PostImage from '~/components/PostImage'
 import PostAuthor from '~/components/PostAuthor'
 import PostDate from '~/components/PostDate'
 import PostType from '~/types/post'
-import cx from 'classnames'
 import styles from './PostCard.module.scss'
 
 type PostCardProps = {
   post: PostType
   isFeatured?: boolean
 }
+
+const IMAGE_WIDTH = 345
+const IMAGE_HEIGHT = 245
+const DEFAULT_TAG = 'Incode News'
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
@@ -21,7 +25,14 @@ const PostCard: React.FC<PostCardProps> = ({
         [styles.post_card_featured]: isFeatured,
       })}
     >
-      <PostImage imageSrc={post.feature_image} title={post.title} />
+      <PostImage
+        imageSrc={post.feature_image}
+        title={post.title}
+        height={IMAGE_HEIGHT}
+        width={IMAGE_WIDTH}
+        objectFit="cover"
+        layout="responsive"
+      />
       <div className={styles.post_card_content}>
         <div className={styles.post_card_header}>
           <h3>{post.title}</h3>
@@ -33,7 +44,7 @@ const PostCard: React.FC<PostCardProps> = ({
         <hr className={styles.separator} />
         <div className={styles.post_card_footer}>
           <PostAuthor name={post.primary_author.name} />
-          <p>{post?.primary_tag?.name || 'Incode News'}</p>
+          <p>{post?.primary_tag?.name || DEFAULT_TAG}</p>
         </div>
       </div>
     </div>
