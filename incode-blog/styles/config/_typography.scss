@@ -6,7 +6,6 @@ $CircularStd-Medium: 'CircularStd-Medium', sans-serif;
 $CircularStd-Book: 'CircularStd-Book', sans-serif;
 $CircularStd-BookItalic: 'CircularStd-BookItalic', sans-serif;
 
-// Headings
 $incd-h1-font: 700 2.8125rem / 1.1 $CircularStd-Bold;
 $incd-h2-font: 700 1.725rem / 1.1 $CircularStd-Bold;
 $incd-h3-font: 500 1.25rem / 1.4 $CircularStd-Bold;
@@ -16,3 +15,18 @@ $incd-p-font: 400 0.94rem / 1.7 $CircularStd-Book;
 $incd-cite-font: 400 1.18rem/ 1.3 $CircularStd-BookItalic;
 $incd-small-font: 800 0.8125rem/ 1.3 $CircularStd-Bold;
 
+$Lora-Black: 'Lora-Black', serif;
+$Lora-Bold: 'Lora-Bold', serif;
+$Lora-Medium: 'Lora-Medium', serif;
+$Lora-Book: 'Lora-Book', serif;
+$Lora-BookItalic: 'Lora-BookItalic', serif;
+
+$post-h1-font: 700 2.8125rem / 1.1 $Lora-Bold;
+$post-h2-font: 700 1.725rem / 1.1 $Lora-Black;
+$post-h3-font: 500 1.25rem / 1.4 $Lora-Black;
+$post-h4-font: 700 0.9375rem / 1.1 $Lora-Bold;
+$post-h5-font: 400 1rem / 1.5 $Lora-Book;
+$post-p-font: 400 1rem / 1.7 $Lora-Medium;
+$post-cite-font: 400 1.18rem/ 1.5 $Lora-BookItalic;
+$post-small-font: 800 0.8125rem/ 1.3 $Lora-Bold;
+$post-strong-font: 400 1rem / 1.7 $Lora-Black;

@@ -1,0 +1,110 @@
+@import 'config';
+
+.slide_wrapper {
+  margin: 1rem;
+}
+.article {
+  min-width: 100%;
+  background-color: $white;
+  @include rounded(23px);
+  padding-bottom: 5rem;
+  box-shadow: 0 2px 23px 0 to-rgba($black, 0.05);
+  margin-bottom: 5rem;
+  figure {
+    position: relative;
+    margin: 0;
+    .overlay {
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        @include rounded(23px);
+        background-image: linear-gradient(
+          to bottom,
+          to-rgba($black, 0),
+          to-rgba($darkIndigo, 0.76)
+        );
+      }
+    }
+    img {
+      @include rounded(23px);
+    }
+    figcaption {
+      position: absolute;
+      bottom: 2.5rem;
+      width: 100%;
+      text-align: center;
+      color: $white;
+      font: $incd-h1-font;
+    }
+  }
+  .post_header {
+    max-width: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 2.5rem;
+    p,
+    span {
+      font: $incd-h3-font;
+      color: to-rgba($indigo, 0.5);
+      font-size: 1.125rem;
+      margin: 0;
+    }
+  }
+  .separator {
+    margin: 2.5rem 5rem;
+    border: solid 1px to-rgba($indigo, 0.23);
+  }
+  .post_body {
+    max-width: 650px;
+    margin: auto;
+    font-family: $Lora-Book;
+
+    h1 {
+      font: $post-h1-font;
+      margin-bottom: 1.6rem;
+    }
+
+    h2 {
+      font: $post-h2-font;
+    }
+
+    h3 {
+      font: $post-h3-font;
+      margin-bottom: 2rem;
+    }
+
+    h4 {
+      font: $post-h4-font;
+    }
+
+    h5 {
+      font: $post-h5-font;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      font: $post-p-font;
+      color: $indigo;
+      word-wrap: break-word;
+      max-width: 100%;
+    }
+
+    blockquote {
+      font: $post-cite-font;
+      color: $indigo;
+    }
+    code {
+      font-size: 1rem;
+    }
+    strong {
+      font: $post-strong-font;
+    }
+  }
+}
