@@ -7,9 +7,9 @@
   min-width: 100%;
   background-color: $white;
   @include rounded(23px);
-  padding-bottom: 80px;
+  padding-bottom: 5rem;
   box-shadow: 0 2px 23px 0 to-rgba($black, 0.05);
-  margin-bottom: 80px;
+  margin-bottom: 5rem;
   figure {
     position: relative;
     margin: 0;
@@ -35,7 +35,7 @@
     }
     figcaption {
       position: absolute;
-      bottom: 40px;
+      bottom: 2.5rem;
       width: 100%;
       text-align: center;
       color: $white;
@@ -48,20 +48,17 @@
     align-items: center;
     justify-content: center;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 2.5rem;
     p,
     span {
       font: $incd-h3-font;
       color: to-rgba($indigo, 0.5);
-      font-size: 18px;
+      font-size: 1.125rem;
       margin: 0;
     }
   }
   .separator {
-    margin-left: 80px;
-    margin-right: 80px;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin: 2.5rem 5rem;
     border: solid 1px to-rgba($indigo, 0.23);
   }
   .post_body {

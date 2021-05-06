@@ -19,6 +19,12 @@ type PostProps = {
   post: PostType
   relatedPosts: PostType[]
 }
+
+const IMAGE_WIDTH = 1100
+const IMAGE_HEIGHT = 512
+const SLIDES_NUMBER = 3
+const SLIDES_SPACING = 10
+
 const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
   const router = useRouter()
   if (!router.isFallback && !post?.slug) {
@@ -43,8 +49,8 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                   <PostImage
                     imageSrc={post.feature_image}
                     title={post.title}
-                    height={512}
-                    width={1100}
+                    height={IMAGE_HEIGHT}
+                    width={IMAGE_WIDTH}
                     objectFit="cover"
                     layout="responsive"
                   />
@@ -53,8 +59,8 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
               </figure>
               <div className={styles.post_header}>
                 <p>
-                  By <PostAuthor name={post.primary_author.name} />
-                  on <PostDate dateString={post.published_at} />
+                  By <PostAuthor name={post.primary_author.name} /> on{' '}
+                  <PostDate dateString={post.published_at} />
                 </p>
               </div>
               <hr className={styles.separator} />
@@ -68,8 +74,8 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
           <>
             <h3>Related Posts</h3>
             <Slider
-              numberOfSlides={3}
-              slidesSpacing={10}
+              numberOfSlides={SLIDES_NUMBER}
+              slidesSpacing={SLIDES_SPACING}
               isCentered
               isLooped
               slidesMode="free-snap"
