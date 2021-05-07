@@ -13,7 +13,10 @@ import PostDate from '~/components/PostDate'
 import PostAuthor from '~/components/PostAuthor'
 import PostCard from '~/components/PostCard'
 import GoHome from '~/components/GoHome'
+import Share from '~/components/Share'
 import styles from '~/styles/Post.module.scss'
+
+const url = process.env['BLOG_URL']
 
 type PostProps = {
   post: PostType
@@ -62,10 +65,20 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                   By <PostAuthor name={post.primary_author.name} /> on{' '}
                   <PostDate dateString={post.published_at} />
                 </p>
+                <Share
+                  title={post.meta_title || post.title}
+                  url={`${url}/post/${encodeURIComponent(post.slug)}`}
+                  text={post.meta_description || post.excerpt}
+                />
               </div>
               <hr className={styles.separator} />
               <div className={styles.post_body}>
                 <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+                <Share
+                  title={post.meta_title || post.title}
+                  url={`${url}/post/${encodeURIComponent(post.slug)}`}
+                  text={post.meta_description || post.excerpt}
+                />
               </div>
             </article>
           </>

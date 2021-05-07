@@ -2,7 +2,7 @@ import GhostContentAPI from '@tryghost/content-api'
 import PostType from '~/types/post'
 import TagType from '~/types/tag'
 
-const url = process.env['BLOG_URL'] || ''
+const url = process.env['CMS_URL'] || ''
 const key = process.env['CONTENT_API_KEY'] || ''
 
 const api = new GhostContentAPI({
