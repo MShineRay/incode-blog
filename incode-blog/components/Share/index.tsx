@@ -19,18 +19,18 @@ const Share: React.FC<ShareProps> = ({ title, text, url }: ShareProps) => {
   }, [])
 
   const onShare = async () => {
-    try {
-      await navigator.share({
-        title: title,
-        text: text,
-        url: url,
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    await navigator.share({
+      title: title,
+      text: text,
+      url: url,
+    })
   }
   if (isNativeShare) {
-    return <button className={styles.share_button} onClick={onShare}>Share</button>
+    return (
+      <button className={styles.share_button} onClick={onShare}>
+        Share
+      </button>
+    )
   } else {
     return (
       <div>
