@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './Subscribe.module.scss'
@@ -6,6 +7,8 @@ type SubscribeProps = {
   subscriberName: string
   subscriberEmail: string
 }
+const EMAIL_PATTERN = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+const NAME_PATTERN = /^[A-Za-z]+$/i
 
 const Subscribe = () => {
   const [message, setMessage] = useState('')
@@ -17,18 +20,13 @@ const Subscribe = () => {
   } = useForm<SubscribeProps>()
 
   const onFormSubmit = async (formData: SubscribeProps) => {
-    setMessage('Success! You are now subscribed.')
-    const res = await fetch('/api/subscribe', {
-      body: JSON.stringify({ email: formData.subscriberEmail }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
-    const { error } = await res.json()
-    if (error) {
-      setMessage(error)
-      return
+    try {
+      await axios.post('api/subscribe', {
+        email: formData.subscriberEmail,
+      })
+      setMessage('Success! You are now subscribed.')
+    } catch (e) {
+      setMessage('Something went wrong')
     }
     reset()
   }
@@ -42,6 +40,7 @@ const Subscribe = () => {
         <div className={styles.form}>
           <span className={styles.form_field}>
             <label htmlFor="subscriberName" className={styles.label}>
+              {' '}
               {errors.subscriberName && errors.subscriberName.message}
             </label>
             <input
@@ -50,12 +49,13 @@ const Subscribe = () => {
               placeholder="Your name"
               {...register('subscriberName', {
                 required: '* name is required',
-                pattern: /^[A-Za-z]+$/i,
+                pattern: NAME_PATTERN,
               })}
             />
           </span>
           <span className={styles.form_field}>
             <label htmlFor="subscriberEmail" className={styles.label}>
+              {' '}
               {errors.subscriberEmail && errors.subscriberEmail.message}
             </label>
             <input
@@ -65,7 +65,7 @@ const Subscribe = () => {
               {...register('subscriberEmail', {
                 required: '* email is required',
                 pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  value: EMAIL_PATTERN,
                   message: 'wrong format',
                 },
               })}

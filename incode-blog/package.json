@@ -11,8 +11,8 @@
     "serve": "serve out"
   },
   "dependencies": {
-    "@mailchimp/mailchimp_marketing": "^3.0.41",
     "@tryghost/content-api": "^1.5.2",
+    "axios": "^0.21.1",
     "cookie-cutter": "^0.2.0",
     "date-fns": "^2.21.1",
     "disqus-react": "^1.0.11",

@@ -37,6 +37,9 @@
           &.error-input {
             border-color: $red;
           }
+          &:focus-visible {
+            outline: none;
+          }
           @include placeholder {
             font-family: $CircularStd-Bold;
             color: to-rgba($indigo, 0.5);
