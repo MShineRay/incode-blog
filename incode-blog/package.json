@@ -11,6 +11,7 @@
     "serve": "serve out"
   },
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.41",
     "@tryghost/content-api": "^1.5.2",
     "cookie-cutter": "^0.2.0",
     "date-fns": "^2.21.1",
@@ -21,7 +22,8 @@
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.7.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-hook-form": "^7.5.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.37",
