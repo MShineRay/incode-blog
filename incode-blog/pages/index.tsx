@@ -1,10 +1,11 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
-import { getPosts } from '~/api/api'
+import { getPosts } from '~/pages/api/cms'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
 import PostCard from '~/components/PostCard'
+import Subscribe from '~/components/Subscribe'
 import styles from '~/styles/Home.module.scss'
 
 type HomeProps = {
@@ -44,6 +45,7 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
             )
           })}
         </ul>
+        <Subscribe/>
       </Container>
     </Layout>
   )

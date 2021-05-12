@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getPosts, getSinglePost, getPostsByTag } from '~/api/api'
+import { getPosts, getSinglePost, getPostsByTag } from '~/pages/api/cms'
 import PostType from '~/types/post'
 import Custom404 from '~/pages/404'
 import Slider from '~/components/Slider'
@@ -14,6 +14,7 @@ import PostAuthor from '~/components/PostAuthor'
 import PostCard from '~/components/PostCard'
 import GoHome from '~/components/GoHome'
 import Share from '~/components/Share'
+import Subscribe from '~/components/Subscribe'
 import styles from '~/styles/Post.module.scss'
 
 const url = process.env['BLOG_URL']
@@ -110,6 +111,7 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
             </Slider>
           </>
         )}
+        <Subscribe />
       </Container>
     </Layout>
   )

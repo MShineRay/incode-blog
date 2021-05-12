@@ -22,7 +22,7 @@
         width: 100%;
         height: 100%;
         display: inline-block;
-        @include rounded(23px);
+        @include rounded(23px 23px 0 0);
         background-image: linear-gradient(
           to bottom,
           to-rgba($black, 0),
@@ -31,7 +31,7 @@
       }
     }
     img {
-      @include rounded(23px);
+      @include rounded(23px 23px 0 0);
     }
     figcaption {
       position: absolute;

@@ -1,0 +1,68 @@
+@import '~/styles/config';
+
+.subscribe {
+  background-color: $neutral;
+  padding: 30px 40px;
+  @include rounded(14px);
+  min-width: 100%;
+  form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .message {
+      font: $incd-p-font;
+    }
+    .form {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .form_field {
+        margin-left: 20px;
+        margin-right: 20px;
+        display: flex;
+        flex-direction: column;
+        .label {
+          font-size: 0.8rem;
+          color: $red;
+        }
+        input {
+          background-color: $white !important;
+          border: transparent;
+          @include rounded(6px);
+          padding: 9px 15px;
+          min-height: 40px;
+          min-width: 230px;
+          font-family: $CircularStd-Bold;
+          color: $indigo !important;
+          &.error-input {
+            border-color: $red;
+          }
+          &:focus-visible {
+            outline: none;
+          }
+          @include placeholder {
+            font-family: $CircularStd-Bold;
+            color: to-rgba($indigo, 0.5);
+          }
+        }
+      }
+      button {
+        @include remove-button-style;
+        font-family: $CircularStd-Medium;
+        text-align: center;
+        color: $white;
+        background-color: $red;
+        font-size: 17px;
+        padding: 14px 25px;
+        min-width: 150px;
+        margin-left: 20px;
+        @include font-smoothing;
+        @include rounded(23.5px);
+        @include transition(all, 0.2s, ease-out);
+        &:hover {
+          transform: scale(1.05, 1.05);
+        }
+      }
+    }
+  }
+}
