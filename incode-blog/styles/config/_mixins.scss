@@ -56,3 +56,20 @@
     -moz-osx-font-smoothing: auto;
   }
 }
+
+// Placeholder
+/* @include placeholder */
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
