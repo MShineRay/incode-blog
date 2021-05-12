@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getPosts, getSinglePost, getPostsByTag } from '~/pages/api/api'
+import { getPosts, getSinglePost, getPostsByTag } from '~/pages/api/cms'
 import PostType from '~/types/post'
 import Custom404 from '~/pages/404'
 import Slider from '~/components/Slider'

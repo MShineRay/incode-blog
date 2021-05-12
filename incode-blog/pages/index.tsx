@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
-import { getPosts } from '~/pages/api/api'
+import { getPosts } from '~/pages/api/cms'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'

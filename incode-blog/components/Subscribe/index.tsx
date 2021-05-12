@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { subscribeEmail } from '~/utils/blogRepository'
 import styles from './Subscribe.module.scss'
 
 type SubscribeProps = {
@@ -11,7 +11,7 @@ const EMAIL_PATTERN = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 const NAME_PATTERN = /^[A-Za-z]+$/i
 
 const Subscribe = () => {
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState<string>('')
   const {
     register,
     formState: { errors },
@@ -21,9 +21,7 @@ const Subscribe = () => {
 
   const onFormSubmit = async (formData: SubscribeProps) => {
     try {
-      await axios.post('api/subscribe', {
-        email: formData.subscriberEmail,
-      })
+      await subscribeEmail({ email: formData.subscriberEmail })
       setMessage('Success! You are now subscribed.')
     } catch (e) {
       setMessage('Something went wrong')
