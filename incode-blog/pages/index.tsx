@@ -45,7 +45,7 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
             )
           })}
         </ul>
-        <Subscribe/>
+        <Subscribe />
       </Container>
     </Layout>
   )

@@ -44,9 +44,6 @@ export async function getTags(): Promise<TagType[]> {
 }
 
 export async function getSingleTag(tagSlug: string): Promise<TagType> {
-  const tag = await api.tags.read(
-    { slug: tagSlug },
-    { include: 'count.posts' },
-  )
+  const tag = await api.tags.read({ slug: tagSlug }, { include: 'count.posts' })
   return tag
 }
