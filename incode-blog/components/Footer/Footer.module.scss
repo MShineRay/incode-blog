@@ -11,9 +11,30 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .logo {
-        &:hover {
-          cursor: pointer;
+      .top_menu {
+        display: flex;
+        .item {
+          display: inline-block;
+          padding-right: 5rem;
+          padding-left: 0;
+          li {
+            font: 0.8rem/1.5 $CircularStd-Book;
+            margin-bottom: 0.6rem;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+          p,
+          a {
+            font: 0.9rem/1.5 $CircularStd-Medium;
+            margin-bottom: 1.3rem;
+          }
+          a {
+            display: block;
+          }
+          &:last-child {
+            padding-right: 0;
+          }
         }
       }
     }
@@ -50,45 +71,39 @@
 }
 
 @include responsive('tablet') {
-  .incd-footer-content-top {
+  .footer_top {
     display: block;
     padding: 0;
-    .incd-footer-logo {
-      margin-bottom: 2rem;
-    }
-    .incd-footer-top-menu {
-      .incd-footer-top-menu-item {
+    .top_menu {
+      .item {
         padding-right: 2rem;
       }
     }
   }
-  .incd-footer-content-bottom {
+  .Footer_bottom {
     display: block;
   }
 }
 
 @include responsive('phone') {
-  .incd-footer {
+  .footer {
     padding: 3rem 2rem;
-    .incd-footer-content-top {
+    .footer_top {
       display: block;
       padding: 0;
-      .incd-footer-logo {
-        margin-bottom: 3rem;
-      }
-      .incd-footer-top-menu {
+      .top_menu {
         margin-bottom: 3rem;
         margin-top: 3rem;
         display: block;
-        .incd-footer-top-menu-item {
+        .item {
           margin-top: 2rem;
           display: block;
         }
       }
     }
-    .incd-footer-content-bottom {
+    .footer_bottom {
       display: block;
-      .incd-footer-content-bottom-menu {
+      .bottom_menu {
         display: grid;
         grid-template-columns: 1fr 1fr;
         li {
@@ -96,7 +111,7 @@
           padding-right: 0;
         }
       }
-      .incd-footer-content-bottom-info {
+      .bottom_info {
         display: grid;
         grid-template-columns: 1fr 1fr;
         .small {
