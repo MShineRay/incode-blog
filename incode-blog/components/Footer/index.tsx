@@ -1,20 +1,67 @@
 import React from 'react'
 import Link from 'next/link'
+import RoutesEnum from '~/utils/RoutesEnum'
+import Logo from '~/components/Logo'
 import styles from './Footer.module.scss'
 import logo from '~/public/images/logo.svg'
 import socImg from '~/public/images/soc.svg'
+import { symlink } from 'fs'
 const legalSubmenu = [
   {
     title: 'Privacy Policy',
-    link: 'https://incode.com/incode-privacy-policy/',
+    link: RoutesEnum.PRIVACY,
   },
   {
     title: 'POC',
-    link: 'https://incode.com/proof-of-concept/',
+    link: RoutesEnum.POC,
   },
   {
     title: 'Terms of Use',
-    link: 'https://incode.com/incode-terms-of-use/',
+    link: RoutesEnum.TERMS,
+  },
+]
+const useCaseSubmenu = [
+  {
+    title: 'Finance',
+    link: RoutesEnum.FINANCE,
+  },
+  {
+    title: 'Hospitality',
+    link: RoutesEnum.HOSPITALITY,
+  },
+  {
+    title: 'Transportation',
+    link: RoutesEnum.TRANSPORTATION,
+  },
+  {
+    title: 'Retail',
+    link: RoutesEnum.RETAIL,
+  },
+  {
+    title: 'Age Verification',
+    link: RoutesEnum.AGE_VERIFICATION,
+  },
+  {
+    title: 'eCommerce',
+    link: RoutesEnum.ECOMMERCE,
+  },
+]
+const contactSubmenu = [
+  {
+    title: 'About Incode',
+    link: RoutesEnum.ABOUT,
+  },
+  {
+    title: 'Contact',
+    link: RoutesEnum.CONTACT,
+  },
+  {
+    title: 'Careers',
+    link: RoutesEnum.CAREERS,
+  },
+  {
+    title: 'Press',
+    link: RoutesEnum.PARTNERS,
   },
 ]
 const Footer = () => {
@@ -23,7 +70,37 @@ const Footer = () => {
       <div className={styles.footer_content}>
         <div className={styles.footer_top}>
           <div className={styles.logo}>
-            <img src={logo} alt="incode logo" />
+            <Logo />
+          </div>
+          <div className={styles.top_menu}>
+            <ul className={styles.item}>
+              <a href={RoutesEnum.OMNI}>Incode Omni Platform</a>
+            </ul>
+            <ul className={styles.item}>
+              <a href={RoutesEnum.USE_CASES}>Use Cases</a>
+              {useCaseSubmenu.map(submenuItem => (
+                <Link key={submenuItem.link} href={submenuItem.link}>
+                  <li>{submenuItem.title}</li>
+                </Link>
+              ))}
+            </ul>
+            <ul className={styles.item}>
+              <a href={RoutesEnum.TECHNOLOGY}>Technology</a>
+            </ul>
+            <ul className={styles.item}>
+              <a href={RoutesEnum.DEVELOPERS}>Developers</a>
+              <Link href={RoutesEnum.OMNI_APIARY}>
+                <li>API Documentation</li>
+              </Link>
+            </ul>
+            <ul className={styles.item}>
+              <a href={RoutesEnum.ABOUT}>Company</a>
+              {contactSubmenu.map(submenuItem => (
+                <Link key={submenuItem.link} href={submenuItem.link}>
+                  <li>{submenuItem.title}</li>
+                </Link>
+              ))}
+            </ul>
           </div>
         </div>
         <hr />

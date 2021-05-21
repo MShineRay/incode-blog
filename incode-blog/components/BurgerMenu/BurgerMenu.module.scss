@@ -1,0 +1,48 @@
+@import '~/styles/config';
+
+.burger_menu {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  transition: all 0.5s ease-in-out;
+  .burger {
+    width: 24px;
+    height: 3px;
+    border-radius: 25px;
+    background-color: $indigo;
+    transition: all 0.5s ease-in-out;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 3px;
+      border-radius: 25px;
+      background-color: $indigo;
+      transition: all 0.5s ease-in-out;
+    }
+    &::before {
+      transform: translateY(-8px);
+    }
+    &::after {
+      transform: translateY(8px);
+    }
+  }
+
+  &.opened {
+    .burger {
+      transform: translateX(-50px);
+      background-color: transparent;
+      &::before {
+        transform: rotate(45deg) translate(35px, -35px);
+      }
+      &::after {
+        transform: rotate(-45deg) translate(35px, 35px);
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@import '~/styles/config';
+
+.logo {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@include responsive('phone') {
+  .logo {
+    img {
+      max-height: 30px;
+    }
+  }
+}
