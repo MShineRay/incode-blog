@@ -30,6 +30,18 @@
   opacity: 0.7;
 }
 
+.featured_post_container {
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 25px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  div{
+    flex-basis: 66%;
+  }
+}
+
 .posts_container {
   display: flex;
   flex-wrap: wrap;
