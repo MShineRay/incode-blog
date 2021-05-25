@@ -1,5 +1,6 @@
 @import '~/styles/config';
 
+
 .post_card_wrapper {
   @include rounded(28px);
   box-shadow: 0 2px 14px 0 to-rgba($indigo, 0.11);
@@ -44,6 +45,29 @@
         font-size: 0.8125rem;
         background-color: $blue;
         color: $white;
+      }
+    }
+  }
+}
+
+.post_card_featured {
+  background-color: $indigo;
+  color: $white;
+  .post_card_content {
+    .post_card_header {
+      time {
+        color: $neutral;
+      }
+    }
+    .post_card_excerpt {
+      color: $white;
+    }
+    .separator {
+      border-color: $white;
+    }
+    .post_card_footer {
+      span {
+        color: $neutral;
       }
     }
   }

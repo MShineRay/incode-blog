@@ -4,6 +4,7 @@ import { getPosts } from '~/pages/api/cms'
 import PostType from '~/types/post'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
+import FeaturedPost from '~/components/FeaturedPost'
 import PostCard from '~/components/PostCard'
 import Subscribe from '~/components/Subscribe'
 import styles from '~/styles/Home.module.scss'
@@ -13,6 +14,7 @@ type HomeProps = {
 }
 
 const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
+  const featuredPost = posts.find(({ featured }) => featured)
   return (
     <Layout
       pageTitle="Incode Blog"
@@ -29,6 +31,9 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
+        <div className={styles.featured_post_container}>
+          <FeaturedPost post={featuredPost} />
+        </div>
         <ul className={styles.posts_container}>
           {posts.map(post => {
             return (
