@@ -41,7 +41,7 @@ const PostCard: React.FC<PostCardProps> = ({
         <p className={styles.post_card_excerpt}>
           {excerpt(post.custom_excerpt || post.excerpt)}
         </p>
-        <hr className={styles.separator} />
+        <div className={styles.separator} />
         <div className={styles.post_card_footer}>
           <PostAuthor name={post.primary_author.name} />
           <p>{post?.primary_tag?.name || DEFAULT_TAG}</p>

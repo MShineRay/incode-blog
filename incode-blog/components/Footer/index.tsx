@@ -1,11 +1,8 @@
-import React from 'react'
 import Link from 'next/link'
 import RoutesEnum from '~/utils/RoutesEnum'
 import Logo from '~/components/Logo'
 import styles from './Footer.module.scss'
-import logo from '~/public/images/logo.svg'
 import socImg from '~/public/images/soc.svg'
-import { symlink } from 'fs'
 const legalSubmenu = [
   {
     title: 'Privacy Policy',
