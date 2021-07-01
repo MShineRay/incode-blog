@@ -14,6 +14,7 @@ interface PostType {
   slug: string
   excerpt: string
   custom_excerpt: string
+  reading_time: number
   og_image: string
   tags: TagType[]
   authors: AuthorType[]
