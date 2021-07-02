@@ -14,7 +14,7 @@ import PostAuthor from '~/components/PostAuthor'
 import ReadingTime from '~/components/ReadingTime'
 import PostCard from '~/components/PostCard'
 import GoHome from '~/components/GoHome'
-// import Share from '~/components/Share'
+import Share from '~/components/Share'
 import styles from '~/styles/Post.module.scss'
 
 const url = process.env['BLOG_URL']
@@ -60,11 +60,11 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                     </>
                   </span>
                 </p>
-                {/* <Share
+                <Share
                   title={post.meta_title || post.title}
                   url={`${url}/post/${encodeURIComponent(post.slug)}`}
                   text={post.meta_description || post.excerpt}
-                /> */}
+                />
               </div>
               <div className={styles.post_body}>
                 <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
