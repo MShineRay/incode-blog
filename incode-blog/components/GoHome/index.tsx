@@ -7,7 +7,7 @@ const GoHome = () => (
     <Link href="/">
       <a>
         <img src={arrowLeft} alt="arrow left" />
-        Go Back
+        Blog
       </a>
     </Link>
   </div>

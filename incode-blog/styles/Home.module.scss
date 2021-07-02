@@ -37,9 +37,6 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  div{
-    flex-basis: 66%;
-  }
 }
 
 .posts_container {
@@ -50,6 +47,6 @@
   list-style-type: none;
   li {
     flex: 1 1 28%;
-    margin: 25px;
+    margin: 20px;
   }
 }
