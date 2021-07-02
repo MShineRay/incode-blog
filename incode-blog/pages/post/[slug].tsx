@@ -8,13 +8,13 @@ import Slider from '~/components/Slider'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
 import Loader from '~/components/Loader'
-import PostImage from '~/components/PostImage'
+import Subscribe from '~/components/Subscribe'
 import PostDate from '~/components/PostDate'
 import PostAuthor from '~/components/PostAuthor'
+import ReadingTime from '~/components/ReadingTime'
 import PostCard from '~/components/PostCard'
 import GoHome from '~/components/GoHome'
-import Share from '~/components/Share'
-import Subscribe from '~/components/Subscribe'
+// import Share from '~/components/Share'
 import styles from '~/styles/Post.module.scss'
 
 const url = process.env['BLOG_URL']
@@ -24,8 +24,6 @@ type PostProps = {
   relatedPosts: PostType[]
 }
 
-const IMAGE_WIDTH = 1100
-const IMAGE_HEIGHT = 512
 const SLIDES_NUMBER = 3
 const SLIDES_SPACING = 10
 
@@ -48,38 +46,28 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
           <>
             <GoHome />
             <article className={styles.article}>
-              <figure>
-                <div className={styles.overlay}>
-                  <PostImage
-                    imageSrc={post.feature_image}
-                    title={post.title}
-                    height={IMAGE_HEIGHT}
-                    width={IMAGE_WIDTH}
-                    objectFit="cover"
-                    layout="responsive"
-                  />
-                </div>
-                <figcaption>{post.title}</figcaption>
-              </figure>
+              <h1>{post.title}</h1>
               <div className={styles.post_header}>
                 <p>
-                  By <PostAuthor name={post.primary_author.name} /> on{' '}
-                  <PostDate dateString={post.published_at} />
+                  <span className={styles.author}>
+                    by <PostAuthor name={post.primary_author.name} />
+                  </span>
+                  <span className={styles.date_time}>
+                    <PostDate dateString={post.published_at} />
+                    <>
+                      <span className={styles.dot_separator}>&#183;</span>
+                      <ReadingTime readingTime={post.reading_time} />
+                    </>
+                  </span>
                 </p>
-                <Share
+                {/* <Share
                   title={post.meta_title || post.title}
                   url={`${url}/post/${encodeURIComponent(post.slug)}`}
                   text={post.meta_description || post.excerpt}
-                />
+                /> */}
               </div>
-              <hr className={styles.separator} />
               <div className={styles.post_body}>
                 <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
-                <Share
-                  title={post.meta_title || post.title}
-                  url={`${url}/post/${encodeURIComponent(post.slug)}`}
-                  text={post.meta_description || post.excerpt}
-                />
               </div>
             </article>
           </>

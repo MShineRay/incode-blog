@@ -4,46 +4,10 @@
   margin: 1rem;
 }
 .article {
-  min-width: 100%;
-  background-color: $white;
-  @include rounded(23px);
-  padding-bottom: 5rem;
-  box-shadow: 0 2px 23px 0 to-rgba($black, 0.05);
+  max-width: 730px;
   margin-bottom: 5rem;
-  figure {
-    position: relative;
-    margin: 0;
-    .overlay {
-      &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        @include rounded(23px 23px 0 0);
-        background-image: linear-gradient(
-          to bottom,
-          to-rgba($black, 0),
-          to-rgba($darkIndigo, 0.76)
-        );
-      }
-    }
-    img {
-      @include rounded(23px 23px 0 0);
-    }
-    figcaption {
-      position: absolute;
-      bottom: 2.5rem;
-      width: 100%;
-      text-align: center;
-      color: $white;
-      font: $incd-h1-font;
-    }
-  }
   .post_header {
-    max-width: 650px;
+    max-width: 730px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -51,18 +15,24 @@
     margin-top: 2.5rem;
     p,
     span {
-      font: $incd-h3-font;
-      color: to-rgba($indigo, 0.5);
-      font-size: 1.125rem;
+      font: $incd-h4-font;
+      color: $indigo;
       margin: 0;
+      .author {
+        margin-right: 1rem;
+      }
+      .date_time {
+        font: $incd-p-font;
+        color: to-rgba($indigo, 0.6);
+        .dot_separator {
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+      }
     }
   }
-  .separator {
-    margin: 2.5rem 5rem;
-    border: solid 1px to-rgba($indigo, 0.23);
-  }
   .post_body {
-    max-width: 650px;
+    max-width: 730px;
     margin: auto;
     font-family: $Lora-Book;
 
@@ -91,20 +61,56 @@
 
     p {
       font: $post-p-font;
-      color: $indigo;
+      color: to-rgba($indigo, 0.6);
       word-wrap: break-word;
       max-width: 100%;
+      @include font-smoothing;
+    }
+    ul {
+      list-style-type: disc;
+      li {
+        font: $post-p-font;
+        color: to-rgba($indigo, 0.6);
+        @include font-smoothing;
+        &::marker {
+          color: $neutral;
+          font-size: 20px;
+        }
+      }
+    }
+
+    ol {
+      li {
+        font: $post-p-font;
+        color: to-rgba($indigo, 0.6);
+        @include font-smoothing;
+      }
+    }
+
+    a {
+      color: $blue;
     }
 
     blockquote {
       font: $post-cite-font;
       color: $indigo;
+      border-left: 5px solid $neutral;
+      margin-block-start: 0;
+      margin-block-end: 0;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
+      padding-left: 1rem;
     }
     code {
       font-size: 1rem;
     }
     strong {
       font: $post-strong-font;
+      color: $indigo;
+    }
+
+    img {
+      @include rounded(12px);
     }
   }
 }
