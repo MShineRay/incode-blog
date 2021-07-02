@@ -1,11 +1,10 @@
 import PostImage from '~/components/PostImage'
 import PostAuthor from '~/components/PostAuthor'
-import PostDate from '~/components/PostDate'
 import PostType from '~/types/post'
 import styles from './FeaturedPost.module.scss'
 
-const IMAGE_WIDTH = 330
-const IMAGE_HEIGHT = 330
+const IMAGE_WIDTH = 600
+const IMAGE_HEIGHT = 500
 const DEFAULT_TAG = 'Incode News'
 
 type FeaturedPostProps = {
@@ -29,16 +28,21 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
       </div>
       <div className={styles.post_card_content}>
         <div className={styles.post_card_header}>
-          <h2>{post.title}</h2>
-          <PostDate dateString={post.published_at} isShort />
+          <p>{post?.primary_tag?.name || DEFAULT_TAG}</p>
+          <p className={styles.featured}>Featured</p>
         </div>
+        <h1>{post.title}</h1>
         <p className={styles.post_card_excerpt}>
           {post.custom_excerpt || post.excerpt}
         </p>
-        <div className={styles.separator} />
         <div className={styles.post_card_footer}>
-          <PostAuthor name={post.primary_author.name} />
-          <p>{post?.primary_tag?.name || DEFAULT_TAG}</p>
+          <PostAuthor
+            name={post.primary_author.name}
+            avatar={post.primary_author.profile_image}
+            date={post.published_at}
+            time={post.reading_time}
+            showAvatar
+          />
         </div>
       </div>
     </div>

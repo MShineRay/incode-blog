@@ -1,31 +1,32 @@
 @import '~/styles/config';
 
-
 .post_card_wrapper {
-  @include rounded(28px);
+  @include rounded(8px);
   box-shadow: 0 2px 14px 0 to-rgba($indigo, 0.11);
   background-color: $white;
   img {
-    @include rounded(28px 28px 0 0);
+    @include rounded(8px 8px 0 0);
   }
   .post_card_content {
-    padding: 1.5rem;
+    position: relative;
+    padding: 1.3rem 1.5rem 1.5rem 1.5rem;
+    height: 300px;
     .post_card_header,
     .post_card_footer {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: space-between;
+      align-items: center;
+    }
+    .category {
+      color: $blue;
+      margin-top: 0;
     }
     .post_card_header {
-      h3 {
+      height: 90px;
+      h2 {
+        max-width: 300px;
         margin: 0;
-        max-width: 200px;
-      }
-      time {
-        margin-top: 5px;
-        font-size: 14px;
-        color: to-rgba($indigo, 0.3);
       }
     }
     .post_card_excerpt {
@@ -38,36 +39,13 @@
       margin: 1.2rem auto;
     }
     .post_card_footer {
-      p {
-        padding: 5px 15px;
-        margin: 0;
-        @include rounded(8px);
-        font-size: 0.8125rem;
-        background-color: $blue;
-        color: $white;
-      }
-    }
-  }
-}
-
-.post_card_featured {
-  background-color: $indigo;
-  color: $white;
-  .post_card_content {
-    .post_card_header {
-      time {
-        color: $neutral;
-      }
-    }
-    .post_card_excerpt {
-      color: $white;
-    }
-    .separator {
-      border-color: $white;
-    }
-    .post_card_footer {
-      span {
-        color: $neutral;
+      position: absolute;
+      bottom: 1.5rem;
+      font: $incd-small-font;
+      color: to-rgba($indigo, 0.6);
+      .dot_separator {
+        margin-left: 5px;
+        margin-right: 5px;
       }
     }
   }
