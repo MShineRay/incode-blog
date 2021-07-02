@@ -5,8 +5,18 @@
   align-items: center;
   margin-right: 0.5rem;
   font: $incd-small-font;
-  color: to-rgba($indigo, 0.5);
-  img {
+  color: $indigo;
+  .avatar {
     margin-right: 0.5rem;
+    height: 40px;
+    width: 40px;
+    @include rounded(50%);
+  }
+  .date_time {
+    color: to-rgba($indigo, 0.6);
+    .dot_separator {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
   }
 }
