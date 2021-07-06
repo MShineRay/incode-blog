@@ -26,6 +26,7 @@ type PostProps = {
 
 const SLIDES_NUMBER = 3
 const SLIDES_SPACING = 10
+const DEFAULT_TAG = 'Incode News'
 
 const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
   const router = useRouter()
@@ -46,6 +47,14 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
           <>
             <GoHome />
             <article className={styles.article}>
+              <Link
+                href="../tag/[slug]"
+                as={`../tag/${encodeURIComponent(post?.primary_tag?.slug)}`}
+              >
+                <a className={styles.category_tag}>
+                {post?.primary_tag?.name || DEFAULT_TAG}
+                </a>
+              </Link>
               <h1>{post.title}</h1>
               <div className={styles.post_header}>
                 <p>

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import PostImage from '~/components/PostImage'
 import PostAuthor from '~/components/PostAuthor'
 import PostType from '~/types/post'
@@ -28,7 +29,14 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
       </div>
       <div className={styles.post_card_content}>
         <div className={styles.post_card_header}>
-          <p>{post?.primary_tag?.name || DEFAULT_TAG}</p>
+          <Link
+            href="tag/[slug]"
+            as={`/tag/${encodeURIComponent(post?.primary_tag?.slug)}`}
+          >
+            <a>
+              <p>{post?.primary_tag?.name || DEFAULT_TAG}</p>
+            </a>
+          </Link>
           <p className={styles.featured}>Featured</p>
         </div>
         <h1>{post.title}</h1>

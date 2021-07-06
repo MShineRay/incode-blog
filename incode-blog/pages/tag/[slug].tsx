@@ -33,13 +33,11 @@ const Tag: React.FC<TagProps> = ({ tag, relatedPosts }: TagProps) => {
         ) : (
           <>
             <GoHome />
-            <h1>Category: {tag.name}</h1>
-            <p>Posts under this category: {tag.count.posts}</p>
+            <h2>Category {tag.name}</h2>
           </>
         )}
         {relatedPosts.length !== 0 && (
           <>
-            <h2>Posts under {tag.name.toLowerCase()} category</h2>
             <div className={styles.related_posts_container}>
               <div className={styles.post_row}>
                 {relatedPosts.map(relatedPost => (
