@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { excerpt } from '~/utils/helpers'
+import { calculateReadingTime, excerpt } from '~/utils/helpers'
 import PostImage from '~/components/PostImage'
 import PostDate from '~/components/PostDate'
 import ReadingTime from '~/components/ReadingTime'
@@ -46,7 +46,9 @@ const PostCard: React.FC<PostCardProps> = ({
         <div className={styles.post_card_footer}>
           <PostDate dateString={post.published_at} />
           <span className={styles.dot_separator}>&#183;</span>
-          <ReadingTime readingTime={post.reading_time} />
+          <ReadingTime
+            readingTime={post.reading_time || calculateReadingTime(post.html)}
+          />
         </div>
       </div>
     </div>
