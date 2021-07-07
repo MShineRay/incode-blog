@@ -6,6 +6,13 @@
 .article {
   max-width: 730px;
   margin-bottom: 5rem;
+  .category_tag {
+    font: $incd-h3-font;
+    @include font-smoothing;
+    color: $blue;
+    display: block;
+    text-align: center;
+  }
   .post_header {
     max-width: 730px;
     display: flex;
