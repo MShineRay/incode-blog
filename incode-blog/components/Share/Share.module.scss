@@ -7,9 +7,9 @@
   flex-wrap: wrap;
   align-items: center;
   span {
-    font: $incd-h3-font !important;
-    color: $indigo !important;
-    margin-right: 1rem;
+    font: $incd-p-font !important;
+    color: to-rgba($indigo, 0.6) !important;
+    margin-right: 2rem;
   }
   li {
     margin-right: 12px;
