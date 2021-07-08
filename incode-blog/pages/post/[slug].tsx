@@ -8,7 +8,6 @@ import Slider from '~/components/Slider'
 import Layout from '~/components/Layout'
 import Container from '~/components/Container'
 import Loader from '~/components/Loader'
-import Subscribe from '~/components/Subscribe'
 import PostDate from '~/components/PostDate'
 import PostAuthor from '~/components/PostAuthor'
 import ReadingTime from '~/components/ReadingTime'
@@ -52,7 +51,7 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                 as={`../tag/${encodeURIComponent(post?.primary_tag?.slug)}`}
               >
                 <a className={styles.category_tag}>
-                {post?.primary_tag?.name || DEFAULT_TAG}
+                  {post?.primary_tag?.name || DEFAULT_TAG}
                 </a>
               </Link>
               <h1>{post.title}</h1>
@@ -108,7 +107,6 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
             </Slider>
           </>
         )}
-        <Subscribe />
       </Container>
     </Layout>
   )

@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
 import Meta from '~/components/Meta'
 import Header from '~/components/Header'
-import CTASection from '~/components/CTASection/CTASection'
+import CTASection from '~/components/CTASection'
+import Subsribe from '~/components/Subscribe'
 import CookieBanner from '~/components/CookieBanner'
 import Footer from '~/components/Footer'
 
@@ -39,6 +40,7 @@ const Layout: React.FC<LayoutProps> = ({
     />
     <Header />
     <main className="content">{children}</main>
+    <Subsribe />
     <CTASection />
     <CookieBanner />
     <Footer />

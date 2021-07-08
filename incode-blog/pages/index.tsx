@@ -6,7 +6,6 @@ import Layout from '~/components/Layout'
 import Container from '~/components/Container'
 import FeaturedPost from '~/components/FeaturedPost'
 import PostCard from '~/components/PostCard'
-import Subscribe from '~/components/Subscribe'
 import styles from '~/styles/Home.module.scss'
 
 type HomeProps = {
@@ -40,7 +39,6 @@ const Home: React.FC<HomeProps> = ({ posts }: HomeProps) => {
             )
           })}
         </ul>
-        <Subscribe />
       </Container>
     </Layout>
   )

@@ -8,7 +8,6 @@ type ReadingTimeProps = {
 const ReadingTime: React.FC<ReadingTimeProps> = ({
   readingTime,
 }: ReadingTimeProps) => {
-
   if (!readingTime) return ''
   return readingTime <= 1
     ? minuteStr

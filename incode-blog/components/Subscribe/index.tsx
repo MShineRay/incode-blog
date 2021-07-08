@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { subscribeEmail } from '~/utils/blogRepository'
+import emailImage from '~/public/images/email.svg'
 import styles from './Subscribe.module.scss'
 
 type SubscribeProps = {
@@ -8,7 +9,6 @@ type SubscribeProps = {
   subscriberEmail: string
 }
 const EMAIL_PATTERN = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-const NAME_PATTERN = /^[A-Za-z]+$/i
 
 const Subscribe = () => {
   const [message, setMessage] = useState<string>('')
@@ -31,29 +31,21 @@ const Subscribe = () => {
 
   return (
     <div className={styles.subscribe}>
+      <img src={emailImage} alt="subscribe to newsletter" />
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <div className={styles.message}>
-          {message ? message : `Subscribe to our newsletter`}
+          {message ? (
+            <h3>{message}</h3>
+          ) : (
+            <h3>
+              Want product news and updates? <br />
+              Sign up for our newsletter
+            </h3>
+          )}
         </div>
         <div className={styles.form}>
           <span className={styles.form_field}>
-            <label htmlFor="subscriberName" className={styles.label}>
-              {' '}
-              {errors.subscriberName && errors.subscriberName.message}
-            </label>
-            <input
-              id="subscriberName"
-              name="subscriberName"
-              placeholder="Your name"
-              {...register('subscriberName', {
-                required: '* name is required',
-                pattern: NAME_PATTERN,
-              })}
-            />
-          </span>
-          <span className={styles.form_field}>
             <label htmlFor="subscriberEmail" className={styles.label}>
-              {' '}
               {errors.subscriberEmail && errors.subscriberEmail.message}
             </label>
             <input
