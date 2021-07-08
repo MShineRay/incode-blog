@@ -2,37 +2,48 @@
 
 .subscribe {
   background-color: $neutral;
-  padding: 30px 40px;
-  @include rounded(14px);
+  padding: 50px 40px;
   min-width: 100%;
+  display: flex;
+  justify-content: center;
+  img{
+    margin-right: 80px;
+  }
   form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    display: inline-flex;
+    justify-content: center;
+    align-items: flex-start;
     .message {
-      font: $incd-p-font;
+      h3{
+        color: to-rgba($indigo, 0.7);
+        margin: 0;
+      }
     }
     .form {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       align-items: center;
       .form_field {
-        margin-left: 20px;
         margin-right: 20px;
         display: flex;
         flex-direction: column;
         .label {
+          height: 10px;
           font-size: 0.8rem;
           color: $red;
         }
         input {
+          margin-top: 10px;
           background-color: $white !important;
           border: transparent;
           @include rounded(6px);
           padding: 9px 15px;
           min-height: 40px;
-          min-width: 230px;
+          // min-width: 230px;
+          min-width: 20vw;
           font-family: $CircularStd-Bold;
+          box-shadow: 0px 13px 26px to-rgba($indigo, 0.1);
           color: $indigo !important;
           &.error-input {
             border-color: $red;
@@ -43,15 +54,17 @@
           @include placeholder {
             font-family: $CircularStd-Bold;
             color: to-rgba($indigo, 0.5);
+            @include font-smoothing;
           }
         }
       }
       button {
         @include remove-button-style;
+        margin-top: 20px;
         font-family: $CircularStd-Medium;
         text-align: center;
         color: $white;
-        background-color: $red;
+        background-color: $blue;
         font-size: 17px;
         padding: 14px 25px;
         min-width: 150px;
