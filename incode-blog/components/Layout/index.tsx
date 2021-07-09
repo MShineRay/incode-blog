@@ -12,6 +12,7 @@ type LayoutProps = {
   description?: string
   currentURL?: string
   ogImage?: string
+  isFullPage?: boolean
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -20,6 +21,7 @@ const Layout: React.FC<LayoutProps> = ({
   description,
   currentURL,
   ogImage,
+  isFullPage = false,
 }: LayoutProps) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -38,12 +40,16 @@ const Layout: React.FC<LayoutProps> = ({
       currentURL={currentURL}
       ogImage={ogImage}
     />
-    <Header />
+    {!isFullPage && <Header />}
     <main className="content">{children}</main>
-    <Subsribe />
-    <CTASection />
-    <CookieBanner />
-    <Footer />
+    {!isFullPage && (
+      <>
+        <Subsribe />
+        <CTASection />
+        <CookieBanner />
+        <Footer />
+      </>
+    )}
   </motion.div>
 )
 
