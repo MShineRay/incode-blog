@@ -3,7 +3,7 @@ import Layout from '~/components/Layout'
 import styles from '~/styles/CustomError.module.scss'
 const Custom404 = () => {
   return (
-    <Layout pageTitle="Incode - 404">
+    <Layout pageTitle="Incode - 404" isFullPage>
       <div className={styles.incd_custom_404}>
         <div className={styles.incd_custom_404_content}>
           <h1>Oops, page not found</h1>
