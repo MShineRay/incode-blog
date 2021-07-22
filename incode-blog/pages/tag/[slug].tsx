@@ -10,7 +10,7 @@ import Container from '~/components/Container'
 import Loader from '~/components/Loader'
 import GoHome from '~/components/GoHome'
 import PostCard from '~/components/PostCard'
-import styles from '~/styles/Home.module.scss'
+import styles from '~/styles/Tag.module.scss'
 
 type TagProps = {
   tag: TagType

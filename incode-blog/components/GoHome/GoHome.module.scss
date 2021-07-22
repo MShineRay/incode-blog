@@ -10,3 +10,10 @@
     margin-right: 10px;
   }
 }
+
+@include responsive('phone') {
+  .goback {
+    margin-left: 20px;
+    margin-bottom: 0;
+  }
+}

@@ -79,3 +79,35 @@
     }
   }
 }
+
+@include responsive("mobile"){
+  .subscribe {
+    flex-direction: column;
+    padding: 50px 20px;
+    img{
+      margin-right: 0;
+    }
+    form{
+      flex-direction: column;
+      .message{
+        margin-top: 30px;
+        width: 100%;
+        text-align: center;
+      }
+      .form{
+        flex-direction: column;
+        width: 100%;
+        .form_field{
+          margin-right: 0;
+          width: 100%;
+          input{
+            width: 100%;
+          }
+        }
+        button{
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,10 @@
 .slide_wrapper {
   margin: 1rem;
 }
+.slide_title{
+  align-self: flex-start;
+  margin-left: 1rem;
+}
 .article {
   max-width: 730px;
   margin-bottom: 5rem;
@@ -118,6 +122,25 @@
 
     img {
       @include rounded(12px);
+    }
+  }
+}
+
+@include responsive('phone') {
+  .slide_wrapper {
+    margin: .5rem;
+  }
+  .article {
+    padding: 20px;
+    .title{
+      text-align: center;
+    }
+    .post_header{
+      display: block;
+      text-align: center;
+      .author{
+        display: block;
+      }
     }
   }
 }

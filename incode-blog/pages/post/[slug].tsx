@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getPosts, getSinglePost, getPostsByTag } from '~/pages/api/cms'
 import PostType from '~/types/post'
+import useMobileDetect from '~/utils/useMobileDetect'
 import Custom404 from '~/pages/404'
 import Slider from '~/components/Slider'
 import Layout from '~/components/Layout'
@@ -23,12 +24,13 @@ type PostProps = {
   relatedPosts: PostType[]
 }
 
-const SLIDES_NUMBER = 3
-const SLIDES_SPACING = 10
 const DEFAULT_TAG = 'Incode News'
 
 const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
   const router = useRouter()
+  const { isMobile } = useMobileDetect()
+  const SLIDES_NUMBER = isMobile ? 2 : 3
+  const SLIDES_SPACING = isMobile ? 0 : 10
   if (!router.isFallback && !post?.slug) {
     return <Custom404 />
   }
@@ -54,7 +56,7 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
                   {post?.primary_tag?.name || DEFAULT_TAG}
                 </a>
               </Link>
-              <h1>{post.title}</h1>
+              <h1 className={styles.title}>{post.title}</h1>
               <div className={styles.post_header}>
                 <p>
                   <span className={styles.author}>
@@ -82,7 +84,7 @@ const Post: React.FC<PostProps> = ({ post, relatedPosts }: PostProps) => {
         )}
         {relatedPosts.length !== 0 && (
           <>
-            <h3>Related Posts</h3>
+            <h3 className={styles.slide_title}>Related Posts</h3>
             <Slider
               numberOfSlides={SLIDES_NUMBER}
               slidesSpacing={SLIDES_SPACING}

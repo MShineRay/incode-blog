@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import cookieCutter from 'cookie-cutter'
 import Link from 'next/link'
+import RoutesEnum from '~/utils/RoutesEnum'
 import styles from './CookieBanner.module.scss'
 
 const CookieBanner = () => {
@@ -23,7 +24,7 @@ const CookieBanner = () => {
           This website uses cookies to ensure you get the best experience on our
           website. For a more detailed description how the site uses cookies,
           please read our
-          <Link href={'#'}> Cookie Policy</Link>
+          <Link href={RoutesEnum.COOKIES}> Cookie Policy</Link>
         </p>
         <button onClick={onCookieAccept}>Accept and close</button>
       </div>

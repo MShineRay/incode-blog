@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import PostImage from '~/components/PostImage'
 import PostAuthor from '~/components/PostAuthor'
+import useMobileDetect from '~/utils/useMobileDetect'
 import PostType from '~/types/post'
 import styles from './FeaturedPost.module.scss'
 
-const IMAGE_WIDTH = 600
-const IMAGE_HEIGHT = 500
 const DEFAULT_TAG = 'Incode News'
 
 type FeaturedPostProps = {
@@ -15,6 +14,9 @@ type FeaturedPostProps = {
 const FeaturedPost: React.FC<FeaturedPostProps> = ({
   post,
 }: FeaturedPostProps) => {
+  const { isMobile } = useMobileDetect()
+  const IMAGE_WIDTH = isMobile ? 350 : 600
+  const IMAGE_HEIGHT = isMobile ? 160 : 500
   return (
     <div className={styles.featured_post_wrapper}>
       <div className={styles.featured_image_wrapper}>
