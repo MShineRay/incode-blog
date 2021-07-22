@@ -1,0 +1,28 @@
+@import 'config';
+
+.related_posts_container {
+  max-width: 1140px;
+  margin: 0 auto;
+  .post_row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    .post_item {
+      flex-basis: 33%;
+      width: 100%;
+      position: relative;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+  }
+}
+
+@include responsive('mobile') {
+  .related_posts_container {
+    .post_row {
+      .post_item {
+        flex: 100%;
+      }
+    }
+  }
+}

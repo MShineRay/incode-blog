@@ -1,3 +1,5 @@
+@import '~/styles/config';
+
 .container {
   min-height: 100vh;
   padding: 2.5rem 0.5rem;
@@ -7,4 +9,10 @@
   align-items: center;
   width: 1200px;
   margin: 0 auto;
+}
+
+@include responsive("mobile"){
+  .container{
+    width: 100%;
+  }
 }

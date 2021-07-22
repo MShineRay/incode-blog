@@ -44,3 +44,16 @@
     }
   }
 }
+
+@include responsive('phone') {
+  .featured_post_wrapper {
+    flex-direction: column;
+    max-height: fit-content;
+    img {
+      @include rounded(8px 8px 0 0);
+    }
+    .post_card_content {
+      padding: 1.2rem 2.5rem;
+    }
+  }
+}

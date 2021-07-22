@@ -46,6 +46,7 @@
       .bottom_menu {
         display: flex;
         align-items: center;
+        padding-inline-start: 0;
         li {
           display: inline-block;
           padding-right: 1.3rem;
@@ -88,34 +89,37 @@
 @include responsive('phone') {
   .footer {
     padding: 3rem 2rem;
-    .footer_top {
-      display: block;
-      padding: 0;
-      .top_menu {
-        margin-bottom: 3rem;
-        margin-top: 3rem;
+    .footer_content {
+      .footer_top {
         display: block;
-        .item {
-          margin-top: 2rem;
+        padding: 0;
+        .top_menu {
+          margin-bottom: 3rem;
+          margin-top: 3rem;
           display: block;
+          .item {
+            margin-top: 2rem;
+            display: block;
+          }
         }
       }
-    }
-    .footer_bottom {
-      display: block;
-      .bottom_menu {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        li {
-          margin-bottom: 0.5rem;
-          padding-right: 0;
+
+      .footer_bottom {
+        display: block;
+        .bottom_menu {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          li {
+            margin-bottom: 0.5rem;
+            padding-right: 0;
+          }
         }
-      }
-      .bottom_info {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        .small {
-          margin: 0;
+        .bottom_info {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          .small {
+            margin: 0;
+          }
         }
       }
     }
