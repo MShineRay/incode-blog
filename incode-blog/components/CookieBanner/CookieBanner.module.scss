@@ -69,10 +69,10 @@
 @include responsive('phone') {
   .cookie_banner_container {
     padding: 1rem;
-    &-info {
+    div{
       display: block;
       text-align: center;
-      &-text {
+      p {
         margin-bottom: 1rem;
         text-align: left;
       }

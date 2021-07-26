@@ -35,3 +35,9 @@
     transform: scale(1.05, 1.05);
   }
 }
+
+@include responsive('phone') {
+  .share_list{
+    justify-content: center;
+  }
+}
