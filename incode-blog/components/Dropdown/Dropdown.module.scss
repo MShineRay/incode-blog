@@ -1,0 +1,45 @@
+@import '~/styles/config';
+
+.dropdown {
+  background-color: $white;
+  @include rounded(35px);
+  box-shadow: 0, 14px, 29px, 0, to-rgba($black, 0.1);
+  width: 300px;
+  color: $indigo;
+  overflow: hidden;
+  position: relative;
+  .active {
+    @include rounded(20px);
+  }
+  .selected {
+    text-align: left;
+    height: auto;
+    cursor: pointer;
+    padding: 15px 24px;
+    font: 1rem/1.27 $CircularStd-Medium;
+    .icon {
+      float: right;
+      margin-top: 7px;
+    }
+    .rotate {
+      transform: rotate(180deg);
+    }
+  }
+  .list {
+    position: relative;
+    font: 0.9rem/1.5 $CircularStd-Book;
+    @include font-smoothing;
+  }
+  .item {
+    text-align: left;
+    padding: 12px 24px;
+    cursor: pointer;
+    &:last-of-type {
+      padding-bottom: 20px;
+    }
+    &:hover {
+      @include rounded(4px);
+      background-color: to-rgba($darkIndigo, 0.06);
+    }
+  }
+}
