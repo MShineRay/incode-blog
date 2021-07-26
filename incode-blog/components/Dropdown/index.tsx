@@ -3,11 +3,13 @@ import cx from 'classnames'
 import styles from './Dropdown.module.scss'
 import arrowIcon from '~/public/images/icon-arrow.svg'
 type DropdownProps = {
+  dropdownPlaceholder: string
   dropdownArray: string[]
   handleDropdownSelect: (selected: string) => void
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
+  dropdownPlaceholder,
   dropdownArray,
   handleDropdownSelect,
 }: DropdownProps) => {
@@ -56,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       onClick={toggleDropdown}
     >
       <div className={styles.selected}>
-        {selected === '' ? dropdownArray[0] : selected}
+        {selected === '' ? dropdownPlaceholder : selected}
         <img
           className={cx(styles.icon, { [styles.rotate]: open })}
           src={arrowIcon}
