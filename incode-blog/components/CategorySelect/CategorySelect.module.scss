@@ -1,0 +1,36 @@
+@import '~/styles/config';
+
+.select {
+  color: $indigo;
+  align-self: flex-start;
+  .selected {
+    text-align: left;
+    max-width: max-content;
+    cursor: pointer;
+    padding: 15px 0;
+    font: 1rem/1.27 $CircularStd-Medium;
+    .icon {
+      float: right;
+      background-color: $neutral;
+      @include rounded(100%);
+      margin-left: 12px;
+    }
+  }
+  .list {
+    display: none;
+    position: relative;
+    font: 0.9rem/1.5 $CircularStd-Book;
+    @include font-smoothing;
+    &.active {
+      display: inline-flex;
+      justify-content: space-around;
+    }
+  }
+  .item {
+    text-align: left;
+    margin-right: 2.6rem;
+    margin-left: 2.6rem;
+    @include rounded(3px);
+    cursor: pointer;
+  }
+}
