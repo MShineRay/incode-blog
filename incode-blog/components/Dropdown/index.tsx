@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import cx from 'classnames'
 import styles from './Dropdown.module.scss'
 import arrowIcon from '~/public/images/icon-arrow.svg'
