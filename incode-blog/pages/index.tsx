@@ -13,6 +13,8 @@ import PostCard from '~/components/PostCard'
 import useMobileDetect from '~/utils/useMobileDetect'
 import styles from '~/styles/Home.module.scss'
 
+const NUMBER_OF_POSTS = 3
+
 type HomeProps = {
   posts: PostType[]
   tags: TagType[]
@@ -20,6 +22,7 @@ type HomeProps = {
 
 const Home: React.FC<HomeProps> = ({ posts, tags }: HomeProps) => {
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [postNumber, setPostNumber] = useState(NUMBER_OF_POSTS)
   const featuredPost = posts.find(({ featured }) => featured)
   const categories = tags.map(({ name }) => name)
   categories.push('All')
@@ -30,6 +33,8 @@ const Home: React.FC<HomeProps> = ({ posts, tags }: HomeProps) => {
     selected.includes('All')
       ? setSelectedCategory('')
       : setSelectedCategory(selected)
+  const handleLoadMore = () =>
+    setPostNumber(prevPostNum => prevPostNum + NUMBER_OF_POSTS)
   const { isMobile } = useMobileDetect()
   return (
     <Layout
@@ -56,7 +61,7 @@ const Home: React.FC<HomeProps> = ({ posts, tags }: HomeProps) => {
           </div>
         )}
         <ul className={styles.posts_container}>
-          {filteredPosts.map(post => {
+          {filteredPosts.slice(0, postNumber).map(post => {
             return (
               <li key={post.slug}>
                 <Link
@@ -71,6 +76,9 @@ const Home: React.FC<HomeProps> = ({ posts, tags }: HomeProps) => {
             )
           })}
         </ul>
+        <button onClick={handleLoadMore} className={styles.load_button}>
+          Load More
+        </button>
       </Container>
     </Layout>
   )
